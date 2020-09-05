@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <style>
+
+    body {
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100vw;
+      margin: 0;
+      padding: 0;
+    }
+    video {
+      width: 400px;
+      height: 225px;
+      object-fit: fill;
+    }
+    button, body, #video-grid {
+      -webkit-app-region: drag;
+    }
+    #wrapper {
+      width: 225px;
+      height: 225px;
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+    }
+  </style>
+</head>
+<body>
+  <div id="wrapper">
+    <video id="video" autoplay muted></video>
+  </div>
+
+  <script>
+
+    function addVideoStream(stream) {
+      const video = document.getElementById('video')
+      video.srcObject = stream
+    }
+
+    navigator.mediaDevices.getUserMedia({
+      video: true
+    }).then(addVideoStream)
+
+    
+  </script>
+</body>
+</html>
