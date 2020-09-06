@@ -11,6 +11,8 @@
 
 > A small webcam player builded with html, css, javascript and electron
 
+*Just tested in MacOS*
+
 ## Install
 
 ```sh
