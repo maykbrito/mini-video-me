@@ -5,7 +5,7 @@
   "main": "main.js",
   "scripts": {
     "start": "electron .",
-    "build": "npx electron-packager . --icon img/webcam.icns"
+    "build": "npx electron-packager . --icon img/webcam.icns --overwrite"
   },
   "keywords": [],
   "author": "",
