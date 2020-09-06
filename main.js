@@ -1,29 +1,20 @@
 const { app, BrowserWindow } = require('electron')
 
-const width = 250
-const height = 250
+const width = 350
+const height = 350
 function createWindow () {
   // Create the browser window.
   const win = new BrowserWindow({
     width,
     height,
-    webPreferences: {
-      nodeIntegration: true
-    },
     frame: false,
     titleBarStyle: "customButtonsOnHover",
     transparent: true,
     alwaysOnTop: true,
-    resizable: false,
-    movable:true,
   })
 
   // and load the index.html of the app.
-  win.loadFile('index.html')
-  // win.setIgnoreMouseEvents(true) // mouse will not working
-  win.setPosition( 1920 - width, 1080 - height, true)
-
-
+  win.loadFile('index.html');
 }
 
 // This method will be called when Electron has finished
