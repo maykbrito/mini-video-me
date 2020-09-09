@@ -1,7 +1,7 @@
 const { app, BrowserWindow } = require('electron')
 
-const width = 350
-const height = 350
+const width = 300
+const height = 300
 function createWindow () {
   // Create the browser window.
   const win = new BrowserWindow({
