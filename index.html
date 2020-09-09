@@ -7,30 +7,41 @@
   <title>Document</title>
   <style>
 
-    body {
-      margin: 0;
-      padding: 0;
-
-      overflow: hidden;
-    }
-    video {
-      width: 100vw;
-      height: calc(100vw / 1.77); /* proportion of full hd camera */
-      object-fit: fill;
-      transform: translateX(-23%); /* move to center of wrapper*/
-    }
     body, #video-grid {
       -webkit-app-region: drag; /* move window */
     }
     button {
       -webkit-app-region: nodrag; /* window buttons */
     }
+
+    body {
+      margin: 0;
+      padding: 0;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      overflow: hidden;
+
+      height: 100vh;
+    }
+
     #wrapper {
       overflow: hidden;
-      width: 56vw; /* nice proportion for border-radius */
-      height: 55vw;
+      width: 100vw; 
+      height: calc(100vw - 1px); /* nice proportion for border-radius */
       border-radius: 50%;
     }
+
+    video {
+      width: 180%;
+      /* height: calc(180% / 1.77); proportion of full hd camera */
+      height: auto;
+      object-fit: fill;
+      transform: translate(-25%, 0%); /* move to center of wrapper*/
+    }
+    
   </style>
 </head>
 <body>
@@ -38,15 +49,18 @@
     <video id="video" autoplay muted></video>
   </div>
 
-  <script>
+  <script type="module" async>
+
+    import cameraConfig from './cameraConfig.js'
 
     function addVideoStream(stream) {
       const video = document.getElementById('video')
       video.srcObject = stream
     }
 
+    console.log(cameraConfig)
     navigator.mediaDevices.getUserMedia({
-      video: true
+      video: cameraConfig || true
     }).then(addVideoStream)
 
     
