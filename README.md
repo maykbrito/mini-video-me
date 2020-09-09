@@ -22,6 +22,21 @@ npm install
 
 ## Usage
 
+You will need change your camera configuration in `./cameraConfig.js` because cameras has different proportion like: width, height, frame rates and aspect ratios.
+
+You'll need to know about your camera OR try to make those configuration empty, like this
+
+```js
+export default {
+    // width: 1920,
+    // height: 1080,
+    // aspectRatio: 1.77778,
+    // frameRate: 59.94
+}
+```
+
+Then 
+
 ```sh
 npm start
 ```
