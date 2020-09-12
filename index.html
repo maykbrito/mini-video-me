@@ -58,11 +58,18 @@
       video.srcObject = stream
     }
 
-    console.log(cameraConfig)
     navigator.mediaDevices.getUserMedia({
       video: cameraConfig || true
     }).then(addVideoStream)
+    
+    /* Change Size */
+    const { ipcRenderer } = require('electron'); // EventEmmiter to comunicate with main window
+    let isBig = false; // the window starts small
 
+    window.ondblclick = () => {
+      ipcRenderer.send('double-click', isBig) // send signal to main window
+      isBig = !isBig // toggle it
+    }
     
   </script>
 </body>
