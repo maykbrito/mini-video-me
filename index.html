@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Document</title>
+  <title>Mini Video Me</title>
   <style>
 
     body, #video-grid {
@@ -25,27 +25,34 @@
       overflow: hidden;
 
       height: 100vh;
+
+      background: transparent
     }
 
-    #wrapper {
+    .rounded {
+      border-radius: 50%;
+
       overflow: hidden;
       width: 100vw; 
-      height: calc(100vw - 1px); /* nice proportion for border-radius */
-      border-radius: 50%;
+
+      /* nice proportion for border-radius */
+      height: calc(100vw - 1px); 
     }
 
     video {
       width: 180%;
-      /* height: calc(180% / 1.77); proportion of full hd camera */
       height: auto;
       object-fit: fill;
-      transform: translate(-25%, 0%); /* move to center of wrapper*/
     }
     
     .flip { 
       transform: rotateY(180deg);
       -webkit-transform:rotateY(180deg); /* Safari and Chrome */
       -moz-transform:rotateY(180deg); /* Firefox */
+    }
+
+    #wrapper {
+      background: transparent;
     }
   </style>
 </head>
@@ -56,17 +63,8 @@
 
   <script type="module" async>
 
-    import cameraConfig from './cameraConfig.js'
-    const video = document.getElementById('video')
+    import './index.js'
 
-    function addVideoStream(stream) {
-      video.srcObject = stream
-    }
-
-    navigator.mediaDevices.getUserMedia({
-      video: cameraConfig || true
-    }).then(addVideoStream)
-    
     /* Change Size */
     const { ipcRenderer } = require('electron'); // EventEmmiter to comunicate with main window
     let isBig = false; // the window starts small
@@ -75,15 +73,6 @@
       ipcRenderer.send('double-click', isBig) // send signal to main window
       isBig = !isBig // toggle it
     }
-
-    function flipHorizontal() {
-      video.classList.add('flip')
-    }
-
-    if (cameraConfig.flipHorizontal) {
-      flipHorizontal()
-    }
-    
   </script>
 </body>
 </html>

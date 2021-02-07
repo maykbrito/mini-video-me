@@ -1,4 +1,4 @@
-<h1 align="center">Welcome to mini-video-me 👋</h1>
+<h1 align="center">Mini video me 📹</h1>
 <p>
   <img alt="Version" src="https://img.shields.io/badge/version-1.0.0-blue.svg?cacheSeconds=2592000" />
   <a href="#" target="_blank">
@@ -24,22 +24,66 @@ npm install
 
 You will need change your camera configuration in `./cameraConfig.js` because cameras has different proportion like: width, height, frame rates and aspect ratios.
 
-You'll need to know about your camera OR try to make those configuration empty, like this
+You'll need to know about your camera OR try to not mess with `width`, `height`, `aspectRatio` and `frameRate` options, like this
 
 ```js
 export default {
     // width: 1920,
     // height: 1080,
     // aspectRatio: 1.77778,
-    // frameRate: 59.94
+    // frameRate: 59.94,
+    flipHorizontal: true, // start flipped
+    rounded: true, // border radius for camera
+    scale: 1.1, // zoom?
+    
+    // move point of interest
+    // number will be converted to percent
+    horizontal: "-20", // 0 left - translateX
+    vertical: "0", // 0 top - translateY
 }
 ```
 
-Then 
+Then, generate your app with command bellow
 
 ```sh
-npm start
+npm run build
 ```
+
+---
+## Shortcuts
+
+<table>
+  <thead>
+    <tr>
+      <th>Keystroke</th>
+      <th>Function</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>+/-</td>
+      <td>Zoom in/out (inside wrapper)</td>
+    </tr>
+    <tr>
+      <td>/</td>
+      <td>Flip horizontal</td>
+    </tr>
+    <tr>
+      <td>o</td>
+      <td>Toggle wrap rounded cam</td>
+    </tr>
+    <tr>
+      <td>Arrow up/ Down / Left / Right</td>
+      <td>Move cam position (inside wrapper)</td>
+    </tr>
+    <tr>
+      <td>Double click</td>
+      <td>Increase size of cam</td>
+    </tr>
+  </tbody>
+</table>
+
+---
 
 ## Author
 
