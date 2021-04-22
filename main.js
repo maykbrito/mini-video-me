@@ -46,7 +46,8 @@ function createWindow () {
   })
 
   win.loadFile('index.html');
-  
+  win.setVisibleOnAllWorkspaces(true)
+
 }
 
 app.whenReady().then(createWindow)
