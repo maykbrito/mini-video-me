@@ -4,7 +4,7 @@
   "description": "",
   "main": "main.js",
   "scripts": {
-    "start": "electron .",
+    "start": "electron --enable-transparent-visuals .",
     "build": "npx electron-packager . --icon img/webcam.icns --overwrite"
   },
   "keywords": [],
