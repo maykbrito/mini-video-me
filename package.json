@@ -5,12 +5,13 @@
   "main": "main.js",
   "scripts": {
     "start": "electron --enable-transparent-visuals .",
-    "build": "npx electron-packager . --icon img/webcam.icns --overwrite --out=packages"
+    "build": "electron-packager . --icon assets/webcam --overwrite --out=packages"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "dependencies": {
-    "electron": "^10.1.1"
+  "devDependencies": {
+    "electron": "^10.1.1",
+    "electron-packager": "^15.2.0"
   }
 }
