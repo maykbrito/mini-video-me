@@ -9,7 +9,7 @@
   </a>
 </p>
 
-> A small webcam player builded with html, css, javascript and electron
+> A small webcam player built with html, css, javascript and electron
 
 *Just tested in MacOS*
 
@@ -22,7 +22,7 @@ npm install
 
 ## Usage
 
-You will need change your camera configuration in `./cameraConfig.js` because cameras has different proportion like: width, height, frame rates and aspect ratios.
+You will need change your camera configuration in `./cameraConfig.js` because cameras have different proportions, like: width, height, frame rates and aspect ratios.
 
 You'll need to know about your camera OR try to not mess with `width`, `height`, `aspectRatio` and `frameRate` options, like this
 
