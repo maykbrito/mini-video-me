@@ -69,7 +69,15 @@
     const { ipcRenderer } = require('electron'); // EventEmmiter to comunicate with main window
     let isBig = false; // the window starts small
 
-    window.ondblclick = () => {
+    window.addEventListener('keydown', function({ key }) {
+      if(key === '0' || key === "*") {
+        changeWrapperSize()
+      } 
+    })
+
+    window.ondblclick = changeWrapperSize
+
+    function changeWrapperSize() {
       ipcRenderer.send('double-click', isBig) // send signal to main window
       isBig = !isBig // toggle it
     }

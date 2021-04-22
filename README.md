@@ -77,7 +77,7 @@ npm run build
       <td>Move cam position (inside wrapper)</td>
     </tr>
     <tr>
-      <td>Double click</td>
+      <td>0 or *</td>
       <td>Increase size of cam</td>
     </tr>
   </tbody>

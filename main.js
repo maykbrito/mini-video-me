@@ -40,6 +40,7 @@ function createWindow () {
     titleBarStyle: "customButtonsOnHover",
     transparent: true,
     alwaysOnTop: true,
+    maximizable: false,
     webPreferences: {
       nodeIntegration: true
     }
