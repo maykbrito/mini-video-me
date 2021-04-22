@@ -1,2 +1,3 @@
 node_modules
-mini-video-me-darwin-x64/
+packages
+.DS_Store
