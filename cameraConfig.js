@@ -3,7 +3,7 @@ export default {
     height: 1080,
     aspectRatio: 1.77778,
     frameRate: 59.94,
-    flipHorizontal: true, // start flipped
+    flipHorizontal: false, // start flipped
     rounded: true, // border radius for camera
     scale: 1.1, // zoom?
     // move point of interest
