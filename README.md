@@ -11,7 +11,7 @@
 
 > A small webcam player built with html, css, javascript and electron
 
-*Just tested in MacOS*
+*Tested only on MacOS and Windows 10*
 
 
 ## Install
