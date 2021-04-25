@@ -15,11 +15,12 @@
 
 > A small webcam player built with html, css, javascript and electron
 
-*Tested only on MacOS and Windows 10*
-
+_Tested only on MacOS and Windows 10_
 
 ## Install
+
 With the terminal open in the project, execute the following command to be able to install the dependencies:
+
 ```sh
 npm install
 ```
@@ -32,19 +33,19 @@ You'll need to know about your camera OR try to not mess with `width`, `height`,
 
 ```js
 export default {
-    // width: 1920,
-    // height: 1080,
-    // aspectRatio: 1.77778,
-    // frameRate: 59.94,
-    flipHorizontal: true, // start flipped
-    rounded: true, // border radius for camera
-    scale: 1.1, // zoom?
-    
-    // move point of interest
-    // number will be converted to percent
-    horizontal: "-20", // 0 left - translateX
-    vertical: "0", // 0 top - translateY
-}
+	// width: 1920,
+	// height: 1080,
+	// aspectRatio: 1.77778,
+	// frameRate: 59.94,
+	flipHorizontal: true, // start flipped
+	rounded: true, // border radius for camera
+	scale: 1.1, // zoom?
+
+	// move point of interest
+	// number will be converted to percent
+	horizontal: "-20", // 0 left - translateX
+	vertical: "0", // 0 top - translateY
+};
 ```
 
 Then, generate your app with command bellow
@@ -54,6 +55,7 @@ npm run build
 ```
 
 ---
+
 ## Shortcuts
 
 <table>
@@ -93,13 +95,14 @@ npm run build
 
 👤 **Mayk Brito**
 
-* Twitter: [@maykbrito](https://twitter.com/maykbrito)
-* Github: [@maykbrito](https://github.com/maykbrito)
-* LinkedIn: [@maykbrito](https://linkedin.com/in/maykbrito)
+- Twitter: [@maykbrito](https://twitter.com/maykbrito)
+- Github: [@maykbrito](https://github.com/maykbrito)
+- LinkedIn: [@maykbrito](https://linkedin.com/in/maykbrito)
 
 ## Show your support
 
 Give a ⭐️ if this project helped you!
 
-***
+---
+
 _This README was generated with ❤️ by [readme-md-generator](https://github.com/kefranabg/readme-md-generator)_

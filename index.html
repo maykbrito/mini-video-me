@@ -1,86 +1,91 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Mini Video Me</title>
-  <style>
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<meta http-equiv="X-UA-Compatible" content="ie=edge" />
+		<title>Mini Video Me</title>
+		<style>
+			body,
+			#video-grid {
+				-webkit-app-region: drag;
+				/* move window */
+			}
 
-    body, #video-grid {
-      -webkit-app-region: drag; /* move window */
-    }
-    button {
-      -webkit-app-region: nodrag; /* window buttons */
-    }
+			button {
+				-webkit-app-region: nodrag;
+				/* window buttons */
+			}
 
-    body {
-      margin: 0;
-      padding: 0;
+			body {
+				margin: 0;
+				padding: 0;
 
-      display: flex;
-      align-items: center;
-      justify-content: center;
+				display: flex;
+				align-items: center;
+				justify-content: center;
 
-      overflow: hidden;
+				overflow: hidden;
 
-      height: 100vh;
+				height: 100vh;
 
-      background: transparent
-    }
+				background: transparent;
+			}
 
-    .rounded {
-      border-radius: 50%;
+			.rounded {
+				border-radius: 50%;
 
-      overflow: hidden;
-      width: 100vw; 
+				overflow: hidden;
+				width: 100vw;
 
-      /* nice proportion for border-radius */
-      height: calc(100vw - 1px); 
-    }
+				/* nice proportion for border-radius */
+				height: calc(100vw - 1px);
+			}
 
-    video {
-      width: 180%;
-      height: auto;
-      object-fit: fill;
-    }
-    
-    .flip { 
-      transform: rotateY(180deg);
-      -webkit-transform:rotateY(180deg); /* Safari and Chrome */
-      -moz-transform:rotateY(180deg); /* Firefox */
-    }
+			video {
+				width: 180%;
+				height: auto;
+				object-fit: fill;
+			}
 
-    #wrapper {
-      background: transparent;
-    }
-  </style>
-</head>
-<body>
-  <div id="wrapper">
-    <video id="video" autoplay muted></video>
-  </div>
+			.flip {
+				transform: rotateY(180deg);
+				-webkit-transform: rotateY(180deg);
+				/* Safari and Chrome */
+				-moz-transform: rotateY(180deg);
+				/* Firefox */
+			}
 
-  <script type="module" async>
+			#wrapper {
+				background: transparent;
+			}
+		</style>
+	</head>
 
-    import './index.js'
+	<body>
+		<div id="wrapper">
+			<video id="video" autoplay muted></video>
+		</div>
 
-    /* Change Size */
-    const { ipcRenderer } = require('electron'); // EventEmmiter to comunicate with main window
-    let isBig = false; // the window starts small
+		<script type="module" async>
+			import "./index.js";
 
-    window.addEventListener('keydown', function({ key }) {
-      if(key === '0' || key === "*") {
-        changeWrapperSize()
-      } 
-    })
+			/* Change Size */
+			const { ipcRenderer } = require("electron"); // EventEmmiter to comunicate with main window
+			let isBig = false; // the window starts small
 
-    window.ondblclick = changeWrapperSize
+			window.addEventListener("keydown", function ({ key }) {
+				if (key === "0" || key === "*") {
+					changeWrapperSize();
+				}
+			});
 
-    function changeWrapperSize() {
-      ipcRenderer.send('double-click', isBig) // send signal to main window
-      isBig = !isBig // toggle it
-    }
-  </script>
-</body>
+			window.ondblclick = changeWrapperSize;
+
+			function changeWrapperSize() {
+				ipcRenderer.send("double-click", isBig); // send signal to main window
+				isBig = !isBig; // toggle it
+			}
+		</script>
+	</body>
 </html>
