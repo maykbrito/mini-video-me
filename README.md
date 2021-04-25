@@ -1,3 +1,7 @@
+<p align="center">
+<img src="./assets/webcam.png" width="190px"/>
+</p>
+
 <h1 align="center">Mini video me 📹</h1>
 <p>
   <img alt="Version" src="https://img.shields.io/badge/version-1.0.0-blue.svg?cacheSeconds=2592000" />
@@ -15,7 +19,7 @@
 
 
 ## Install
-
+With the terminal open in the project, execute the following command to be able to install the dependencies:
 ```sh
 npm install
 ```
