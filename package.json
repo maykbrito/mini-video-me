@@ -11,7 +11,17 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
+<<<<<<< HEAD
     "electron": "^12.0.2",
+=======
+    "@types/electron": "^1.6.10",
+    "electron": "^10.1.1",
+>>>>>>> ee8aaf4... wip
     "electron-packager": "^15.2.0"
+  },
+  "dependencies": {
+    "chokidar": "^3.5.1",
+    "electron-store": "^8.0.0",
+    "json-schema-typed": "^7.0.3"
   }
 }

@@ -18,7 +18,7 @@ const updatePositions = {
     // memo small position
     smallPosition = win.getBounds()
 
-    if(!bigPosition) {
+    if (!bigPosition) {
       // first time enter, configure big video
       const { x, y } = smallPosition
       const proportion = customSize * bigFactor
@@ -42,7 +42,34 @@ ipcMain.on('double-click', (event, arg) => {
   updatePositions[size]()
 })
 
+const trayIcon = path.resolve(__dirname, 'assets', 'tray', 'trayTemplate.png');
+
+const contextMenu = Menu.buildFromTemplate([
+  {
+    label: 'Mini Video Me',
+    icon: trayIcon,
+    enabled: false
+  },
+  {
+    label: 'Settings',
+    click() {
+      return userPreferences.openInEditor()
+    } 
+  },
+  {
+    type: 'separator',
+  },
+  {
+    type: 'normal',
+    label: 'Close',
+    role: 'quit',
+    enabled: true,
+  },
+])
+
 function createWindow () {
+  mainTray = new Tray(trayIcon);
+
   win = new BrowserWindow({
     width: customSize,
     height: customSize,
@@ -75,6 +102,9 @@ function createWindow () {
   })
 
   isLinux && win.on("closed", app.quit)
+  mainTray.setContextMenu(contextMenu)
+
+  mainTray.on('click', mainTray.popUpContextMenu)
 }
 
 app.whenReady().then(createWindow)
