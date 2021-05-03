@@ -5,16 +5,26 @@ const isLinux = process.platform === "linux"
 const isMac = process.platform === 'darwin'
 
 const customSize = 300
-const bigFactor = 2.4 // how much enlarge when double click video
+const bigFactor = 2.4
 
-let win, smallPosition, bigPosition, isLinuxWindowReadyToShow
+/**
+ * @type {BrowserWindow}
+ */
+let win
+
+/**
+ * @type {Tray}
+ */
+let mainTray
+
+let smallPosition, bigPosition
 
 if (isLinux) {
   app.disableHardwareAcceleration()
 }
 
 const updatePositions = {
-  'big': () => {
+  big: () => {
     // memo small position
     smallPosition = win.getBounds()
 
@@ -22,16 +32,16 @@ const updatePositions = {
       // first time enter, configure big video
       const { x, y } = smallPosition
       const proportion = customSize * bigFactor
-      bigPosition = {x: x - proportion, y: y - proportion, width: proportion, height: proportion}
+      bigPosition = { x: x - proportion, y: y - proportion, width: proportion, height: proportion }
     }
 
     // move and make it bigger
     win.setBounds(bigPosition, true)
   },
-  'small': () => {
+  small: () => {
     // memo big position
     bigPosition = win.getBounds()
-    
+
     // move and make it smaller
     win.setBounds(smallPosition, true)
   }
@@ -42,7 +52,7 @@ ipcMain.on('double-click', (event, arg) => {
   updatePositions[size]()
 })
 
-const trayIcon = path.resolve(__dirname, 'assets', 'tray', 'trayTemplate.png');
+const trayIcon = path.resolve(__dirname, 'assets', 'tray', 'trayTemplate.png')
 
 const contextMenu = Menu.buildFromTemplate([
   {
@@ -52,29 +62,31 @@ const contextMenu = Menu.buildFromTemplate([
   },
   {
     label: 'Settings',
-    click() {
+    click () {
       return userPreferences.openInEditor()
-    } 
+    }
   },
   {
-    type: 'separator',
+    type: 'separator'
   },
   {
     type: 'normal',
     label: 'Close',
     role: 'quit',
-    enabled: true,
-  },
+    enabled: true
+  }
 ])
 
 function createWindow () {
-  mainTray = new Tray(trayIcon);
+  mainTray = new Tray(trayIcon)
 
   win = new BrowserWindow({
     width: customSize,
     height: customSize,
+    maxWidth: customSize,
+    maxHeight: customSize,
     frame: false,
-    titleBarStyle: "customButtonsOnHover",
+    titleBarStyle: 'customButtonsOnHover',
     transparent: true,
     alwaysOnTop: true,
     maximizable: false,
