@@ -1,6 +1,6 @@
 const { userPreferences } = require('./src/store')
 
-const store = userPreferences.store;
+const store = userPreferences.store
 
 const config = {
   width: store.camera.width,
@@ -10,7 +10,7 @@ const config = {
   rounded: store.rounded,
   scale: store.zoom,
   horizontal: String(store.anchor.x),
-  vertical: String(store.anchor.y),
+  vertical: String(store.anchor.y)
 }
 
-export { config };
+export { config }

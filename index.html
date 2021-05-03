@@ -6,10 +6,10 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Mini Video Me</title>
   <style>
-
     body, #video-grid {
       -webkit-app-region: drag; /* move window */
     }
+
     button {
       -webkit-app-region: nodrag; /* window buttons */
     }
@@ -36,19 +36,20 @@
       width: 100vw; 
 
       /* nice proportion for border-radius */
-      height: calc(100vw - 1px); 
+      height: calc(100vw - 1px);
     }
 
     video {
       width: 180%;
       height: auto;
       object-fit: fill;
+      pointer-events: none;
     }
     
     .flip { 
       transform: rotateY(180deg);
-      -webkit-transform:rotateY(180deg); /* Safari and Chrome */
-      -moz-transform:rotateY(180deg); /* Firefox */
+      -webkit-transform: rotateY(180deg); /* Safari and Chrome */
+      -moz-transform: rotateY(180deg); /* Firefox */
     }
 
     #wrapper {
