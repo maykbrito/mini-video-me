@@ -35,10 +35,41 @@ const userPreferencesSchema = {
   shortcuts: {
     type: JSONSchemaType.Object,
     properties: {
-      moveBetweenEdges: {
-        type: JSONSchemaType.String
+      moveCamera: {
+        type: JSONSchemaType.Object,
+        properties: {
+          up: {
+            type: JSONSchemaType.String
+          },
+          down: {
+            type: JSONSchemaType.String
+          },
+          left: {
+            type: JSONSchemaType.String
+          },
+          right: {
+            type: JSONSchemaType.String
+          }
+        }
       },
       resizeCamera: {
+        type: JSONSchemaType.Object,
+        properties: {
+          small: {
+            type: JSONSchemaType.String
+          },
+          medium: {
+            type: JSONSchemaType.String
+          },
+          large: {
+            type: JSONSchemaType.String
+          },
+          fullscreen: {
+            type: JSONSchemaType.String
+          }
+        }
+      },
+      hideCamera: {
         type: JSONSchemaType.String
       }
     }
@@ -68,8 +99,19 @@ const userPreferences = new Store({
       y: 0
     },
     shortcuts: {
-      moveBetweenEdges: 'Shift+Alt+CommandOrControl',
-      resizeCamera: 'Shift+Alt+CommandOrControl'
+      moveCamera: {
+        up: 'Shift+Alt+CommandOrControl+Up',
+        down: 'Shift+Alt+CommandOrControl+Down',
+        left: 'Shift+Alt+CommandOrControl+Left',
+        right: 'Shift+Alt+CommandOrControl+Right'
+      },
+      resizeCamera: {
+        small: 'Shift+Alt+CommandOrControl+1',
+        medium: 'Shift+Alt+CommandOrControl+2',
+        large: 'Shift+Alt+CommandOrControl+3',
+        fullscreen: 'Shift+Alt+CommandOrControl+4'
+      },
+      hideCamera: 'Shift+Alt+CommandOrControl+5'
     },
     rounded: true,
     flipHorizontal: false,

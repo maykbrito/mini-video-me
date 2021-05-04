@@ -1,18 +1,14 @@
 const { app, BrowserWindow, Tray, Menu, globalShortcut, screen } = require('electron')
+const { ScreenController } = require('./src/lib/ScreenController')
 const path = require('path')
 const { userPreferences } = require('./src/store')
 
-const isLinux = process.platform === "linux"
+const isLinux = process.platform === 'linux'
 const isMac = process.platform === 'darwin'
 
 if (isLinux) {
   app.disableHardwareAcceleration()
 }
-
-/**
- * @type {number}
- */
-let windowSizeInPixels = 300
 
 /**
  * @type {BrowserWindow}
@@ -30,144 +26,156 @@ let isLinuxWindowReadyToShow
 let mainTray
 
 /**
- * @type {'top-left' | 'top-right' | 'bottom-left' | 'bottom-right'}
+ * @type {ScreenController}
  */
-let currentScreenEdge = 'bottom-right'
+let screenController
 
 const trayIcon = path.resolve(__dirname, 'assets', 'tray', 'trayTemplate.png')
-
-const contextMenu = Menu.buildFromTemplate([
-  {
-    label: 'Mini Video Me',
-    icon: trayIcon,
-    enabled: false
-  },
-  {
-    label: 'Settings',
-    click () {
-      return userPreferences.openInEditor()
-    }
-  },
-  {
-    type: 'separator'
-  },
-  {
-    type: 'normal',
-    label: 'Close',
-    role: 'quit',
-    enabled: true
-  }
-])
-
-/**
- * Set window size
- * @param {Number} size
- */
-function setWindowSize (size) {
-  windowSizeInPixels = 200 + (size * 100)
-
-  win.setMaximumSize(windowSizeInPixels, windowSizeInPixels)
-
-  moveWindowToScreenEdge(currentScreenEdge)
-
-  win.setSize(windowSizeInPixels, windowSizeInPixels)
-}
-
-/**
- * Calculate screen movement on edges
- * @param {'left' | 'right' | 'top' | 'bottom'} movement
- */
-function calculateScreenMovement (movement) {
-  const edgeMovements = {
-    'top-right': {
-      left: 'top-left',
-      bottom: 'bottom-right'
-    },
-    'top-left': {
-      right: 'top-right',
-      bottom: 'bottom-left'
-    },
-    'bottom-right': {
-      left: 'bottom-left',
-      top: 'top-right'
-    },
-    'bottom-left': {
-      right: 'bottom-right',
-      top: 'top-left'
-    }
-  }
-
-  return edgeMovements[currentScreenEdge][movement] || currentScreenEdge
-}
-
-/**
- * Move window to screen edge
- * @param {'top-left' | 'top-right' | 'bottom-left' | 'bottom-right'} edge
- */
-function moveWindowToScreenEdge (edge) {
-  /**
-   * Get the screen behind electron window
-   */
-
-  currentScreenEdge = edge
-
-  const { x, y } = win.getBounds()
-  const display = screen.getDisplayNearestPoint({ x, y })
-
-  const bounds = { x: display.bounds.x, y: display.bounds.y }
-
-  switch (edge) {
-    case 'top-left':
-      bounds.x += 24
-      bounds.y += 24
-      break
-    case 'bottom-left':
-      bounds.x += 24
-      bounds.y += display.size.height - windowSizeInPixels - 24
-      break
-    case 'top-right':
-      bounds.x += display.size.width - windowSizeInPixels - 24
-      bounds.y += 24
-      break
-    case 'bottom-right':
-      bounds.x += display.size.width - windowSizeInPixels - 24
-      bounds.y += display.size.height - windowSizeInPixels - 24
-      break
-  }
-
-  win.setBounds(bounds)
-}
 
 /**
  * Register global shortcuts
  */
 function registerShortcuts () {
-  const availableScreenSizes = [1, 2, 3, 4] // 300, 400, 500, 600
-
-  const availableMovementCommands = {
-    left: 'Left',
-    right: 'Right',
-    top: 'Up',
-    bottom: 'Down'
-  }
-
-  availableScreenSizes.forEach(size => {
-    globalShortcut.register(`${userPreferences.store.shortcuts.resizeCamera}+${size}`, () => {
-      setWindowSize(size)
-    })
+  globalShortcut.register(`${userPreferences.store.shortcuts.moveCamera.up}`, () => {
+    screenController.moveWindowToScreenEdge(screenController.calculateScreenMovement('top'))
   })
 
-  Object.entries(availableMovementCommands).forEach(([command, shortcut]) => {
-    globalShortcut.register(`${userPreferences.store.shortcuts.moveBetweenEdges}+${shortcut}`, () => {
-      const edge = calculateScreenMovement(command)
+  globalShortcut.register(`${userPreferences.store.shortcuts.moveCamera.down}`, () => {
+    screenController.moveWindowToScreenEdge(screenController.calculateScreenMovement('bottom'))
+  })
 
-      moveWindowToScreenEdge(edge)
-    })
+  globalShortcut.register(`${userPreferences.store.shortcuts.moveCamera.left}`, () => {
+    screenController.moveWindowToScreenEdge(screenController.calculateScreenMovement('left'))
+  })
+
+  globalShortcut.register(`${userPreferences.store.shortcuts.moveCamera.right}`, () => {
+    screenController.moveWindowToScreenEdge(screenController.calculateScreenMovement('right'))
+  })
+
+  globalShortcut.register(`${userPreferences.store.shortcuts.resizeCamera.small}`, () => {
+    screenController.setWindowSize('small')
+  })
+
+  globalShortcut.register(`${userPreferences.store.shortcuts.resizeCamera.medium}`, () => {
+    screenController.setWindowSize('medium')
+  })
+
+  globalShortcut.register(`${userPreferences.store.shortcuts.resizeCamera.large}`, () => {
+    screenController.setWindowSize('large')
+  })
+
+  globalShortcut.register(`${userPreferences.store.shortcuts.resizeCamera.fullscreen}`, () => {
+    screenController.setWindowSize('fullscreen')
+  })
+
+  globalShortcut.register(`${userPreferences.store.shortcuts.hideCamera}`, () => {
+    screenController.toggleWindowVisibility()
   })
 }
 
-async function createTrayMenu() {
+async function createTrayMenu () {
   mainTray = new Tray(trayIcon)
+
+  const availableDisplays = screen.getAllDisplays()
+
+  const contextMenu = Menu.buildFromTemplate([
+    {
+      label: 'Mini Video Me',
+      icon: trayIcon,
+      enabled: false
+    },
+    {
+      label: 'Settings',
+      click () {
+        return userPreferences.openInEditor()
+      }
+    },
+    {
+      type: 'separator'
+    },
+    {
+      type: 'submenu',
+      label: 'Window size',
+      submenu: [
+        {
+          label: 'Small',
+          checked: true,
+          click () {
+            return screenController.setWindowSize('small')
+          }
+        },
+        {
+          label: 'Medium',
+          click () {
+            return screenController.setWindowSize('medium')
+          }
+        },
+        {
+          label: 'Large',
+          click () {
+            return screenController.setWindowSize('large')
+          }
+        },
+        {
+          label: 'Fullscreen',
+          click () {
+            return screenController.setWindowSize('fullscreen')
+          }
+        }
+      ]
+    },
+    {
+      type: 'submenu',
+      label: 'Screen edge',
+      submenu: [
+        {
+          label: 'Top left',
+          click () {
+            return screenController.moveWindowToScreenEdge('top-left')
+          }
+        },
+        {
+          label: 'Top right',
+          click () {
+            return screenController.moveWindowToScreenEdge('top-right')
+          }
+        },
+        {
+          label: 'Bottom right',
+          click () {
+            return screenController.moveWindowToScreenEdge('bottom-right')
+          }
+        },
+        {
+          label: 'Bottom left',
+          click () {
+            return screenController.moveWindowToScreenEdge('bottom-left')
+          }
+        }
+      ]
+    },
+    {
+      type: 'submenu',
+      label: 'Display',
+      submenu: availableDisplays.map(display => {
+        return {
+          label: `Display ${display.id} (${display.size.width}x${display.size.height})`,
+          click () {
+            return screenController.setActiveDisplay(display.id)
+          }
+        }
+      })
+    },
+    {
+      type: 'separator'
+    },
+    {
+      type: 'normal',
+      label: 'Close',
+      role: 'quit',
+      enabled: true
+    }
+  ])
 
   mainTray.setContextMenu(contextMenu)
 
@@ -179,12 +187,12 @@ async function createTrayMenu() {
  */
 async function createWindow () {
   win = new BrowserWindow({
-    width: windowSizeInPixels,
-    height: windowSizeInPixels,
-    maxWidth: windowSizeInPixels,
-    maxHeight: windowSizeInPixels,
+    width: 300,
+    height: 300,
+    maxWidth: 300,
+    maxHeight: 300,
     frame: false,
-    titleBarStyle: 'customButtonsOnHover',
+    titleBarStyle: 'hidden',
     transparent: true,
     alwaysOnTop: true,
     maximizable: false,
@@ -192,28 +200,30 @@ async function createWindow () {
     webPreferences: {
       nodeIntegration: false,
       contextIsolation: true,
-      preload: path.join(__dirname, "bridge.js"),
+      preload: path.join(__dirname, 'bridge.js')
     }
   })
 
-  moveWindowToScreenEdge(currentScreenEdge)
+  screenController = new ScreenController(win)
+
+  screenController.moveWindowToScreenEdge()
 
   win.loadFile('index.html')
   win.setVisibleOnAllWorkspaces(true)
 
-  win.on("ready-to-show", () => {
+  win.on('ready-to-show', () => {
     const shouldCreateNewWindowForLinux = isLinux && !isLinuxWindowReadyToShow
 
     if (shouldCreateNewWindowForLinux) {
       createWindow()
-      
+
       win.show()
 
       isLinuxWindowReadyToShow = true
     }
   })
 
-  isLinux && win.on("closed", app.quit)
+  isLinux && win.on('closed', app.quit)
 }
 
 app.whenReady()
