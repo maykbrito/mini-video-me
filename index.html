@@ -30,20 +30,16 @@
     }
 
     .rounded {
-      border-radius: 50%;
-
+      border-radius: 9999px;
       overflow: hidden;
-      width: 100vw; 
-
-      /* nice proportion for border-radius */
-      height: calc(100vw - 1px);
     }
 
     video {
       width: 180%;
-      height: auto;
-      object-fit: fill;
+      object-fit: cover;
+      /* aspect-ratio: 16 / 9; */
       pointer-events: none;
+      margin-left: -40%;
     }
     
     .flip { 
@@ -62,28 +58,6 @@
     <video id="video" autoplay muted></video>
   </div>
 
-  <script type="module" async>
-
-    import './index.js'
-
-    /* Change Size */
-    let isBig = false; // the window starts small
-
-    window.addEventListener('keydown', function({ key }) {
-      if(key === '0' || key === "*") {
-        changeWrapperSize()
-      } 
-    })
-
-    window.ondblclick = changeWrapperSize
-
-    function changeWrapperSize() {
-      const { MiniVideoMe } = window
-      
-      MiniVideoMe.sendDoubleClick(isBig)
-      
-      isBig = !isBig // toggle it
-    }
-  </script>
+  <script type="module" async src="./index.js"></script>
 </body>
 </html>

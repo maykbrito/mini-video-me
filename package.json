@@ -13,7 +13,6 @@
   "devDependencies": {
     "electron": "^12.0.2",
     "@types/electron": "^1.6.10",
-    "electron": "^10.1.1",
     "electron-packager": "^15.2.0",
     "eslint": "^7.25.0",
     "eslint-config-standard": "^16.0.2",

@@ -1,7 +1,6 @@
 import { config } from './cameraConfig.js'
 import Cam from './cam.js'
 
-// Using webcam in browser
 navigator.mediaDevices.getUserMedia({
   video: config || true
 }).then(stream => {

@@ -1,16 +1,16 @@
-const { userPreferences } = require('./src/store')
+const userPreferences = window.MiniVideoMe.config
 
-const store = userPreferences.store
+console.log(userPreferences)
 
 const config = {
-  width: store.camera.width,
-  height: store.camera.height,
-  frameRate: store.camera.frameRate,
-  flipHorizontal: store.flipHorizontal,
-  rounded: store.rounded,
-  scale: store.zoom,
-  horizontal: String(store.anchor.x),
-  vertical: String(store.anchor.y)
+  width: userPreferences.camera.width,
+  height: userPreferences.camera.height,
+  frameRate: userPreferences.camera.frameRate,
+  flipHorizontal: userPreferences.flipHorizontal,
+  rounded: userPreferences.rounded,
+  scale: userPreferences.zoom,
+  horizontal: String(userPreferences.anchor.x),
+  vertical: String(userPreferences.anchor.y)
 }
 
 export { config }
