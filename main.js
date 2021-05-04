@@ -1,4 +1,4 @@
-const { app, BrowserWindow, Tray, Menu, globalShortcut, screen } = require('electron')
+const { app, BrowserWindow, Tray, Menu, globalShortcut, screen, nativeImage } = require('electron')
 const { ScreenController } = require('./src/lib/ScreenController')
 const path = require('path')
 const { userPreferences } = require('./src/store')
