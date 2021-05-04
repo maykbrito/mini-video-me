@@ -1,11 +1,18 @@
-const { app, BrowserWindow, ipcMain} = require('electron')
-const { join } = require("path")
+const { app, BrowserWindow, Tray, Menu, globalShortcut, screen } = require('electron')
+const path = require('path')
+const { userPreferences } = require('./src/store')
 
 const isLinux = process.platform === "linux"
 const isMac = process.platform === 'darwin'
 
-const customSize = 300
-const bigFactor = 2.4
+if (isLinux) {
+  app.disableHardwareAcceleration()
+}
+
+/**
+ * @type {number}
+ */
+let windowSizeInPixels = 300
 
 /**
  * @type {BrowserWindow}
@@ -13,44 +20,19 @@ const bigFactor = 2.4
 let win
 
 /**
+ * @type {boolean}
+ */
+let isLinuxWindowReadyToShow
+
+/**
  * @type {Tray}
  */
 let mainTray
 
-let smallPosition, bigPosition
-
-if (isLinux) {
-  app.disableHardwareAcceleration()
-}
-
-const updatePositions = {
-  big: () => {
-    // memo small position
-    smallPosition = win.getBounds()
-
-    if (!bigPosition) {
-      // first time enter, configure big video
-      const { x, y } = smallPosition
-      const proportion = customSize * bigFactor
-      bigPosition = { x: x - proportion, y: y - proportion, width: proportion, height: proportion }
-    }
-
-    // move and make it bigger
-    win.setBounds(bigPosition, true)
-  },
-  small: () => {
-    // memo big position
-    bigPosition = win.getBounds()
-
-    // move and make it smaller
-    win.setBounds(smallPosition, true)
-  }
-}
-
-ipcMain.on('double-click', (event, arg) => {
-  const size = arg ? 'small' : 'big'
-  updatePositions[size]()
-})
+/**
+ * @type {'top-left' | 'top-right' | 'bottom-left' | 'bottom-right'}
+ */
+let currentScreenEdge = 'bottom-right'
 
 const trayIcon = path.resolve(__dirname, 'assets', 'tray', 'trayTemplate.png')
 
@@ -77,14 +59,147 @@ const contextMenu = Menu.buildFromTemplate([
   }
 ])
 
-function createWindow () {
+/**
+ * Set window size
+ * @param {Number} size
+ */
+function setWindowSize (size) {
+  windowSizeInPixels = size * 200
+
+  win.setMaximumSize(windowSizeInPixels, windowSizeInPixels)
+
+  moveWindowToScreenEdge(currentScreenEdge)
+
+  win.setSize(windowSizeInPixels, windowSizeInPixels)
+}
+
+/**
+ * Calculate screen movement on edges
+ * @param {'left' | 'right' | 'top' | 'bottom'} movement
+ */
+function calculateScreenMovement (movement) {
+  const edgeMovements = {
+    'top-right': {
+      left: 'top-left',
+      bottom: 'bottom-right'
+    },
+    'top-left': {
+      right: 'top-right',
+      bottom: 'bottom-left'
+    },
+    'bottom-right': {
+      left: 'bottom-left',
+      top: 'top-right'
+    },
+    'bottom-left': {
+      right: 'bottom-right',
+      top: 'top-left'
+    }
+  }
+
+  return edgeMovements[currentScreenEdge][movement] || currentScreenEdge
+}
+
+/**
+ * Move window to screen edge
+ * @param {'top-left' | 'top-right' | 'bottom-left' | 'bottom-right'} edge
+ */
+function moveWindowToScreenEdge (edge) {
+  /**
+   * Get the screen behind electron window
+   */
+
+  currentScreenEdge = edge
+
+  const { x, y } = win.getBounds()
+  const display = screen.getDisplayNearestPoint({ x, y })
+
+  const bounds = { x: display.bounds.x, y: display.bounds.y }
+
+  switch (edge) {
+    case 'top-left':
+      bounds.x += 24
+      bounds.y += 24
+      break
+    case 'bottom-left':
+      bounds.x += 24
+      bounds.y += display.size.height - windowSizeInPixels - 24
+      break
+    case 'top-right':
+      bounds.x += display.size.width - windowSizeInPixels - 24
+      bounds.y += 24
+      break
+    case 'bottom-right':
+      bounds.x += display.size.width - windowSizeInPixels - 24
+      bounds.y += display.size.height - windowSizeInPixels - 24
+      break
+  }
+
+  win.setBounds(bounds)
+}
+
+/**
+ * Register global shortcuts
+ */
+function registerShortcuts () {
+  globalShortcut.register('Shift+CommandOrControl+1', () => {
+    setWindowSize(1)
+  })
+
+  globalShortcut.register('Shift+CommandOrControl+2', () => {
+    setWindowSize(2)
+  })
+
+  globalShortcut.register('Shift+CommandOrControl+3', () => {
+    setWindowSize(3)
+  })
+
+  globalShortcut.register('Shift+CommandOrControl+4', () => {
+    setWindowSize(4)
+  })
+
+  globalShortcut.register('Shift+CommandOrControl+Left', () => {
+    const edge = calculateScreenMovement('left')
+
+    moveWindowToScreenEdge(edge)
+  })
+
+  globalShortcut.register('Shift+CommandOrControl+Right', () => {
+    const edge = calculateScreenMovement('right')
+
+    moveWindowToScreenEdge(edge)
+  })
+
+  globalShortcut.register('Shift+CommandOrControl+Up', () => {
+    const edge = calculateScreenMovement('top')
+
+    moveWindowToScreenEdge(edge)
+  })
+
+  globalShortcut.register('Shift+CommandOrControl+Down', () => {
+    const edge = calculateScreenMovement('bottom')
+
+    moveWindowToScreenEdge(edge)
+  })
+}
+
+async function createTrayMenu() {
   mainTray = new Tray(trayIcon)
 
+  mainTray.setContextMenu(contextMenu)
+
+  mainTray.on('click', mainTray.popUpContextMenu)
+}
+
+/**
+ * Create main electron window
+ */
+async function createWindow () {
   win = new BrowserWindow({
-    width: customSize,
-    height: customSize,
-    maxWidth: customSize,
-    maxHeight: customSize,
+    width: windowSizeInPixels,
+    height: windowSizeInPixels,
+    maxWidth: windowSizeInPixels,
+    maxHeight: windowSizeInPixels,
     frame: false,
     titleBarStyle: 'customButtonsOnHover',
     transparent: true,
@@ -94,9 +209,11 @@ function createWindow () {
     webPreferences: {
       nodeIntegration: false,
       contextIsolation: true,
-      preload: join(__dirname, "bridge.js"),
+      preload: path.join(__dirname, "bridge.js"),
     }
   })
+
+  moveWindowToScreenEdge(currentScreenEdge)
 
   win.loadFile('index.html')
   win.setVisibleOnAllWorkspaces(true)
@@ -114,12 +231,12 @@ function createWindow () {
   })
 
   isLinux && win.on("closed", app.quit)
-  mainTray.setContextMenu(contextMenu)
-
-  mainTray.on('click', mainTray.popUpContextMenu)
 }
 
-app.whenReady().then(createWindow)
+app.whenReady()
+  .then(registerShortcuts)
+  .then(createWindow)
+  .then(createTrayMenu)
 
 app.on('window-all-closed', () => {
   if (!isMac) {

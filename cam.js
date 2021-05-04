@@ -1,16 +1,16 @@
-import cameraConfig from './cameraConfig.js'
+import { config } from './cameraConfig.js'
 
 function Cam () {
   const state = {
     videoWrapper: document.getElementById('wrapper'),
     video: document.getElementById('video'),
-    isFlipped: cameraConfig.flipHorizontal,
+    isFlipped: config.flipHorizontal,
     position: {
-      x: cameraConfig.horizontal,
-      y: cameraConfig.vertical,
-      z: cameraConfig.scale
+      x: config.horizontal,
+      y: config.vertical,
+      z: config.scale
     },
-    rounded: cameraConfig.rounded,
+    rounded: config.rounded,
     move: {},
     scale: '',
     transform: [],
