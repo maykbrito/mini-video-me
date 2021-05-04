@@ -64,7 +64,7 @@ const contextMenu = Menu.buildFromTemplate([
  * @param {Number} size
  */
 function setWindowSize (size) {
-  windowSizeInPixels = size * 200
+  windowSizeInPixels = 200 + (size * 100)
 
   win.setMaximumSize(windowSizeInPixels, windowSizeInPixels)
 
@@ -142,44 +142,27 @@ function moveWindowToScreenEdge (edge) {
  * Register global shortcuts
  */
 function registerShortcuts () {
-  globalShortcut.register('Shift+CommandOrControl+1', () => {
-    setWindowSize(1)
+  const availableScreenSizes = [1, 2, 3, 4] // 300, 400, 500, 600
+
+  const availableMovementCommands = {
+    left: 'Left',
+    right: 'Right',
+    top: 'Up',
+    bottom: 'Down'
+  }
+
+  availableScreenSizes.forEach(size => {
+    globalShortcut.register(`${userPreferences.store.shortcuts.resizeCamera}+${size}`, () => {
+      setWindowSize(size)
+    })
   })
 
-  globalShortcut.register('Shift+CommandOrControl+2', () => {
-    setWindowSize(2)
-  })
+  Object.entries(availableMovementCommands).forEach(([command, shortcut]) => {
+    globalShortcut.register(`${userPreferences.store.shortcuts.moveBetweenEdges}+${shortcut}`, () => {
+      const edge = calculateScreenMovement(command)
 
-  globalShortcut.register('Shift+CommandOrControl+3', () => {
-    setWindowSize(3)
-  })
-
-  globalShortcut.register('Shift+CommandOrControl+4', () => {
-    setWindowSize(4)
-  })
-
-  globalShortcut.register('Shift+CommandOrControl+Left', () => {
-    const edge = calculateScreenMovement('left')
-
-    moveWindowToScreenEdge(edge)
-  })
-
-  globalShortcut.register('Shift+CommandOrControl+Right', () => {
-    const edge = calculateScreenMovement('right')
-
-    moveWindowToScreenEdge(edge)
-  })
-
-  globalShortcut.register('Shift+CommandOrControl+Up', () => {
-    const edge = calculateScreenMovement('top')
-
-    moveWindowToScreenEdge(edge)
-  })
-
-  globalShortcut.register('Shift+CommandOrControl+Down', () => {
-    const edge = calculateScreenMovement('bottom')
-
-    moveWindowToScreenEdge(edge)
+      moveWindowToScreenEdge(edge)
+    })
   })
 }
 

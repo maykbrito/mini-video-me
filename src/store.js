@@ -32,6 +32,17 @@ const userPreferencesSchema = {
       }
     }
   },
+  shortcuts: {
+    type: JSONSchemaType.Object,
+    properties: {
+      moveBetweenEdges: {
+        type: JSONSchemaType.String
+      },
+      resizeCamera: {
+        type: JSONSchemaType.String
+      }
+    }
+  },
   rounded: {
     type: JSONSchemaType.Boolean
   },
@@ -55,6 +66,10 @@ const userPreferences = new Store({
     anchor: {
       x: 0,
       y: 0
+    },
+    shortcuts: {
+      moveBetweenEdges: 'Shift+Alt+CommandOrControl',
+      resizeCamera: 'Shift+Alt+CommandOrControl'
     },
     rounded: true,
     flipHorizontal: false,
