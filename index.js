@@ -1,17 +1,44 @@
-import cameraConfig from './cameraConfig.js'
-import Cam from './cam.js'
+import cameraConfig from './cameraConfig.js';
+import Cam from './cam.js';
 
-// Using webcam in browser
-navigator.mediaDevices.getUserMedia({
-    video: cameraConfig || true
-}).then(stream => Cam.video.srcObject = stream )
+navigator.mediaDevices
+  .enumerateDevices()
+  .then((devices) => {
+    const videoDevices = devices.filter((device) => {
+      return device.kind === 'videoinput';
+    });
 
-// Start Controlling Cam
-Cam.init()
+    // Using webcam in browser
+    navigator.mediaDevices
+      .getUserMedia({
+        video: { ...cameraConfig, deviceId: videoDevices[0].deviceId } || true
+      })
+      .then((stream) => (Cam.video.srcObject = stream));
 
-// Keyboard Events
-window.addEventListener('keydown', (e) => {
-    if(Cam.controls[e.key]) {
-        Cam.controls[e.key]()
-    }
-})
+    // Start Controlling Cam
+    Cam.init();
+
+    let counter = 1;
+    // Keyboard Events
+    window.addEventListener('keydown', (e) => {
+      if (Cam.controls[e.key]) {
+        Cam.controls[e.key]();
+      }
+
+      if (e.key === 'c') {
+        navigator.mediaDevices
+          .getUserMedia({
+            video:
+              { ...cameraConfig, deviceId: videoDevices[counter].deviceId } ||
+              true
+          })
+          .then((stream) => (Cam.video.srcObject = stream));
+
+        counter++;
+
+        if (counter >= videoDevices.length) {
+          counter = 0;
+        }
+      }
+    });
+  });
