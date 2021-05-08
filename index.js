@@ -26,6 +26,10 @@ navigator.mediaDevices
         }
 
         if (e.key === 'c') {
+            if(videoDevices.length === 0) {
+                return
+            }
+
             navigator.mediaDevices
             .getUserMedia({
                 video:
