@@ -1,17 +1,29 @@
 const { BrowserWindow, screen } = require('electron') // eslint-disable-line
 
+const windowPositionByScreenSize = {}
+
 class ScreenController {
   /**
    * @param {BrowserWindow} browserWindow
-   * @param {'small' | 'medium' | 'large' | 'fullscreen'} initialScreenSize
+   * @param {'initial' | 'large'} initialScreenSize
    * @param {'top-left' | 'top-right' | 'bottom-left' | 'bottom-right'} initialScreenEdge
    */
-  constructor (browserWindow, initialScreenSize = 'small', initialScreenEdge = 'bottom-right') {
+  constructor (browserWindow, initialScreenSize = 'initial', initialScreenEdge = 'bottom-right') {
     this.browserWindow = browserWindow
     this.currentScreenEdge = initialScreenEdge
     this.currentScreenSize = initialScreenSize
 
+    this.listenScreenMovement()
+
     this.isScreenVisible = true
+  }
+
+  listenScreenMovement () {
+    this.browserWindow.on('move', event => {
+      const { x, y } = this.browserWindow.getBounds()
+
+      windowPositionByScreenSize[this.currentScreenSize] = { x, y }
+    })
   }
 
   /**
@@ -19,46 +31,37 @@ class ScreenController {
    */
   getScreenSizeInPixels () {
     const screenSizes = {
-      small: 300,
-      medium: 400,
-      large: 500
+      initial: 300,
+      large: 600
     }
 
-    if (this.currentScreenSize === 'fullscreen') {
-      const { x, y } = this.browserWindow.getBounds()
-      const display = screen.getDisplayNearestPoint({ x, y })
+    const windowSize = screenSizes[this.currentScreenSize]
 
-      return {
-        width: display.size.width,
-        height: display.size.height
-      }
-    } else {
-      const windowSize = screenSizes[this.currentScreenSize]
-
-      return {
-        width: windowSize,
-        height: windowSize
-      }
+    return {
+      width: windowSize,
+      height: windowSize
     }
   }
 
   /**
    * Set window size
-   * @param {'small' | 'medium' | 'large' | 'fullscreen'} size
+   * @param {'initial' | 'large' | 'fullscreen'} size
    */
   setWindowSize (size) {
     this.currentScreenSize = size
 
     const { width, height } = this.getScreenSizeInPixels()
 
-    if (size === 'fullscreen') {
-      this.browserWindow.setMaximumSize(width, height)
-      this.browserWindow.maximize()
-    } else {
-      this.browserWindow.setMaximumSize(width, height)
-      this.browserWindow.setSize(width, height)
+    this.browserWindow.setMaximumSize(width, height)
+    this.browserWindow.setSize(width, height)
 
-      // this.moveWindowToScreenEdge(this.currentScreenEdge)
+    if (windowPositionByScreenSize[size]) {
+      const { x, y } = windowPositionByScreenSize[size]
+
+      this.browserWindow.setBounds({
+        x,
+        y
+      })
     }
   }
 
