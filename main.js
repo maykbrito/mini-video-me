@@ -1,8 +1,13 @@
 const { app, BrowserWindow, ipcMain} = require('electron')
 const { join } = require("path")
+
+const isLinux = process.platform === "linux"
+const isMac = process.platform === 'darwin'
+
 const customSize = 300
 const bigFactor = 2.4 // how much enlarge when double click video
-let win, smallPosition, bigPosition
+
+let win, smallPosition, bigPosition, isLinuxWindowReadyToShow
 
 const updatePositions = {
   'big': () => {
@@ -42,6 +47,7 @@ function createWindow () {
     transparent: true,
     alwaysOnTop: true,
     maximizable: false,
+    show: !isLinux,
     webPreferences: {
       nodeIntegration: false,
       contextIsolation: true,
@@ -49,15 +55,28 @@ function createWindow () {
     }
   })
 
-  win.loadFile('index.html');
+  win.loadFile('index.html')
   win.setVisibleOnAllWorkspaces(true)
 
+  win.on("ready-to-show", () => {
+    const shouldCreateNewWindowForLinux = isLinux && !isLinuxWindowReadyToShow
+
+    if (shouldCreateNewWindowForLinux) {
+      createWindow()
+      
+      win.show()
+
+      isLinuxWindowReadyToShow = true
+    }
+  })
+
+  isLinux && win.on("closed", app.quit)
 }
 
 app.whenReady().then(createWindow)
 
 app.on('window-all-closed', () => {
-  if (process.platform !== 'darwin') {
+  if (!isMac) {
     app.quit()
   }
 })
