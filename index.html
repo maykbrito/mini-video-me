@@ -78,7 +78,10 @@
     window.ondblclick = changeWrapperSize
 
     function changeWrapperSize() {
-      ipcRenderer.send('double-click', isBig) // send signal to main window
+      const { MiniVideoMe } = window
+      
+      MiniVideoMe.sendDoubleClick(isBig)
+      
       isBig = !isBig // toggle it
     }
   </script>

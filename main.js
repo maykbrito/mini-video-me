@@ -1,4 +1,5 @@
 const { app, BrowserWindow, ipcMain} = require('electron')
+const { join } = require("path")
 const customSize = 300
 const bigFactor = 2.4 // how much enlarge when double click video
 let win, smallPosition, bigPosition
@@ -42,7 +43,9 @@ function createWindow () {
     alwaysOnTop: true,
     maximizable: false,
     webPreferences: {
-      nodeIntegration: true
+      nodeIntegration: false,
+      contextIsolation: true,
+      preload: join(__dirname, "bridge.js"),
     }
   })
 
