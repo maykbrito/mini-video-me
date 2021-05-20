@@ -66,7 +66,6 @@
     import './index.js'
 
     /* Change Size */
-    const { ipcRenderer } = require('electron'); // EventEmmiter to comunicate with main window
     let isBig = false; // the window starts small
 
     window.addEventListener('keydown', function({ key }) {
@@ -78,7 +77,10 @@
     window.ondblclick = changeWrapperSize
 
     function changeWrapperSize() {
-      ipcRenderer.send('double-click', isBig) // send signal to main window
+      const { MiniVideoMe } = window
+      
+      MiniVideoMe.sendDoubleClick(isBig)
+      
       isBig = !isBig // toggle it
     }
   </script>
