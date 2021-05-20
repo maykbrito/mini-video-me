@@ -17,16 +17,6 @@
     body {
       margin: 0;
       padding: 0;
-
-      display: flex;
-      align-items: center;
-      justify-content: center;
-
-      overflow: hidden;
-
-      height: 100vh;
-
-      background: transparent
     }
 
     .rounded {
@@ -35,21 +25,18 @@
     }
 
     video {
-      width: 180%;
-      object-fit: cover;
-      /* aspect-ratio: 16 / 9; */
+      max-height: 100vh;
       pointer-events: none;
-      margin-left: -40%;
     }
     
     .flip { 
       transform: rotateY(180deg);
-      -webkit-transform: rotateY(180deg); /* Safari and Chrome */
-      -moz-transform: rotateY(180deg); /* Firefox */
     }
 
     #wrapper {
-      background: transparent;
+      display: flex;
+      justify-content: center;
+      align-items: center;
     }
   </style>
 </head>
