@@ -163,7 +163,7 @@ async function createTrayMenu () {
 
   mainTray.setContextMenu(contextMenu)
 
-  mainTray.on('click', mainTray.popUpContextMenu)
+  mainTray.on('click', () => mainTray.popUpContextMenu())
 }
 
 /**
