@@ -36,6 +36,10 @@ const trayIcon = path.resolve(__dirname, 'assets', 'tray', 'trayTemplate.png')
  * Register global shortcuts
  */
 function registerShortcuts () {
+  screenController = new ScreenController(win)
+
+  screenController.moveWindowToScreenEdge()
+
   globalShortcut.register(`${userPreferences.store.shortcuts.moveCamera.up}`, () => {
     screenController.moveWindowToScreenEdge(screenController.calculateScreenMovement('top'))
   })
@@ -52,20 +56,12 @@ function registerShortcuts () {
     screenController.moveWindowToScreenEdge(screenController.calculateScreenMovement('right'))
   })
 
-  globalShortcut.register(`${userPreferences.store.shortcuts.resizeCamera.small}`, () => {
-    screenController.setWindowSize('small')
-  })
-
-  globalShortcut.register(`${userPreferences.store.shortcuts.resizeCamera.medium}`, () => {
-    screenController.setWindowSize('medium')
+  globalShortcut.register(`${userPreferences.store.shortcuts.resizeCamera.initial}`, () => {
+    screenController.setWindowSize('initial')
   })
 
   globalShortcut.register(`${userPreferences.store.shortcuts.resizeCamera.large}`, () => {
     screenController.setWindowSize('large')
-  })
-
-  globalShortcut.register(`${userPreferences.store.shortcuts.resizeCamera.fullscreen}`, () => {
-    screenController.setWindowSize('fullscreen')
   })
 
   globalShortcut.register(`${userPreferences.store.shortcuts.hideCamera}`, () => {
@@ -101,25 +97,13 @@ async function createTrayMenu () {
           label: 'Small',
           checked: true,
           click () {
-            return screenController.setWindowSize('small')
-          }
-        },
-        {
-          label: 'Medium',
-          click () {
-            return screenController.setWindowSize('medium')
+            return screenController.setWindowSize('initial')
           }
         },
         {
           label: 'Large',
           click () {
             return screenController.setWindowSize('large')
-          }
-        },
-        {
-          label: 'Fullscreen',
-          click () {
-            return screenController.setWindowSize('fullscreen')
           }
         }
       ]
@@ -193,7 +177,7 @@ async function createWindow () {
     maxWidth: 300,
     maxHeight: 300,
     frame: false,
-    titleBarStyle: 'hidden',
+    titleBarStyle: 'customButtonsOnHover',
     transparent: true,
     alwaysOnTop: true,
     maximizable: false,
@@ -205,10 +189,6 @@ async function createWindow () {
     }
   })
 
-  screenController = new ScreenController(win)
-
-  screenController.moveWindowToScreenEdge()
-
   win.loadFile('index.html')
   win.setVisibleOnAllWorkspaces(true)
 
@@ -216,7 +196,9 @@ async function createWindow () {
     const shouldCreateNewWindowForLinux = isLinux && !isLinuxWindowReadyToShow
 
     if (shouldCreateNewWindowForLinux) {
-      createWindow()
+      win.hide()
+
+      createWindow().then(registerShortcuts)
 
       win.show()
 
@@ -228,9 +210,9 @@ async function createWindow () {
 }
 
 app.whenReady()
-  .then(registerShortcuts)
   .then(createWindow)
   .then(createTrayMenu)
+  .then(registerShortcuts)
 
 app.on('window-all-closed', () => {
   if (!isMac) {

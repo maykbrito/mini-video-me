@@ -55,16 +55,10 @@ const userPreferencesSchema = {
       resizeCamera: {
         type: JSONSchemaType.Object,
         properties: {
-          small: {
-            type: JSONSchemaType.String
-          },
-          medium: {
+          initial: {
             type: JSONSchemaType.String
           },
           large: {
-            type: JSONSchemaType.String
-          },
-          fullscreen: {
             type: JSONSchemaType.String
           }
         }
@@ -106,12 +100,10 @@ const userPreferences = new Store({
         right: 'Shift+Alt+CommandOrControl+Right'
       },
       resizeCamera: {
-        small: 'Shift+Alt+CommandOrControl+1',
-        medium: 'Shift+Alt+CommandOrControl+2',
-        large: 'Shift+Alt+CommandOrControl+3',
-        fullscreen: 'Shift+Alt+CommandOrControl+4'
+        initial: 'Shift+Alt+CommandOrControl+1',
+        large: 'Shift+Alt+CommandOrControl+2'
       },
-      hideCamera: 'Shift+Alt+CommandOrControl+5'
+      hideCamera: 'Shift+Alt+CommandOrControl+3'
     },
     rounded: true,
     flipHorizontal: false,
