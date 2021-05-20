@@ -187,6 +187,7 @@ async function createTrayMenu () {
  */
 async function createWindow () {
   win = new BrowserWindow({
+    icon: nativeImage.createFromPath(path.join(__dirname, 'build', 'icon.png')),
     width: 300,
     height: 300,
     maxWidth: 300,

@@ -7,25 +7,22 @@
   <title>Mini Video Me</title>
   <style>
     body, #video-grid {
-      -webkit-app-region: drag; /* move window */
+      -webkit-app-region: drag;
     }
 
     button {
-      -webkit-app-region: nodrag; /* window buttons */
+      -webkit-app-region: nodrag;
     }
 
     body {
       margin: 0;
       padding: 0;
-    }
-
-    .rounded {
-      border-radius: 9999px;
       overflow: hidden;
     }
 
     video {
-      max-height: 100vh;
+      height: 100vh;
+      border-radius: 9999px;
       pointer-events: none;
     }
     
@@ -34,15 +31,56 @@
     }
 
     #wrapper {
+      width: 100vw;
+      height: 100vh;
       display: flex;
       justify-content: center;
+
+      margin: auto;
+
+      position: relative;
+      box-sizing: border-box;
+
+      color: #FFF;
+      background: transparent;
+      background-clip: padding-box;
+      border: solid 5px transparent;
+      border-radius: 16px;
+    }
+
+    #wrapper:before {
+      content: '';
+      position: absolute;
+      top: 0; right: 0; bottom: 0; left: 0;
+      z-index: -1;
+      margin: -5px;
+      border-radius: inherit;
+      background: linear-gradient(to right, #988BC7, #FF79C6);
+    }
+
+    .video-wrapper {
+      overflow: hidden;
+      display: flex;
       align-items: center;
+      justify-content: center;
+      border-radius: 16px;
+      background: transparent;
+    }
+
+    #wrapper.rounded {
+      border-radius: 9999px;
+    }
+
+    #wrapper.rounded .video-wrapper {
+      border-radius: 9999px;
     }
   </style>
 </head>
 <body>
   <div id="wrapper">
-    <video id="video" autoplay muted></video>
+    <div class="video-wrapper">
+      <video id="video" autoplay muted></video>
+    </div>
   </div>
 
   <script type="module" async src="./index.js"></script>

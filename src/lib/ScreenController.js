@@ -58,7 +58,7 @@ class ScreenController {
       this.browserWindow.setMaximumSize(width, height)
       this.browserWindow.setSize(width, height)
 
-      this.moveWindowToScreenEdge(this.currentScreenEdge)
+      // this.moveWindowToScreenEdge(this.currentScreenEdge)
     }
   }
 
