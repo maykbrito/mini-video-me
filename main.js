@@ -9,6 +9,10 @@ const bigFactor = 2.4 // how much enlarge when double click video
 
 let win, smallPosition, bigPosition, isLinuxWindowReadyToShow
 
+if (isLinux) {
+  app.disableHardwareAcceleration()
+}
+
 const updatePositions = {
   'big': () => {
     // memo small position
