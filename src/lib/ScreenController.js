@@ -45,7 +45,7 @@ class ScreenController {
 
   /**
    * Set window size
-   * @param {'initial' | 'large' | 'fullscreen'} size
+   * @param {'initial' | 'large' } size
    */
   setWindowSize (size) {
     this.currentScreenSize = size
