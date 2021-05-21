@@ -207,6 +207,11 @@ async function createWindow () {
   })
 
   isLinux && win.on('closed', app.quit)
+
+  if (isMac) {
+    const { doubleClick } = require('./macOnly')
+    doubleClick(win)
+  }
 }
 
 app.whenReady()

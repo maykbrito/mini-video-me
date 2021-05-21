@@ -16,3 +16,17 @@ window.addEventListener('keydown', (e) => {
     Cam.controls[e.key]()
   }
 })
+
+/* Mac Only: Change Size */
+let isBig = false // the window starts small
+
+window.ondblclick = changeWrapperSize
+
+function changeWrapperSize () {
+  const { MiniVideoMe } = window
+
+  MiniVideoMe.sendDoubleClick(isBig)
+
+  isBig = !isBig // toggle it
+}
+/* End Mac Only */
