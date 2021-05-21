@@ -69,7 +69,9 @@
     }
 
     #wrapper.rounded {
-      border-radius: 9999px;
+      border-radius: 50%;
+      /* fix border-radius on Mac Mojave */
+      height: calc(100vw - 1px); 
     }
 
     #wrapper.rounded .video-wrapper {
