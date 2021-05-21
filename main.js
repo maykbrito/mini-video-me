@@ -67,6 +67,11 @@ function registerShortcuts () {
   globalShortcut.register(`${userPreferences.store.shortcuts.hideCamera}`, () => {
     screenController.toggleWindowVisibility()
   })
+
+  if (isMac) {
+    const { changeWindowWithDoubleClick } = require('./macOnly')
+    changeWindowWithDoubleClick(screenController)
+  }
 }
 
 async function createTrayMenu () {
@@ -207,11 +212,6 @@ async function createWindow () {
   })
 
   isLinux && win.on('closed', app.quit)
-
-  if (isMac) {
-    const { doubleClick } = require('./macOnly')
-    doubleClick(win)
-  }
 }
 
 app.whenReady()
