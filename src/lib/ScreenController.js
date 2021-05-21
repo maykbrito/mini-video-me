@@ -130,7 +130,7 @@ class ScreenController {
         break
     }
 
-    this.browserWindow.setBounds(bounds)
+    this.browserWindow.setBounds(bounds, true)
   }
 
   /**
