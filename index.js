@@ -27,6 +27,17 @@ function changeWrapperSize () {
 
   MiniVideoMe.sendDoubleClick(isBig)
 
-  isBig = !isBig // toggle it
+/* tested only on Mac */
+const hideCursor = {
+  timer: null,
+  mousemove: (e) => {
+    document.body.style.cursor = 'default'
+    clearTimeout(hideCursor.timer)
+    hideCursor.timer = setTimeout(() => {
+      document.body.style.cursor = 'none'
+    }, 1000)
+  }
 }
-/* End Mac Only */
+
+window.addEventListener('mousemove', hideCursor.mousemove)
+/* end tested only on Mac */
