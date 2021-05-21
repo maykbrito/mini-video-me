@@ -213,6 +213,7 @@ app.whenReady()
   .then(createWindow)
   .then(createTrayMenu)
   .then(registerShortcuts)
+  .catch(e => console.error(e))
 
 app.on('window-all-closed', () => {
   if (!isMac) {
