@@ -1,7 +1,5 @@
 const { BrowserWindow, screen } = require('electron') // eslint-disable-line
 
-const windowPositionByScreenSize = {}
-
 class ScreenController {
   /**
    * @param {BrowserWindow} browserWindow
@@ -13,29 +11,47 @@ class ScreenController {
     this.currentScreenEdge = initialScreenEdge
     this.currentScreenSize = initialScreenSize
 
-    this.listenScreenMovement()
+    this.screenSizes = { initial: 300, large: 600 }
+    this.windowPositionByScreenSize = {}
+
+    this.setCurrentWindowXY()
+    this.setInitialWindowScreenSizesPositionValues()
+    this.registerScreenMovementListener()
 
     this.isScreenVisible = true
   }
 
-  listenScreenMovement () {
-    this.browserWindow.on('move', event => {
-      const { x, y } = this.browserWindow.getBounds()
-
-      windowPositionByScreenSize[this.currentScreenSize] = { x, y }
+  setInitialWindowScreenSizesPositionValues () {
+    Object.keys(this.screenSizes).forEach(sizeLabel => {
+      this.windowPositionByScreenSize[sizeLabel] = { x: this.currentX, y: this.currentY }
     })
+  }
+
+  setWindowPositionByScreenSize () {
+    this.windowPositionByScreenSize[this.currentScreenSize] = { x: this.currentX, y: this.currentY }
+  }
+
+  registerScreenMovementListener () {
+    this.browserWindow.on('move', event => {
+      // add some action when moving
+    }, this)
+  }
+
+  setCurrentWindowXY () {
+    this.currentX = this.browserWindow.getBounds().x
+    this.currentY = this.browserWindow.getBounds().y
+  }
+
+  memoLastWindowPosition () {
+    this.setWindowPositionByScreenSize()
+    this.setCurrentWindowXY()
   }
 
   /**
    * Return screen size in pixels
    */
   getScreenSizeInPixels () {
-    const screenSizes = {
-      initial: 300,
-      large: 600
-    }
-
-    const windowSize = screenSizes[this.currentScreenSize]
+    const windowSize = this.screenSizes[this.currentScreenSize]
 
     return {
       width: windowSize,
@@ -49,20 +65,13 @@ class ScreenController {
    */
   setWindowSize (size) {
     this.currentScreenSize = size
+    this.memoLastWindowPosition()
 
     const { width, height } = this.getScreenSizeInPixels()
+    const { x, y } = this.windowPositionByScreenSize[size]
 
     this.browserWindow.setMaximumSize(width, height)
-    this.browserWindow.setSize(width, height)
-
-    if (windowPositionByScreenSize[size]) {
-      const { x, y } = windowPositionByScreenSize[size]
-
-      this.browserWindow.setBounds({
-        x,
-        y
-      })
-    }
+    this.browserWindow.setBounds({ width, height, x, y }, true)
   }
 
   /**
