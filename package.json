@@ -1,19 +1,25 @@
 {
-  "name": "mini-video-me",
+  "name": "MiniVideo(webcam)",
   "version": "3.0.0",
-  "description": "",
+  "description": "A small webcam player built with html, css, javascript and electron",
   "main": "main.js",
   "scripts": {
-    "start": "electron .",
-    "build": "electron-packager . --icon assets/webcam --overwrite --out=packages"
+    "start": "electron-forge start",
+    "build": "electron-packager . --icon assets/webcam --overwrite --out=packages",
+    "package": "electron-forge package",
+    "make": "electron-forge make"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "electron": "^12.0.2",
+    "@electron-forge/cli": "^6.0.0-beta.55",
+    "@electron-forge/maker-deb": "^6.0.0-beta.55",
+    "@electron-forge/maker-rpm": "^6.0.0-beta.55",
+    "@electron-forge/maker-squirrel": "^6.0.0-beta.55",
+    "@electron-forge/maker-zip": "^6.0.0-beta.55",
     "@types/electron": "^1.6.10",
-    "electron-packager": "^15.2.0",
+    "electron": "^12.0.2",
     "eslint": "^7.25.0",
     "eslint-config-standard": "^16.0.2",
     "eslint-plugin-import": "^2.22.1",
@@ -22,7 +28,35 @@
   },
   "dependencies": {
     "chokidar": "^3.5.1",
+    "electron-squirrel-startup": "^1.0.0",
     "electron-store": "^8.0.0",
     "json-schema-typed": "^7.0.3"
+  },
+  "config": {
+    "forge": {
+      "packagerConfig": {},
+      "makers": [
+        {
+          "name": "@electron-forge/maker-squirrel",
+          "config": {
+            "name": "MiniVideo(webcam)"
+          }
+        },
+        {
+          "name": "@electron-forge/maker-zip",
+          "platforms": [
+            "darwin"
+          ]
+        },
+        {
+          "name": "@electron-forge/maker-deb",
+          "config": {}
+        },
+        {
+          "name": "@electron-forge/maker-rpm",
+          "config": {}
+        }
+      ]
+    }
   }
 }
