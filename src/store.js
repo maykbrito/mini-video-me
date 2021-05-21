@@ -82,6 +82,7 @@ const userPreferencesSchema = {
 const userPreferences = new Store({
   schema: userPreferencesSchema,
   watch: true,
+  clearInvalidConfig: true,
   defaults: {
     camera: {
       width: 1920,
