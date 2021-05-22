@@ -1,4 +1,4 @@
-const { app, BrowserWindow, Tray, Menu, globalShortcut, screen, nativeImage } = require('electron')
+const { app, BrowserWindow, Tray, Menu, globalShortcut, screen, nativeImage, ipcMain } = require('electron')
 const { ScreenController } = require('./src/lib/ScreenController')
 const path = require('path')
 const { userPreferences } = require('./src/store')
@@ -29,6 +29,11 @@ let mainTray
  * @type {ScreenController}
  */
 let screenController
+
+/**
+ * @type {Array}
+ */
+let videoInputDevices
 
 const trayIcon = path.resolve(__dirname, 'assets', 'tray', 'trayTemplate.png')
 
@@ -151,6 +156,18 @@ async function createTrayMenu () {
       })
     },
     {
+      type: 'submenu',
+      label: 'Video Input Source',
+      submenu: videoInputDevices ? videoInputDevices.map((device, index) => {
+        return {
+          label: device.label,
+          click() {
+            win.webContents.send('videoInputChange', index)
+          }
+        }
+      }) : []
+    },
+    {
       type: 'separator'
     },
     {
@@ -214,9 +231,14 @@ async function createWindow () {
   }
 }
 
+ipcMain.on('videoInputDevices', (event, args) => {
+  videoInputDevices = JSON.parse(args)
+  createTrayMenu()
+})
+
 app.whenReady()
   .then(createWindow)
-  .then(createTrayMenu)
+  // .then(createTrayMenu)
   .then(registerShortcuts)
   .catch(e => console.error(e))
 
