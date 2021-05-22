@@ -69,7 +69,7 @@ function registerShortcuts () {
   })
 
   if (isMac) {
-    ipcMain.on('double-click', event => {
+    ipcMain.on('double-click', () => {
       screenController.toggleWindowSize()
     })
   }
