@@ -4,14 +4,25 @@
   "description": "",
   "main": "main.js",
   "scripts": {
-    "start": "electron --enable-transparent-visuals .",
+    "start": "electron .",
     "build": "electron-packager . --icon assets/webcam --overwrite --out=packages"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "electron": "^10.1.1",
-    "electron-packager": "^15.2.0"
+    "electron": "^12.0.2",
+    "@types/electron": "^1.6.10",
+    "electron-packager": "^15.2.0",
+    "eslint": "^7.25.0",
+    "eslint-config-standard": "^16.0.2",
+    "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-promise": "^4.3.1"
+  },
+  "dependencies": {
+    "chokidar": "^3.5.1",
+    "electron-store": "^8.0.0",
+    "json-schema-typed": "^7.0.3"
   }
 }

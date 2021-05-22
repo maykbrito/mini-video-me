@@ -1,123 +1,233 @@
-const { app, BrowserWindow, Tray, Menu, ipcMain } = require('electron');
-const path = require('path');
-const customSize = 300;
-const bigFactor = 2.4; // how much enlarge when double click video
-let win, smallPosition, bigPosition, tray, videoInputArrayFormatted;
+const { app, BrowserWindow, Tray, Menu, globalShortcut, screen, nativeImage } = require('electron')
+const { ScreenController } = require('./src/lib/ScreenController')
+const path = require('path')
+const { userPreferences } = require('./src/store')
 
-const updatePositions = {
-  big: () => {
-    // memo small position
-    smallPosition = win.getBounds();
+const isLinux = process.platform === 'linux'
+const isMac = process.platform === 'darwin'
 
-    if (!bigPosition) {
-      // first time enter, configure big video
-      const { x, y } = smallPosition;
-      const proportion = customSize * bigFactor;
-      bigPosition = {
-        x: x - proportion,
-        y: y - proportion,
-        width: proportion,
-        height: proportion
-      };
+if (isLinux) {
+  app.disableHardwareAcceleration()
+}
+
+/**
+ * @type {BrowserWindow}
+ */
+let win
+
+/**
+ * @type {boolean}
+ */
+let isLinuxWindowReadyToShow
+
+/**
+ * @type {Tray}
+ */
+let mainTray
+
+/**
+ * @type {ScreenController}
+ */
+let screenController
+
+const trayIcon = path.resolve(__dirname, 'assets', 'tray', 'trayTemplate.png')
+
+/**
+ * Register global shortcuts
+ */
+function registerShortcuts () {
+  screenController = new ScreenController(win)
+
+  screenController.moveWindowToScreenEdge()
+
+  globalShortcut.register(`${userPreferences.store.shortcuts.moveCamera.up}`, () => {
+    screenController.moveWindowToScreenEdge(screenController.calculateScreenMovement('top'))
+  })
+
+  globalShortcut.register(`${userPreferences.store.shortcuts.moveCamera.down}`, () => {
+    screenController.moveWindowToScreenEdge(screenController.calculateScreenMovement('bottom'))
+  })
+
+  globalShortcut.register(`${userPreferences.store.shortcuts.moveCamera.left}`, () => {
+    screenController.moveWindowToScreenEdge(screenController.calculateScreenMovement('left'))
+  })
+
+  globalShortcut.register(`${userPreferences.store.shortcuts.moveCamera.right}`, () => {
+    screenController.moveWindowToScreenEdge(screenController.calculateScreenMovement('right'))
+  })
+
+  globalShortcut.register(`${userPreferences.store.shortcuts.resizeCamera.initial}`, () => {
+    screenController.setWindowSize('initial')
+  })
+
+  globalShortcut.register(`${userPreferences.store.shortcuts.resizeCamera.large}`, () => {
+    screenController.setWindowSize('large')
+  })
+
+  globalShortcut.register(`${userPreferences.store.shortcuts.hideCamera}`, () => {
+    screenController.toggleWindowVisibility()
+  })
+}
+
+async function createTrayMenu () {
+  mainTray = new Tray(trayIcon)
+
+  const availableDisplays = screen.getAllDisplays()
+
+  const contextMenu = Menu.buildFromTemplate([
+    {
+      label: 'Mini Video Me',
+      icon: trayIcon,
+      enabled: false
+    },
+    {
+      label: 'Settings',
+      click () {
+        return userPreferences.openInEditor()
+      }
+    },
+    {
+      type: 'separator'
+    },
+    {
+      type: 'submenu',
+      label: 'Window size',
+      submenu: [
+        {
+          label: 'Small',
+          checked: true,
+          click () {
+            return screenController.setWindowSize('initial')
+          }
+        },
+        {
+          label: 'Large',
+          click () {
+            return screenController.setWindowSize('large')
+          }
+        }
+      ]
+    },
+    {
+      type: 'submenu',
+      label: 'Screen edge',
+      submenu: [
+        {
+          label: 'Top left',
+          click () {
+            return screenController.moveWindowToScreenEdge('top-left')
+          }
+        },
+        {
+          label: 'Top right',
+          click () {
+            return screenController.moveWindowToScreenEdge('top-right')
+          }
+        },
+        {
+          label: 'Bottom right',
+          click () {
+            return screenController.moveWindowToScreenEdge('bottom-right')
+          }
+        },
+        {
+          label: 'Bottom left',
+          click () {
+            return screenController.moveWindowToScreenEdge('bottom-left')
+          }
+        }
+      ]
+    },
+    {
+      type: 'submenu',
+      label: 'Display',
+      submenu: availableDisplays.map(display => {
+        return {
+          label: `Display ${display.id} (${display.size.width}x${display.size.height})`,
+          click () {
+            return screenController.setActiveDisplay(display.id)
+          }
+        }
+      })
+    },
+    {
+      type: 'separator'
+    },
+    {
+      type: 'normal',
+      label: 'Close',
+      role: 'quit',
+      enabled: true
     }
+  ])
 
-    // move and make it bigger
-    win.setBounds(bigPosition, true);
-  },
-  small: () => {
-    // memo big position
-    bigPosition = win.getBounds();
+  mainTray.setContextMenu(contextMenu)
 
-    // move and make it smaller
-    win.setBounds(smallPosition, true);
-  }
-};
+  mainTray.on('click', () => mainTray.popUpContextMenu())
+}
 
-ipcMain.on('double-click', (event, arg) => {
-  const size = arg ? 'small' : 'big';
-  updatePositions[size]();
-});
-
-function createWindow() {
+/**
+ * Create main electron window
+ */
+async function createWindow () {
   win = new BrowserWindow({
-    width: customSize,
-    height: customSize,
+    icon: nativeImage.createFromPath(path.join(__dirname, 'build', 'icon.png')),
+    width: 300,
+    height: 300,
+    maxWidth: 300,
+    maxHeight: 300,
     frame: false,
     titleBarStyle: 'customButtonsOnHover',
     transparent: true,
     alwaysOnTop: true,
     maximizable: false,
+    show: !isLinux,
     webPreferences: {
-      nodeIntegration: true
+      nodeIntegration: false,
+      contextIsolation: true,
+      preload: path.join(__dirname, 'bridge.js')
     }
-  });
+  })
 
-  win.loadFile('index.html');
-  win.setSkipTaskbar(true); //remove application from task bar
-  win.setVisibleOnAllWorkspaces(true);
-}
+  win.loadFile('index.html')
+  win.setVisibleOnAllWorkspaces(true)
 
-app.whenReady().then(createWindow);
+  win.on('ready-to-show', () => {
+    const shouldCreateNewWindowForLinux = isLinux && !isLinuxWindowReadyToShow
 
-function createTray(videoInputMenuItens) {
-  tray = new Tray(path.join(__dirname, 'assets', 'webcam.ico'));
+    if (shouldCreateNewWindowForLinux) {
+      win.hide()
 
-  tray.setToolTip('Mini Video Me');
-  tray.setContextMenu(trayMenuBuilder(videoInputMenuItens));
-}
+      createWindow().then(registerShortcuts)
 
-function trayMenuBuilder(videoInputArray) {
-  const contextMenu = Menu.buildFromTemplate([
-    { label: 'Video Input Source', submenu: videoInputArray },
-    {
-      label: 'Quit',
-      click() {
-        app.quit();
-      }
+      win.show()
+
+      isLinuxWindowReadyToShow = true
     }
-  ]);
-  return contextMenu;
+  })
+
+  isLinux && win.on('closed', app.quit)
+
+  if (isMac) {
+    const { doubleClick } = require('./macOnly')
+    doubleClick(win)
+  }
 }
 
-function menuItemBuilder(label, index) {
-  return {
-    label: label,
-    type: 'radio',
-    checked: index === 0,
-    click() {
-      win.webContents.send('videoInputChange', index);
-      updateMenuTray(index);
-    }
-  };
-}
-
-function updateMenuTray(clickedIndex) {
-  videoInputArrayFormatted.forEach((item, index) => {
-    return {
-      ...item,
-      checked: index === clickedIndex
-    };
-  });
-}
-
-ipcMain.on('videoInput', (event, arg) => {
-  const videoInputArray = JSON.parse(arg);
-
-  videoInputArrayFormatted = videoInputArray.map((input, index) => {
-    return menuItemBuilder(input.label, index);
-  });
-
-  createTray(videoInputArrayFormatted);
-});
+app.whenReady()
+  .then(createWindow)
+  .then(createTrayMenu)
+  .then(registerShortcuts)
+  .catch(e => console.error(e))
 
 app.on('window-all-closed', () => {
-  if (process.platform !== 'darwin') {
-    app.quit();
+  if (!isMac) {
+    app.quit()
   }
-});
+})
 
 app.on('activate', () => {
   if (BrowserWindow.getAllWindows().length === 0) {
-    createWindow();
+    createWindow()
   }
-});
+})
