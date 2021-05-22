@@ -156,6 +156,14 @@ class ScreenController {
   }
 
   /**
+   * Toggle window size (initial/large)
+   */
+  toggleWindowSize () {
+    const size = this.currentScreenSize === 'initial' ? 'large' : 'initial'
+    this.setWindowSize(size)
+  }
+
+  /**
    * Set active display by ID
    * @param {number} displayId
    */
