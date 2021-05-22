@@ -1,4 +1,4 @@
-const { app, BrowserWindow, Tray, Menu, globalShortcut, screen, nativeImage } = require('electron')
+const { app, BrowserWindow, Tray, Menu, globalShortcut, screen, nativeImage, ipcMain } = require('electron')
 const { ScreenController } = require('./src/lib/ScreenController')
 const path = require('path')
 const { userPreferences } = require('./src/store')
@@ -69,8 +69,9 @@ function registerShortcuts () {
   })
 
   if (isMac) {
-    const { changeWindowWithDoubleClick } = require('./macOnly')
-    changeWindowWithDoubleClick(screenController)
+    ipcMain.on('double-click', event => {
+      screenController.toggleWindowSize()
+    })
   }
 }
 
