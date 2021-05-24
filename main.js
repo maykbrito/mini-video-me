@@ -1,4 +1,4 @@
-const { app, BrowserWindow, Tray, Menu, globalShortcut, screen, nativeImage } = require('electron')
+const { app, BrowserWindow, Tray, Menu, globalShortcut, screen, nativeImage, ipcMain } = require('electron')
 const { ScreenController } = require('./src/lib/ScreenController')
 const path = require('path')
 const { userPreferences } = require('./src/store')
@@ -67,6 +67,12 @@ function registerShortcuts () {
   globalShortcut.register(`${userPreferences.store.shortcuts.hideCamera}`, () => {
     screenController.toggleWindowVisibility()
   })
+
+  if (isMac) {
+    ipcMain.on('double-click', () => {
+      screenController.toggleWindowSize()
+    })
+  }
 }
 
 async function createTrayMenu () {
@@ -207,11 +213,6 @@ async function createWindow () {
   })
 
   isLinux && win.on('closed', app.quit)
-
-  if (isMac) {
-    const { doubleClick } = require('./macOnly')
-    doubleClick(win)
-  }
 }
 
 app.whenReady()

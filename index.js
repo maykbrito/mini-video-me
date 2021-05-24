@@ -18,14 +18,14 @@ window.addEventListener('keydown', (e) => {
 })
 
 /* Mac Only: Change Size */
-let isBig = false // the window starts small
-
 window.ondblclick = changeWrapperSize
 
 function changeWrapperSize () {
   const { MiniVideoMe } = window
 
-  MiniVideoMe.sendDoubleClick(isBig)
+  MiniVideoMe.sendDoubleClick()
+}
+/* End Mac Only */
 
 /* tested only on Mac */
 const hideCursor = {
