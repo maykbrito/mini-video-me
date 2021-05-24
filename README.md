@@ -1,60 +1,48 @@
 <p align="center">
-<img src="./assets/webcam.png" width="190px"/>
+  <img src="./build/icon.png" width="140px" />
 </p>
 
-<h1 align="center">Mini video me 📹</h1>
-<p>
-  <img alt="Version" src="https://img.shields.io/badge/version-1.0.0-blue.svg?cacheSeconds=2592000" />
+<h1 align="center">Mini Video Me</h1>
+<p align="center">A small webcam player focused on providing an easy way to add and control your webcam during recordings.</p>
+
+<h3 align="center">
   <a href="#" target="_blank">
-    <img alt="License: ISC" src="https://img.shields.io/badge/License-ISC-yellow.svg" />
+    <img alt="License: MIT" src="https://img.shields.io/badge/License-MIT-yellow.svg" />
   </a>
   <a href="https://twitter.com/maykbrito" target="_blank">
     <img alt="Twitter: maykbrito" src="https://img.shields.io/twitter/follow/maykbrito.svg?style=social" />
   </a>
-</p>
+</h3>
 
-> A small webcam player built with html, css, javascript and electron
+<br />
 
-*Tested only on MacOS and Windows 10*
+> 🚧 This app is currently under development, to run it you should download the source code, install dependencies and then run with Node.js 🚧
 
+## Getting started
 
-## Install
-With the terminal open in the project, execute the following command to be able to install the dependencies:
-```sh
-npm install
-```
-
-## Usage
-
-You will need change your camera configuration in `./cameraConfig.js` because cameras have different proportions, like: width, height, frame rates and aspect ratios.
-
-You'll need to know about your camera OR try to not mess with `width`, `height`, `aspectRatio` and `frameRate` options, like this
-
-```js
-export default {
-    // width: 1920,
-    // height: 1080,
-    // aspectRatio: 1.77778,
-    // frameRate: 59.94,
-    flipHorizontal: true, // start flipped
-    rounded: true, // border radius for camera
-    scale: 1.1, // zoom?
-    
-    // move point of interest
-    // number will be converted to percent
-    horizontal: "-20", // 0 left - translateX
-    vertical: "0", // 0 top - translateY
-}
-```
-
-Then, generate your app with command bellow
+Clone de repository, open its folder and install dependencies with:
 
 ```sh
-npm run build
+yarn
 ```
 
----
-## Shortcuts
+Run it using:
+
+```sh
+yarn start
+```
+
+## Preview
+
+Sample preview running the app:
+
+![Preview](.github/preview.png)
+
+## Usage & settings
+
+After running for the first time you can access the app settings through the tray menu and click on "Settings" to change default shortcuts, camera size, zoom, etc.
+
+### Default shortcuts
 
 <table>
   <thead>
@@ -66,28 +54,48 @@ npm run build
   <tbody>
     <tr>
       <td>+/-</td>
-      <td>Zoom in/out (inside wrapper)</td>
+      <td>Zoom in/out (window must be focused)</td>
     </tr>
     <tr>
       <td>/</td>
-      <td>Flip horizontal</td>
+      <td>Flip horizontal (window must be focused)</td>
     </tr>
     <tr>
       <td>o</td>
-      <td>Toggle wrap rounded cam</td>
+      <td>Toggle rounded camera (window must be focused)</td>
     </tr>
     <tr>
-      <td>Arrow up/ Down / Left / Right</td>
-      <td>Move cam position (inside wrapper)</td>
+      <td>Arrow Up / Down / Left / Right</td>
+      <td>Adjust video offset (window must be focused)</td>
     </tr>
     <tr>
-      <td>0 or *</td>
-      <td>Increase size of cam</td>
+      <td>Ctrl+Shift+Alt+Up</td>
+      <td>Move camera to upper screen edge</td>
+    </tr>
+    <tr>
+      <td>Ctrl+Shift+Alt+Down</td>
+      <td>Move camera to lower screen edge</td>
+    </tr>
+    <tr>
+      <td>Ctrl+Shift+Alt+Right</td>
+      <td>Move camera to right screen edge</td>
+    </tr>
+    <tr>
+      <td>Ctrl+Shift+Alt+1</td>
+      <td>Set camera size to small</td>
+    </tr>
+    <tr>
+      <td>Ctrl+Shift+Alt+2</td>
+      <td>Set camera size to large</td>
+    </tr>
+    <tr>
+      <td>Ctrl+Shift+Alt+3</td>
+      <td>Toggle camera visibility</td>
     </tr>
   </tbody>
 </table>
 
----
+> Inside MacOS you can use Command instead of Ctrl.
 
 ## Author
 
@@ -100,6 +108,3 @@ npm run build
 ## Show your support
 
 Give a ⭐️ if this project helped you!
-
-***
-_This README was generated with ❤️ by [readme-md-generator](https://github.com/kefranabg/readme-md-generator)_
