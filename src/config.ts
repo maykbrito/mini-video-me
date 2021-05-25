@@ -1,5 +1,5 @@
 const userPreferences = window.MiniVideoMe.config
- 
+
 const config = {
   width: Number(userPreferences.camera.width),
   height: Number(userPreferences.camera.height),
@@ -9,6 +9,6 @@ const config = {
   scale: Number(userPreferences.zoom ?? 1),
   horizontal: Number(userPreferences.anchor.x ?? 0),
   vertical: Number(userPreferences.anchor.y ?? 0)
-} 
+}
 
 export { config }

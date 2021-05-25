@@ -13,14 +13,21 @@ navigator.mediaDevices.enumerateDevices().then((devices) => {
   });
 
   navigator.mediaDevices.getUserMedia({
-    video: {...config, deviceId: videoDevices[0].deviceId }|| true
+    video: {...config, deviceId: videoDevices[0].deviceId } || true
   }).then(stream => {
     cameraController.videoElement.srcObject = stream
   })
 
-  MiniVideoMe.sendVideoInputDevices(JSON.stringify(videoDevices))
-})
+  const availableDevices = videoDevices.map((device) => {
+    return {
+      id: device.deviceId,
+      label: device.label,
+    }
+  })
 
+  MiniVideoMe.sendVideoInputDevices(availableDevices)
+}) 
+ 
 const controls: Record<string, () => void> = {
   'ArrowLeft': () => cameraController.adjustOffset('left'),
   'ArrowRight': () => cameraController.adjustOffset('right'),
@@ -38,15 +45,11 @@ window.addEventListener('keydown', (event) => {
   }
 })
 
-function changeVideoInputSource(videoInputIndex: number) {
+MiniVideoMe.on('videoInputChange', (deviceId: string) => {
   navigator.mediaDevices
-    .getUserMedia({
-      video: { ...config, deviceId: videoDevices[videoInputIndex].deviceId } || true
-    })
+    .getUserMedia({ video: { ...config, deviceId } || true })
     .then((stream) => (cameraController.videoElement.srcObject = stream));
-}
-
-MiniVideoMe.on('videoInputChange', (data: number) => changeVideoInputSource(data))
+})
 
 /* Mac Only: Change Size */
 window.ondblclick = changeWrapperSize
