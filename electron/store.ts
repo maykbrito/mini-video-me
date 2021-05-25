@@ -1,12 +1,9 @@
-const electron = require('electron')
-const Store = require('electron-store')
-const chokidar = require('chokidar')
-const { JSONSchemaType } = require('json-schema-typed')
+import electron from 'electron'
+import Store, { Schema } from 'electron-store'
+import chokidar from 'chokidar'
+import { JSONSchemaType } from 'json-schema-typed'
 
-/**
- * @type {Store.Schema}
- */
-const userPreferencesSchema = {
+const userPreferencesSchema: Schema<unknown> = {
   camera: {
     type: JSONSchemaType.Object,
     properties: {
@@ -79,7 +76,7 @@ const userPreferencesSchema = {
   }
 }
 
-const userPreferences = new Store({
+export const userPreferences = new Store({
   schema: userPreferencesSchema,
   watch: true,
   clearInvalidConfig: true,
@@ -116,5 +113,3 @@ chokidar.watch(userPreferences.path).on('change', () => {
   electron.app.relaunch()
   electron.app.exit()
 })
-
-module.exports = { userPreferences }

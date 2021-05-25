@@ -1,7 +1,8 @@
-const { app, BrowserWindow, Tray, Menu, globalShortcut, screen, nativeImage, ipcMain } = require('electron')
-const { ScreenController } = require('./src/lib/ScreenController')
-const path = require('path')
-const { userPreferences } = require('./src/store')
+import { app, BrowserWindow, Tray, Menu, globalShortcut, screen, nativeImage, ipcMain } from 'electron'
+import path from 'path'
+ 
+import { ScreenController } from './lib/ScreenController' 
+import { userPreferences } from './store' 
 
 const isLinux = process.platform === 'linux'
 const isMac = process.platform === 'darwin'
@@ -10,27 +11,12 @@ if (isLinux) {
   app.disableHardwareAcceleration()
 }
 
-/**
- * @type {BrowserWindow}
- */
-let win
+let win: BrowserWindow
+let isLinuxWindowReadyToShow: boolean
+let mainTray: Tray
+let screenController: ScreenController
 
-/**
- * @type {boolean}
- */
-let isLinuxWindowReadyToShow
-
-/**
- * @type {Tray}
- */
-let mainTray
-
-/**
- * @type {ScreenController}
- */
-let screenController
-
-const trayIcon = path.resolve(__dirname, 'assets', 'tray', 'trayTemplate.png')
+const trayIcon = path.resolve(__dirname, '..', 'assets', 'tray', 'trayTemplate.png')
 
 /**
  * Register global shortcuts
@@ -177,7 +163,7 @@ async function createTrayMenu () {
  */
 async function createWindow () {
   win = new BrowserWindow({
-    icon: nativeImage.createFromPath(path.join(__dirname, 'build', 'icon.png')),
+    icon: nativeImage.createFromPath(path.join(__dirname, '..', 'build', 'icon.png')),
     width: 300,
     height: 300,
     maxWidth: 300,
@@ -191,11 +177,11 @@ async function createWindow () {
     webPreferences: {
       nodeIntegration: false,
       contextIsolation: true,
-      preload: path.join(__dirname, 'bridge.js')
+      preload: path.join(app.getAppPath(), 'bridge.js')
     }
   })
 
-  win.loadFile('index.html')
+  win.loadURL('http://localhost:4000')
   win.setVisibleOnAllWorkspaces(true)
 
   win.on('ready-to-show', () => {

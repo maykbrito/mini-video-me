@@ -1,12 +1,12 @@
-const { contextBridge, ipcRenderer } = require('electron')
-const { userPreferences } = require('./src/store')
+import { contextBridge, ipcRenderer } from 'electron'
+import { userPreferences } from './store'
 
 const store = userPreferences.store
 
-const api = {
+export const api = {
   config: store,
 
-  sendDoubleClick: (args) => {
+  sendDoubleClick: (args?: any) => {
     ipcRenderer.send('double-click', args)
   }
 }
