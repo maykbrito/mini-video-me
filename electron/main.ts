@@ -221,7 +221,6 @@ ipcMain.on('videoInputDevices', (event, args) => {
 
 app.whenReady()
   .then(createWindow)
-  .then(createTrayMenu)
   .then(registerShortcuts)
   .catch(e => console.error(e))
 
