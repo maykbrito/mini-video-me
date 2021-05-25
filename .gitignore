@@ -1,3 +1,4 @@
 node_modules
 packages
+dist
 .DS_Store

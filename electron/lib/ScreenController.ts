@@ -1,40 +1,50 @@
-const { BrowserWindow, screen } = require('electron') // eslint-disable-line
+import { BrowserWindow, screen } from 'electron'
 
-class ScreenController {
-  /**
-   * @param {BrowserWindow} browserWindow
-   * @param {'initial' | 'large'} initialScreenSize
-   * @param {'top-left' | 'top-right' | 'bottom-left' | 'bottom-right'} initialScreenEdge
-   */
-  constructor (browserWindow, initialScreenSize = 'initial', initialScreenEdge = 'bottom-right') {
+type ScreenSize = 'initial' | 'large';
+
+type ScreenEdge = 'top-left' | 'top-right' | 'bottom-left' | 'bottom-right';
+
+type ScreenMovement = 'left' | 'right' | 'top' | 'bottom';
+
+type ScreenEdgeMovements = Record<ScreenEdge, Partial<Record<ScreenMovement, ScreenEdge>>>;
+
+export class ScreenController {
+  private browserWindow: BrowserWindow;
+  private currentScreenSize: ScreenSize;
+  private currentScreenEdge: ScreenEdge;
+  private screenSizes: Record<ScreenSize, number>;
+  private windowPositionByScreenSize: Record<ScreenSize, { x: number, y: number }>
+  private isScreenVisible = true;
+
+  private currentX = 0;
+  private currentY = 0;
+
+  constructor (
+    browserWindow: BrowserWindow, 
+    initialScreenSize: ScreenSize = 'initial', 
+    initialScreenEdge: ScreenEdge = 'bottom-right'
+  ) {
     this.browserWindow = browserWindow
     this.currentScreenEdge = initialScreenEdge
     this.currentScreenSize = initialScreenSize
 
     this.screenSizes = { initial: 300, large: 600 }
-    this.windowPositionByScreenSize = {}
+
+    const { x, y } = this.browserWindow.getBounds();
+
+    this.windowPositionByScreenSize = {
+      initial: { x, y },
+      large: { x, y }
+    }
 
     this.setCurrentWindowXY()
-    this.setInitialWindowScreenSizesPositionValues()
-    this.registerScreenMovementListener()
-
-    this.isScreenVisible = true
-  }
-
-  setInitialWindowScreenSizesPositionValues () {
-    Object.keys(this.screenSizes).forEach(sizeLabel => {
-      this.windowPositionByScreenSize[sizeLabel] = { x: this.currentX, y: this.currentY }
-    })
   }
 
   setWindowPositionByScreenSize () {
-    this.windowPositionByScreenSize[this.currentScreenSize] = { x: this.currentX, y: this.currentY }
-  }
-
-  registerScreenMovementListener () {
-    this.browserWindow.on('move', event => {
-      // add some action when moving
-    }, this)
+    this.windowPositionByScreenSize[this.currentScreenSize] = { 
+      x: this.currentX, 
+      y: this.currentY
+    }
   }
 
   setCurrentWindowXY () {
@@ -47,9 +57,6 @@ class ScreenController {
     this.setCurrentWindowXY()
   }
 
-  /**
-   * Return screen size in pixels
-   */
   getScreenSizeInPixels () {
     const windowSize = this.screenSizes[this.currentScreenSize]
 
@@ -59,11 +66,7 @@ class ScreenController {
     }
   }
 
-  /**
-   * Set window size
-   * @param {'initial' | 'large' } size
-   */
-  setWindowSize (size) {
+  setWindowSize (size: ScreenSize) {
     this.currentScreenSize = size
     this.memoLastWindowPosition()
 
@@ -74,12 +77,8 @@ class ScreenController {
     this.browserWindow.setBounds({ width, height, x, y }, true)
   }
 
-  /**
-   * Calculate screen movement on edges
-   * @param {'left' | 'right' | 'top' | 'bottom'} movement
-   */
-  calculateScreenMovement (movement) {
-    const edgeMovements = {
+  calculateScreenMovement (movement: ScreenMovement) {
+    const edgeMovements: ScreenEdgeMovements = {
       'top-right': {
         left: 'top-left',
         bottom: 'bottom-right'
@@ -101,15 +100,7 @@ class ScreenController {
     return edgeMovements[this.currentScreenEdge][movement] || this.currentScreenEdge
   }
 
-  /**
-   * Move window to screen edge
-   * @param {'top-left' | 'top-right' | 'bottom-left' | 'bottom-right'} edge
-   */
   moveWindowToScreenEdge (edge = this.currentScreenEdge) {
-    /**
-     * Get the screen behind electron window
-     */
-
     this.currentScreenEdge = edge
 
     const { x, y } = this.browserWindow.getBounds()
@@ -118,33 +109,30 @@ class ScreenController {
     const bounds = { x: display.bounds.x, y: display.bounds.y }
     const { width, height } = this.getScreenSizeInPixels()
 
-    const screenPadding = this.currentScreenSize === 'fullscreen' ? 0 : 24
+    const SCREEN_PADDING = 24;
 
     switch (edge) {
       case 'top-left':
-        bounds.x += screenPadding
-        bounds.y += screenPadding
+        bounds.x += SCREEN_PADDING
+        bounds.y += SCREEN_PADDING
         break
       case 'bottom-left':
-        bounds.x += screenPadding
-        bounds.y += display.size.height - height - screenPadding
+        bounds.x += SCREEN_PADDING
+        bounds.y += display.size.height - height - SCREEN_PADDING
         break
       case 'top-right':
-        bounds.x += display.size.width - width - screenPadding
-        bounds.y += screenPadding
+        bounds.x += display.size.width - width - SCREEN_PADDING
+        bounds.y += SCREEN_PADDING
         break
       case 'bottom-right':
-        bounds.x += display.size.width - width - screenPadding
-        bounds.y += display.size.height - height - screenPadding
+        bounds.x += display.size.width - width - SCREEN_PADDING
+        bounds.y += display.size.height - height - SCREEN_PADDING
         break
     }
 
     this.browserWindow.setBounds(bounds, true)
   }
 
-  /**
-   * Toggle window visibility (hide/show)
-   */
   toggleWindowVisibility () {
     this.isScreenVisible = !this.isScreenVisible
 
@@ -155,25 +143,17 @@ class ScreenController {
     }
   }
 
-  /**
-   * Toggle window size (initial/large)
-   */
   toggleWindowSize () {
     const size = this.currentScreenSize === 'initial' ? 'large' : 'initial'
     this.setWindowSize(size)
   }
 
-  /**
-   * Set active display by ID
-   * @param {number} displayId
-   */
-  setActiveDisplay (displayId) {
+  setActiveDisplay (displayId: number) {
     const display = screen.getAllDisplays().find(display => display.id === displayId)
 
-    this.browserWindow.setBounds(display.workArea)
-
-    this.moveWindowToScreenEdge()
+    if (display) {
+      this.browserWindow.setBounds(display.workArea)
+      this.moveWindowToScreenEdge()
+    } 
   }
 }
-
-module.exports = { ScreenController }
