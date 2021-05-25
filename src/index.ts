@@ -1,14 +1,33 @@
 import { config } from './config'
 import { CameraController } from './cam'
 
+const { MiniVideoMe } = window
+
 const cameraController = new CameraController()
 
-navigator.mediaDevices.getUserMedia({
-  video: config || true
-}).then(stream => {
-  cameraController.videoElement.srcObject = stream
-})
+let videoDevices: MediaDeviceInfo[]
 
+navigator.mediaDevices.enumerateDevices().then((devices) => {
+  videoDevices = devices.filter((device) => {
+    return device.kind === 'videoinput';
+  });
+
+  navigator.mediaDevices.getUserMedia({
+    video: {...config, deviceId: videoDevices[0].deviceId } || true
+  }).then(stream => {
+    cameraController.videoElement.srcObject = stream
+  })
+
+  const availableDevices = videoDevices.map((device) => {
+    return {
+      id: device.deviceId,
+      label: device.label,
+    }
+  })
+
+  MiniVideoMe.sendVideoInputDevices(availableDevices)
+}) 
+ 
 const controls: Record<string, () => void> = {
   'ArrowLeft': () => cameraController.adjustOffset('left'),
   'ArrowRight': () => cameraController.adjustOffset('right'),
@@ -26,12 +45,16 @@ window.addEventListener('keydown', (event) => {
   }
 })
 
+MiniVideoMe.on('videoInputChange', (deviceId: string) => {
+  navigator.mediaDevices
+    .getUserMedia({ video: { ...config, deviceId } || true })
+    .then((stream) => (cameraController.videoElement.srcObject = stream));
+})
+
 /* Mac Only: Change Size */
 window.ondblclick = changeWrapperSize
 
 function changeWrapperSize () {
-  const { MiniVideoMe } = window
-
   MiniVideoMe.sendDoubleClick()
 }
 /* End Mac Only */

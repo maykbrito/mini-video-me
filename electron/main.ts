@@ -1,7 +1,8 @@
 import { app, BrowserWindow, Tray, Menu, globalShortcut, screen, nativeImage, ipcMain } from 'electron'
 import path from 'path'
- 
+
 import { ScreenController } from './lib/ScreenController' 
+import { VideoDevice } from './bridge'
 import { userPreferences } from './store' 
 
 const isLinux = process.platform === 'linux'
@@ -15,6 +16,7 @@ let win: BrowserWindow
 let isLinuxWindowReadyToShow: boolean
 let mainTray: Tray
 let screenController: ScreenController
+let videoInputDevices: VideoDevice[]
 
 const trayIcon = path.resolve(__dirname, '..', 'assets', 'tray', 'trayTemplate.png')
 
@@ -64,6 +66,14 @@ function registerShortcuts () {
 async function createTrayMenu () {
   mainTray = new Tray(trayIcon)
 
+  mainTray.setToolTip('Mini Video Me')
+
+  mainTray.on('click', () => mainTray.popUpContextMenu())
+
+  createTrayContextMenu()
+}
+
+async function createTrayContextMenu () {
   const availableDisplays = screen.getAllDisplays()
 
   const contextMenu = Menu.buildFromTemplate([
@@ -143,6 +153,19 @@ async function createTrayMenu () {
       })
     },
     {
+      type: 'submenu',
+      label: 'Video Input Source',
+      enabled: videoInputDevices?.length > 0,
+      submenu: videoInputDevices ? videoInputDevices.map((device) => {
+        return {
+          label: device.label,
+          click() {
+            win.webContents.send('videoInputChange', device.id)
+          }
+        }
+      }) : []
+    },
+    {
       type: 'separator'
     },
     {
@@ -154,8 +177,6 @@ async function createTrayMenu () {
   ])
 
   mainTray.setContextMenu(contextMenu)
-
-  mainTray.on('click', () => mainTray.popUpContextMenu())
 }
 
 /**
@@ -200,6 +221,12 @@ async function createWindow () {
 
   isLinux && win.on('closed', app.quit)
 }
+
+ipcMain.on('videoInputDevices', (_, devices: any) => {
+  videoInputDevices = devices
+  
+  createTrayContextMenu()
+})
 
 app.whenReady()
   .then(createWindow)
