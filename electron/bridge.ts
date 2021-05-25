@@ -3,8 +3,6 @@ import { userPreferences } from './store'
 
 const store = userPreferences.store
 
-console.log('preload.js loaded');
-
 export const api = {
   config: store,
 
