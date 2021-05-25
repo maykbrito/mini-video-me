@@ -8,6 +8,13 @@ export const api = {
 
   sendDoubleClick: (args?: any) => {
     ipcRenderer.send('double-click', args)
+  },
+  sendVideoInputDevices: (args: string) => {
+    ipcRenderer.send('videoInputDevices', args)
+  },
+  on: (channel: string, callback: Function) => {
+    const newCallback = (_:Object, data: Function) => callback(data)
+    ipcRenderer.on(channel, newCallback)
   }
 }
 

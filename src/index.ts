@@ -1,12 +1,24 @@
 import { config } from './config'
 import { CameraController } from './cam'
 
+const { MiniVideoMe } = window
+
 const cameraController = new CameraController()
 
-navigator.mediaDevices.getUserMedia({
-  video: config || true
-}).then(stream => {
-  cameraController.videoElement.srcObject = stream
+let videoDevices: MediaDeviceInfo[]
+
+navigator.mediaDevices.enumerateDevices().then((devices) => {
+  videoDevices = devices.filter((device) => {
+    return device.kind === 'videoinput';
+  });
+
+  navigator.mediaDevices.getUserMedia({
+    video: {...config, deviceId: videoDevices[0].deviceId }|| true
+  }).then(stream => {
+    cameraController.videoElement.srcObject = stream
+  })
+
+  MiniVideoMe.sendVideoInputDevices(JSON.stringify(videoDevices))
 })
 
 const controls: Record<string, () => void> = {
@@ -26,12 +38,20 @@ window.addEventListener('keydown', (event) => {
   }
 })
 
+function changeVideoInputSource(videoInputIndex: number) {
+  navigator.mediaDevices
+    .getUserMedia({
+      video: { ...config, deviceId: videoDevices[videoInputIndex].deviceId } || true
+    })
+    .then((stream) => (cameraController.videoElement.srcObject = stream));
+}
+
+MiniVideoMe.on('videoInputChange', (data: number) => changeVideoInputSource(data))
+
 /* Mac Only: Change Size */
 window.ondblclick = changeWrapperSize
 
 function changeWrapperSize () {
-  const { MiniVideoMe } = window
-
   MiniVideoMe.sendDoubleClick()
 }
 /* End Mac Only */

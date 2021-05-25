@@ -15,6 +15,7 @@ let win: BrowserWindow
 let isLinuxWindowReadyToShow: boolean
 let mainTray: Tray
 let screenController: ScreenController
+let videoInputDevices: MediaDeviceInfo[]
 
 const trayIcon = path.resolve(__dirname, '..', 'assets', 'tray', 'trayTemplate.png')
 
@@ -143,6 +144,18 @@ async function createTrayMenu () {
       })
     },
     {
+      type: 'submenu',
+      label: 'Video Input Source',
+      submenu: videoInputDevices ? videoInputDevices.map((device, index) => {
+        return {
+          label: device.label,
+          click() {
+            win.webContents.send('videoInputChange', index)
+          }
+        }
+      }) : []
+    },
+    {
       type: 'separator'
     },
     {
@@ -200,6 +213,11 @@ async function createWindow () {
 
   isLinux && win.on('closed', app.quit)
 }
+
+ipcMain.on('videoInputDevices', (event, args) => {
+  videoInputDevices = JSON.parse(args)
+  createTrayMenu()
+})
 
 app.whenReady()
   .then(createWindow)
