@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+  <title>Mini Video Me</title>
+  <style>
+    body, #video-grid {
+      -webkit-app-region: drag;
+    }
+
+    button {
+      -webkit-app-region: nodrag;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+    }
+
+    video {
+      height: 100vh;
+      border-radius: 9999px;
+      pointer-events: none;
+      background: #121214;
+    }
+    
+    .flip { 
+      transform: rotateY(180deg);
+    }
+
+    #wrapper {
+      width: 100vw;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+
+      margin: auto;
+
+      position: relative;
+      box-sizing: border-box;
+
+      color: #FFF;
+      background: transparent;
+      background-clip: padding-box;
+      border: solid 5px transparent;
+      border-radius: 16px;
+    }
+
+    #wrapper:before {
+      content: '';
+      position: absolute;
+      top: 0; right: 0; bottom: 0; left: 0;
+      z-index: -1;
+      margin: -5px;
+      border-radius: inherit;
+      background: linear-gradient(to right, #988BC7, #FF79C6);
+    }
+
+    .video-wrapper {
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 16px;
+      background: transparent;
+    }
+
+    #wrapper.rounded {
+      border-radius: 50%;
+      /* fix border-radius on Mac Mojave */
+      height: calc(100vw - 1px); 
+    }
+
+    #wrapper.rounded .video-wrapper {
+      border-radius: 9999px;
+    }
+  </style>
+
+  <script>
+    const global = globalThis;
+  </script> 
+</head>
+<body>
+  <div id="wrapper">
+    <div class="video-wrapper">
+      <video id="video" autoplay muted></video>
+    </div>
+  </div>
+</body>
+</html>
