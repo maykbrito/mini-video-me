@@ -2,14 +2,11 @@
   "name": "mini-video-me",
   "version": "3.0.0",
   "description": "A small webcam player focused on providing an easy way to add and control your webcam during recordings.",
-  "main": "dist/electron/main.js",
+  "main": "./.webpack/main/index.js",
   "scripts": {
-    "start:bridge": "webpack --config webpack/bridge.webpack.js --mode development",
-    "start:electron": "webpack --config webpack/electron.webpack.js --mode development && electron dist/electron/main.js",
-    "start:web": "webpack serve --config webpack/web.webpack.js --mode development",
-    "electron:serve": "wait-on http-get://localhost:4000/ && yarn start:electron",
-    "start": "npm-run-all -p start:bridge start:web electron:serve",
-    "build": "electron-packager . --icon assets/webcam --overwrite --out=packages"
+    "start": "electron-forge start",
+    "package": "electron-forge package",
+    "make": "electron-forge make"
   },
   "keywords": [],
   "author": "",
@@ -19,27 +16,74 @@
     "@babel/plugin-transform-runtime": "^7.14.3",
     "@babel/preset-env": "^7.14.2",
     "@babel/preset-typescript": "^7.13.0",
+    "@electron-forge/cli": "^6.0.0-beta.57",
+    "@electron-forge/maker-deb": "^6.0.0-beta.57",
+    "@electron-forge/maker-rpm": "^6.0.0-beta.57",
+    "@electron-forge/maker-squirrel": "^6.0.0-beta.57",
+    "@electron-forge/maker-zip": "^6.0.0-beta.57",
+    "@electron-forge/plugin-webpack": "^6.0.0-beta.57",
+    "@marshallofsound/webpack-asset-relocator-loader": "^0.5.0",
     "@types/electron": "^1.6.10",
     "babel-loader": "^8.2.2",
     "electron": "^12.0.2",
-    "electron-packager": "^15.2.0",
-    "eslint": "^7.25.0",
-    "eslint-config-standard": "^16.0.2",
-    "eslint-plugin-import": "^2.22.1",
-    "eslint-plugin-node": "^11.1.0",
-    "eslint-plugin-promise": "^4.3.1",
-    "html-webpack-plugin": "^5.3.1",
     "node-loader": "^2.0.0",
     "npm-run-all": "^4.1.5",
     "typescript": "^4.2.4",
-    "wait-on": "^5.3.0",
-    "webpack": "^5.37.1",
-    "webpack-cli": "^4.7.0",
-    "webpack-dev-server": "^3.11.2"
+    "wait-on": "^5.3.0"
   },
   "dependencies": {
+    "ajv": "^8.5.0",
     "chokidar": "^3.5.1",
+    "electron-squirrel-startup": "^1.0.0",
     "electron-store": "^8.0.0",
     "json-schema-typed": "^7.0.3"
+  },
+  "config": {
+    "forge": {
+      "packagerConfig": {},
+      "plugins": [
+        [
+          "@electron-forge/plugin-webpack",
+          {
+            "mainConfig": "./webpack/main.webpack.js",
+            "renderer": {
+              "config": "./webpack/renderer.webpack.js",
+              "entryPoints": [
+                {
+                  "html": "./public/index.html",
+                  "js": "./src/index.ts",
+                  "name": "main_window",
+                  "preload": {
+                    "js": "./electron/bridge.ts"
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      ],
+      "makers": [
+        {
+          "name": "@electron-forge/maker-squirrel",
+          "config": {
+            "name": "mini_video_me"
+          }
+        },
+        {
+          "name": "@electron-forge/maker-zip",
+          "platforms": [
+            "darwin"
+          ]
+        },
+        {
+          "name": "@electron-forge/maker-deb",
+          "config": {}
+        },
+        {
+          "name": "@electron-forge/maker-rpm",
+          "config": {}
+        }
+      ]
+    }
   }
 }
