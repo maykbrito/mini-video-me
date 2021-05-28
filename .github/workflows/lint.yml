@@ -1,0 +1,19 @@
+name: Lint
+on: [push, pull_request]
+
+jobs:
+  code:
+    name: Lint code
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup Node.js
+        uses: actions/setup-node@master
+        with:
+          node-version: 14
+
+      - name: Install dependencies
+        uses: bahmutov/npm-install@v1
+
+      - name: Run ESLint
+        run: yarn lint
