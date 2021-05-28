@@ -6,6 +6,9 @@
 <p align="center">A small webcam player focused on providing an easy way to add and control your webcam during recordings.</p>
 
 <h3 align="center">
+  <a href="https://github.com/maykbrito/mini-video-me/actions/workflows/build.yml" target="_blank">
+    <img alt="Build" src="https://github.com/maykbrito/mini-video-me/actions/workflows/build.yml/badge.svg" />
+  </a>
   <a href="#" target="_blank">
     <img alt="License: MIT" src="https://img.shields.io/badge/License-MIT-yellow.svg" />
   </a>
