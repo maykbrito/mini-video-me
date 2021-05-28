@@ -16,8 +16,8 @@ jobs:
     - uses: bahmutov/npm-install@v1
     - name: Publish release
       env:
-        GITHUB_TOKEN: ${{ secrets.TOKEN }}
-      run: yarn publish
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: yarn release
 
   publish_on_mac:
     runs-on: macos-latest
@@ -29,8 +29,8 @@ jobs:
     - uses: bahmutov/npm-install@v1
     - name: Publish release
       env:
-        GITHUB_TOKEN: ${{ secrets.TOKEN }}
-      run: yarn publish
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: yarn release
 
   publish_on_win:
     runs-on: windows-latest
@@ -42,5 +42,5 @@ jobs:
     - uses: bahmutov/npm-install@v1
     - name: Publish release
       env:
-        GITHUB_TOKEN: ${{ secrets.TOKEN }}
-      run: yarn publish
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: yarn release
