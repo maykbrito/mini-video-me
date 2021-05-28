@@ -1,6 +1,6 @@
 {
   "name": "mini-video-me",
-  "version": "3.0.0",
+  "version": "3.1.0",
   "description": "A small webcam player focused on providing an easy way to add and control your webcam during recordings.",
   "main": "./.webpack/main/index.js",
   "scripts": {
