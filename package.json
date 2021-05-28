@@ -48,6 +48,7 @@
   "config": {
     "forge": {
       "packagerConfig": {
+        "icon": "assets/icon",
         "extraResource": [
           "assets"
         ]
