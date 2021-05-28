@@ -91,7 +91,7 @@
         {
           "name": "@electron-forge/maker-squirrel",
           "config": {
-            "name": "mini_video_me"
+            "name": "Mini Video Me"
           }
         },
         {
