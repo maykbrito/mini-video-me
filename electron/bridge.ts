@@ -1,7 +1,7 @@
 import { contextBridge, ipcRenderer } from 'electron'
 import { userPreferences } from './store'
 
-export type VideoDevice = { 
+export type VideoDevice = {
   id: string
   label: string
 }
@@ -19,7 +19,7 @@ export const api = {
   },
   on: (channel: string, callback: Function) => {
     ipcRenderer.on(channel, (_, data) => callback(data))
-  }
+  },
 }
 
 contextBridge.exposeInMainWorld('MiniVideoMe', api)

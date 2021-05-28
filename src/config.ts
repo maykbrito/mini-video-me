@@ -8,7 +8,7 @@ const config = {
   rounded: Boolean(userPreferences.rounded),
   scale: Number(userPreferences.zoom ?? 1),
   horizontal: Number(userPreferences.anchor.x ?? 0),
-  vertical: Number(userPreferences.anchor.y ?? 0)
+  vertical: Number(userPreferences.anchor.y ?? 0),
 }
 
 export { config }

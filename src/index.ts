@@ -7,18 +7,20 @@ const cameraController = new CameraController()
 
 let videoDevices: MediaDeviceInfo[]
 
-navigator.mediaDevices.enumerateDevices().then((devices) => {
-  videoDevices = devices.filter((device) => {
-    return device.kind === 'videoinput';
-  });
-
-  navigator.mediaDevices.getUserMedia({
-    video: {...config, deviceId: videoDevices[0].deviceId } || true
-  }).then(stream => {
-    cameraController.videoElement.srcObject = stream
+navigator.mediaDevices.enumerateDevices().then(devices => {
+  videoDevices = devices.filter(device => {
+    return device.kind === 'videoinput'
   })
 
-  const availableDevices = videoDevices.map((device) => {
+  navigator.mediaDevices
+    .getUserMedia({
+      video: { ...config, deviceId: videoDevices[0].deviceId } || true,
+    })
+    .then(stream => {
+      cameraController.videoElement.srcObject = stream
+    })
+
+  const availableDevices = videoDevices.map(device => {
     return {
       id: device.deviceId,
       label: device.label,
@@ -26,20 +28,20 @@ navigator.mediaDevices.enumerateDevices().then((devices) => {
   })
 
   MiniVideoMe.sendVideoInputDevices(availableDevices)
-}) 
- 
+})
+
 const controls: Record<string, () => void> = {
-  'ArrowLeft': () => cameraController.adjustOffset('left'),
-  'ArrowRight': () => cameraController.adjustOffset('right'),
-  'ArrowUp': () => cameraController.adjustOffset('up'),
-  'ArrowDown': () => cameraController.adjustOffset('down'),
+  ArrowLeft: () => cameraController.adjustOffset('left'),
+  ArrowRight: () => cameraController.adjustOffset('right'),
+  ArrowUp: () => cameraController.adjustOffset('up'),
+  ArrowDown: () => cameraController.adjustOffset('down'),
   '=': () => cameraController.zoom('in'),
   '-': () => cameraController.zoom('out'),
   '/': () => cameraController.flipHorizontal(),
-  'o': () => cameraController.round()
+  o: () => cameraController.round(),
 }
 
-window.addEventListener('keydown', (event) => {
+window.addEventListener('keydown', event => {
   if (controls[event.key]) {
     controls[event.key]()
   }
@@ -48,19 +50,19 @@ window.addEventListener('keydown', (event) => {
 MiniVideoMe.on('videoInputChange', (deviceId: string) => {
   navigator.mediaDevices
     .getUserMedia({ video: { ...config, deviceId } || true })
-    .then((stream) => (cameraController.videoElement.srcObject = stream));
+    .then(stream => (cameraController.videoElement.srcObject = stream))
 })
 
 /* Mac Only: Change Size */
 window.ondblclick = changeWrapperSize
 
-function changeWrapperSize () {
+function changeWrapperSize() {
   MiniVideoMe.sendDoubleClick()
 }
 /* End Mac Only */
 
 /* tested only on Mac */
-let mouseHideTimeout: NodeJS.Timeout;
+let mouseHideTimeout: ReturnType<typeof setTimeout>
 
 window.addEventListener('mousemove', () => {
   document.body.style.cursor = 'default'

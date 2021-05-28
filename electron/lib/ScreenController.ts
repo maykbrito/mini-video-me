@@ -1,27 +1,34 @@
 import { BrowserWindow, screen } from 'electron'
 
-type ScreenSize = 'initial' | 'large';
+type ScreenSize = 'initial' | 'large'
 
-type ScreenEdge = 'top-left' | 'top-right' | 'bottom-left' | 'bottom-right';
+type ScreenEdge = 'top-left' | 'top-right' | 'bottom-left' | 'bottom-right'
 
-type ScreenMovement = 'left' | 'right' | 'top' | 'bottom';
+type ScreenMovement = 'left' | 'right' | 'top' | 'bottom'
 
-type ScreenEdgeMovements = Record<ScreenEdge, Partial<Record<ScreenMovement, ScreenEdge>>>;
+type ScreenEdgeMovements = Record<
+  ScreenEdge,
+  Partial<Record<ScreenMovement, ScreenEdge>>
+>
 
 export class ScreenController {
-  private browserWindow: BrowserWindow;
-  private currentScreenSize: ScreenSize;
-  private currentScreenEdge: ScreenEdge;
-  private screenSizes: Record<ScreenSize, number>;
-  private windowPositionByScreenSize: Record<ScreenSize, { x: number, y: number }>
-  private isScreenVisible = true;
+  private browserWindow: BrowserWindow
+  private currentScreenSize: ScreenSize
+  private currentScreenEdge: ScreenEdge
+  private screenSizes: Record<ScreenSize, number>
+  private windowPositionByScreenSize: Record<
+    ScreenSize,
+    { x: number; y: number }
+  >
 
-  private currentX = 0;
-  private currentY = 0;
+  private isScreenVisible = true
 
-  constructor (
-    browserWindow: BrowserWindow, 
-    initialScreenSize: ScreenSize = 'initial', 
+  private currentX = 0
+  private currentY = 0
+
+  constructor(
+    browserWindow: BrowserWindow,
+    initialScreenSize: ScreenSize = 'initial',
     initialScreenEdge: ScreenEdge = 'bottom-right'
   ) {
     this.browserWindow = browserWindow
@@ -30,43 +37,43 @@ export class ScreenController {
 
     this.screenSizes = { initial: 300, large: 600 }
 
-    const { x, y } = this.browserWindow.getBounds();
+    const { x, y } = this.browserWindow.getBounds()
 
     this.windowPositionByScreenSize = {
       initial: { x, y },
-      large: { x, y }
+      large: { x, y },
     }
 
     this.setCurrentWindowXY()
   }
 
-  setWindowPositionByScreenSize () {
-    this.windowPositionByScreenSize[this.currentScreenSize] = { 
-      x: this.currentX, 
-      y: this.currentY
+  setWindowPositionByScreenSize() {
+    this.windowPositionByScreenSize[this.currentScreenSize] = {
+      x: this.currentX,
+      y: this.currentY,
     }
   }
 
-  setCurrentWindowXY () {
+  setCurrentWindowXY() {
     this.currentX = this.browserWindow.getBounds().x
     this.currentY = this.browserWindow.getBounds().y
   }
 
-  memoLastWindowPosition () {
+  memoLastWindowPosition() {
     this.setWindowPositionByScreenSize()
     this.setCurrentWindowXY()
   }
 
-  getScreenSizeInPixels () {
+  getScreenSizeInPixels() {
     const windowSize = this.screenSizes[this.currentScreenSize]
 
     return {
       width: windowSize,
-      height: windowSize
+      height: windowSize,
     }
   }
 
-  setWindowSize (size: ScreenSize) {
+  setWindowSize(size: ScreenSize) {
     this.currentScreenSize = size
     this.memoLastWindowPosition()
 
@@ -77,30 +84,32 @@ export class ScreenController {
     this.browserWindow.setBounds({ width, height, x, y }, true)
   }
 
-  calculateScreenMovement (movement: ScreenMovement) {
+  calculateScreenMovement(movement: ScreenMovement) {
     const edgeMovements: ScreenEdgeMovements = {
       'top-right': {
         left: 'top-left',
-        bottom: 'bottom-right'
+        bottom: 'bottom-right',
       },
       'top-left': {
         right: 'top-right',
-        bottom: 'bottom-left'
+        bottom: 'bottom-left',
       },
       'bottom-right': {
         left: 'bottom-left',
-        top: 'top-right'
+        top: 'top-right',
       },
       'bottom-left': {
         right: 'bottom-right',
-        top: 'top-left'
-      }
+        top: 'top-left',
+      },
     }
 
-    return edgeMovements[this.currentScreenEdge][movement] || this.currentScreenEdge
+    return (
+      edgeMovements[this.currentScreenEdge][movement] || this.currentScreenEdge
+    )
   }
 
-  moveWindowToScreenEdge (edge = this.currentScreenEdge) {
+  moveWindowToScreenEdge(edge = this.currentScreenEdge) {
     this.currentScreenEdge = edge
 
     const { x, y } = this.browserWindow.getBounds()
@@ -109,7 +118,7 @@ export class ScreenController {
     const bounds = { x: display.bounds.x, y: display.bounds.y }
     const { width, height } = this.getScreenSizeInPixels()
 
-    const SCREEN_PADDING = 24;
+    const SCREEN_PADDING = 24
 
     switch (edge) {
       case 'top-left':
@@ -133,7 +142,7 @@ export class ScreenController {
     this.browserWindow.setBounds(bounds, true)
   }
 
-  toggleWindowVisibility () {
+  toggleWindowVisibility() {
     this.isScreenVisible = !this.isScreenVisible
 
     if (this.isScreenVisible) {
@@ -143,17 +152,19 @@ export class ScreenController {
     }
   }
 
-  toggleWindowSize () {
+  toggleWindowSize() {
     const size = this.currentScreenSize === 'initial' ? 'large' : 'initial'
     this.setWindowSize(size)
   }
 
-  setActiveDisplay (displayId: number) {
-    const display = screen.getAllDisplays().find(display => display.id === displayId)
+  setActiveDisplay(displayId: number) {
+    const display = screen
+      .getAllDisplays()
+      .find(display => display.id === displayId)
 
     if (display) {
       this.browserWindow.setBounds(display.workArea)
       this.moveWindowToScreenEdge()
-    } 
+    }
   }
 }

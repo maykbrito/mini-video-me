@@ -22,7 +22,7 @@ export class CameraController {
     this.position = {
       x: config.horizontal,
       y: config.vertical,
-      z: config.scale
+      z: config.scale,
     }
 
     this.render()
@@ -70,8 +70,8 @@ export class CameraController {
   }
 
   private render() {
-    let transform: string[] = []
-    let classList: string[] = []
+    const transform: string[] = []
+    const classList: string[] = []
 
     transform.push(`translate(${this.position.x}%, ${this.position.y}%)`)
     transform.push(`scale(${this.position.z})`)

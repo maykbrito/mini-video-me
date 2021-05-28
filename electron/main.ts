@@ -1,16 +1,26 @@
-import { app, BrowserWindow, Tray, Menu, globalShortcut, screen, nativeImage, ipcMain } from 'electron'
+import {
+  app,
+  BrowserWindow,
+  Tray,
+  Menu,
+  globalShortcut,
+  screen,
+  nativeImage,
+  ipcMain,
+} from 'electron'
 import path from 'path'
 
-import { ScreenController } from './lib/ScreenController' 
+import { ScreenController } from './lib/ScreenController'
 import { VideoDevice } from './bridge'
-import { userPreferences } from './store' 
+import { userPreferences } from './store'
 
 const isLinux = process.platform === 'linux'
 const isMac = process.platform === 'darwin'
 
-const assetsPath = process.env.NODE_ENV === 'production'
-  ? process.resourcesPath
-  : app.getAppPath();
+const assetsPath =
+  process.env.NODE_ENV === 'production'
+    ? process.resourcesPath
+    : app.getAppPath()
 
 if (isLinux) {
   app.disableHardwareAcceleration()
@@ -24,44 +34,73 @@ let videoInputDevices: VideoDevice[]
 
 const trayIcon = path.join(assetsPath, 'assets', 'tray', 'trayTemplate.png')
 
-declare const MAIN_WINDOW_WEBPACK_ENTRY: string;
-declare const MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY: string;
+declare const MAIN_WINDOW_WEBPACK_ENTRY: string
+declare const MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY: string
 
 /**
  * Register global shortcuts
  */
-function registerShortcuts () {
+function registerShortcuts() {
   screenController = new ScreenController(win)
 
   screenController.moveWindowToScreenEdge()
 
-  globalShortcut.register(`${userPreferences.store.shortcuts.moveCamera.up}`, () => {
-    screenController.moveWindowToScreenEdge(screenController.calculateScreenMovement('top'))
-  })
+  globalShortcut.register(
+    `${userPreferences.store.shortcuts.moveCamera.up}`,
+    () => {
+      screenController.moveWindowToScreenEdge(
+        screenController.calculateScreenMovement('top')
+      )
+    }
+  )
 
-  globalShortcut.register(`${userPreferences.store.shortcuts.moveCamera.down}`, () => {
-    screenController.moveWindowToScreenEdge(screenController.calculateScreenMovement('bottom'))
-  })
+  globalShortcut.register(
+    `${userPreferences.store.shortcuts.moveCamera.down}`,
+    () => {
+      screenController.moveWindowToScreenEdge(
+        screenController.calculateScreenMovement('bottom')
+      )
+    }
+  )
 
-  globalShortcut.register(`${userPreferences.store.shortcuts.moveCamera.left}`, () => {
-    screenController.moveWindowToScreenEdge(screenController.calculateScreenMovement('left'))
-  })
+  globalShortcut.register(
+    `${userPreferences.store.shortcuts.moveCamera.left}`,
+    () => {
+      screenController.moveWindowToScreenEdge(
+        screenController.calculateScreenMovement('left')
+      )
+    }
+  )
 
-  globalShortcut.register(`${userPreferences.store.shortcuts.moveCamera.right}`, () => {
-    screenController.moveWindowToScreenEdge(screenController.calculateScreenMovement('right'))
-  })
+  globalShortcut.register(
+    `${userPreferences.store.shortcuts.moveCamera.right}`,
+    () => {
+      screenController.moveWindowToScreenEdge(
+        screenController.calculateScreenMovement('right')
+      )
+    }
+  )
 
-  globalShortcut.register(`${userPreferences.store.shortcuts.resizeCamera.initial}`, () => {
-    screenController.setWindowSize('initial')
-  })
+  globalShortcut.register(
+    `${userPreferences.store.shortcuts.resizeCamera.initial}`,
+    () => {
+      screenController.setWindowSize('initial')
+    }
+  )
 
-  globalShortcut.register(`${userPreferences.store.shortcuts.resizeCamera.large}`, () => {
-    screenController.setWindowSize('large')
-  })
+  globalShortcut.register(
+    `${userPreferences.store.shortcuts.resizeCamera.large}`,
+    () => {
+      screenController.setWindowSize('large')
+    }
+  )
 
-  globalShortcut.register(`${userPreferences.store.shortcuts.hideCamera}`, () => {
-    screenController.toggleWindowVisibility()
-  })
+  globalShortcut.register(
+    `${userPreferences.store.shortcuts.hideCamera}`,
+    () => {
+      screenController.toggleWindowVisibility()
+    }
+  )
 
   if (isMac) {
     ipcMain.on('double-click', () => {
@@ -70,7 +109,7 @@ function registerShortcuts () {
   }
 }
 
-async function createTrayMenu () {
+async function createTrayMenu() {
   mainTray = new Tray(trayIcon)
 
   mainTray.setToolTip('Mini Video Me')
@@ -80,23 +119,23 @@ async function createTrayMenu () {
   createTrayContextMenu()
 }
 
-async function createTrayContextMenu () {
+async function createTrayContextMenu() {
   const availableDisplays = screen.getAllDisplays()
 
   const contextMenu = Menu.buildFromTemplate([
     {
       label: 'Mini Video Me',
       icon: trayIcon,
-      enabled: false
+      enabled: false,
     },
     {
       label: 'Settings',
-      click () {
+      click() {
         return userPreferences.openInEditor()
-      }
+      },
     },
     {
-      type: 'separator'
+      type: 'separator',
     },
     {
       type: 'submenu',
@@ -105,17 +144,17 @@ async function createTrayContextMenu () {
         {
           label: 'Small',
           checked: true,
-          click () {
+          click() {
             return screenController.setWindowSize('initial')
-          }
+          },
         },
         {
           label: 'Large',
-          click () {
+          click() {
             return screenController.setWindowSize('large')
-          }
-        }
-      ]
+          },
+        },
+      ],
     },
     {
       type: 'submenu',
@@ -123,29 +162,29 @@ async function createTrayContextMenu () {
       submenu: [
         {
           label: 'Top left',
-          click () {
+          click() {
             return screenController.moveWindowToScreenEdge('top-left')
-          }
+          },
         },
         {
           label: 'Top right',
-          click () {
+          click() {
             return screenController.moveWindowToScreenEdge('top-right')
-          }
+          },
         },
         {
           label: 'Bottom right',
-          click () {
+          click() {
             return screenController.moveWindowToScreenEdge('bottom-right')
-          }
+          },
         },
         {
           label: 'Bottom left',
-          click () {
+          click() {
             return screenController.moveWindowToScreenEdge('bottom-left')
-          }
-        }
-      ]
+          },
+        },
+      ],
     },
     {
       type: 'submenu',
@@ -153,34 +192,36 @@ async function createTrayContextMenu () {
       submenu: availableDisplays.map(display => {
         return {
           label: `Display ${display.id} (${display.size.width}x${display.size.height})`,
-          click () {
+          click() {
             return screenController.setActiveDisplay(display.id)
-          }
+          },
         }
-      })
+      }),
     },
     {
       type: 'submenu',
       label: 'Video Input Source',
       enabled: videoInputDevices?.length > 0,
-      submenu: videoInputDevices ? videoInputDevices.map((device) => {
-        return {
-          label: device.label,
-          click() {
-            win.webContents.send('videoInputChange', device.id)
-          }
-        }
-      }) : []
+      submenu: videoInputDevices
+        ? videoInputDevices.map(device => {
+            return {
+              label: device.label,
+              click() {
+                win.webContents.send('videoInputChange', device.id)
+              },
+            }
+          })
+        : [],
     },
     {
-      type: 'separator'
+      type: 'separator',
     },
     {
       type: 'normal',
       label: 'Close',
       role: 'quit',
-      enabled: true
-    }
+      enabled: true,
+    },
   ])
 
   mainTray.setContextMenu(contextMenu)
@@ -189,9 +230,11 @@ async function createTrayContextMenu () {
 /**
  * Create main electron window
  */
-async function createWindow () {
+async function createWindow() {
   win = new BrowserWindow({
-    icon: nativeImage.createFromPath(path.join(assetsPath, 'assets', 'icon.png')),
+    icon: nativeImage.createFromPath(
+      path.join(assetsPath, 'assets', 'icon.png')
+    ),
     width: 300,
     height: 300,
     maxWidth: 300,
@@ -206,10 +249,10 @@ async function createWindow () {
       nodeIntegration: false,
       contextIsolation: true,
       preload: MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY,
-    }
+    },
   })
 
-  win.loadURL(MAIN_WINDOW_WEBPACK_ENTRY);
+  win.loadURL(MAIN_WINDOW_WEBPACK_ENTRY)
 
   win.setVisibleOnAllWorkspaces(true)
 
@@ -232,11 +275,12 @@ async function createWindow () {
 
 ipcMain.on('videoInputDevices', (_, devices: any) => {
   videoInputDevices = devices
-  
+
   createTrayContextMenu()
 })
 
-app.whenReady()
+app
+  .whenReady()
   .then(createWindow)
   .then(createTrayMenu)
   .then(registerShortcuts)
