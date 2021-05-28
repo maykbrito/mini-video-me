@@ -60,6 +60,7 @@
     "forge": {
       "packagerConfig": {
         "name": "Mini Video Me",
+        "executableName": "mini-video-me",
         "icon": "assets/icon",
         "extraResource": [
           "assets"
