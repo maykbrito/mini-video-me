@@ -8,6 +8,10 @@ import { userPreferences } from './store'
 const isLinux = process.platform === 'linux'
 const isMac = process.platform === 'darwin'
 
+const assetsPath = process.env.NODE_ENV === 'production'
+  ? process.resourcesPath
+  : app.getAppPath();
+
 if (isLinux) {
   app.disableHardwareAcceleration()
 }
@@ -18,7 +22,10 @@ let mainTray: Tray
 let screenController: ScreenController
 let videoInputDevices: VideoDevice[]
 
-const trayIcon = path.resolve(__dirname, '..', 'assets', 'tray', 'trayTemplate.png')
+const trayIcon = path.join(assetsPath, 'assets', 'tray', 'trayTemplate.png')
+
+declare const MAIN_WINDOW_WEBPACK_ENTRY: string;
+declare const MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY: string;
 
 /**
  * Register global shortcuts
@@ -184,7 +191,7 @@ async function createTrayContextMenu () {
  */
 async function createWindow () {
   win = new BrowserWindow({
-    icon: nativeImage.createFromPath(path.join(__dirname, '..', 'build', 'icon.png')),
+    icon: nativeImage.createFromPath(path.join(assetsPath, 'assets', 'icon.png')),
     width: 300,
     height: 300,
     maxWidth: 300,
@@ -198,11 +205,12 @@ async function createWindow () {
     webPreferences: {
       nodeIntegration: false,
       contextIsolation: true,
-      preload: path.join(app.getAppPath(), 'bridge.js')
+      preload: MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY,
     }
   })
 
-  win.loadURL('http://localhost:4000')
+  win.loadURL(MAIN_WINDOW_WEBPACK_ENTRY);
+
   win.setVisibleOnAllWorkspaces(true)
 
   win.on('ready-to-show', () => {
