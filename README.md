@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="./build/icon.png" width="140px" />
+  <img src="./assets/icon.png" width="140px" />
 </p>
 
 <h1 align="center">Mini Video Me</h1>
