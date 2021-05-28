@@ -48,6 +48,7 @@
   "config": {
     "forge": {
       "packagerConfig": {
+        "name": "Mini Video Me",
         "icon": "assets/icon",
         "extraResource": [
           "assets"
