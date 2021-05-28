@@ -9,8 +9,13 @@
     "make": "electron-forge make",
     "publish": "electron-forge publish"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": [
+    "webcam",
+    "app",
+    "mini video me",
+    "video"
+  ],
+  "author": "Mayk Brito <maykbrito@gmail.com>",
   "license": "MIT",
   "devDependencies": {
     "@babel/core": "^7.14.3",
