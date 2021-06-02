@@ -19,9 +19,11 @@
 
 <br />
 
-> 🚧 This app is currently under development, to run it you should download the source code, install dependencies and then run with Node.js 🚧
+## Installation
 
-## Getting started
+Download the latest version from [releases page](https://github.com/maykbrito/mini-video-me/releases) and run it.
+
+## Running locally
 
 Clone de repository, open its folder and install dependencies with:
 
