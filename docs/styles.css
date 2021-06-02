@@ -21,6 +21,18 @@ body, button {
   height: 100vh;
 }
 
+@keyframes gradient {
+	0% {
+		background-position: 0% 50%;
+	}
+	50% {
+		background-position: 100% 50%;
+	}
+	100% {
+		background-position: 0% 50%;
+	}
+}
+
 h1 {
   font-weight: 800;
   font-size: 92px;
@@ -30,6 +42,10 @@ h1 {
   background-image: linear-gradient(45deg, #988BC7, #FF79C6);
   background-clip: text;
   padding: 0 24px;
+
+  background-size: 200%;
+
+  animation: gradient 6s ease infinite;
 
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
