@@ -32,15 +32,15 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: yarn release
 
-  publish_on_win:
-    runs-on: windows-latest
-    steps:
-    - uses: actions/checkout@v2       
-    - uses: actions/setup-node@master
-      with:
-        node-version: 14
-    - uses: bahmutov/npm-install@v1
-    - name: Publish release
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      run: yarn release
+  # publish_on_win:
+  #   runs-on: windows-latest
+  #   steps:
+  #   - uses: actions/checkout@v2       
+  #   - uses: actions/setup-node@master
+  #     with:
+  #       node-version: 14
+  #   - uses: bahmutov/npm-install@v1
+  #   - name: Publish release
+  #     env:
+  #       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  #     run: yarn release

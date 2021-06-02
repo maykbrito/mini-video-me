@@ -24,13 +24,13 @@ jobs:
     - name: Build
       run: yarn make
 
-  build_on_win:
-    runs-on: windows-latest
-    steps:
-    - uses: actions/checkout@v2
-    - uses: actions/setup-node@master
-      with:
-        node-version: 14
-    - uses: bahmutov/npm-install@v1
-    - name: Build
-      run: yarn make
+  # build_on_win:
+  #   runs-on: windows-latest
+  #   steps:
+  #   - uses: actions/checkout@v2
+  #   - uses: actions/setup-node@master
+  #     with:
+  #       node-version: 14
+  #   - uses: bahmutov/npm-install@v1
+  #   - name: Build
+  #     run: yarn make
