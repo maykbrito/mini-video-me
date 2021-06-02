@@ -1,0 +1,113 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background: #000;
+  color: #FFF;
+}
+
+body, button {
+  font-family: Inter, sans-serif;
+}
+
+#wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  height: 100vh;
+}
+
+h1 {
+  font-weight: 800;
+  font-size: 92px;
+  line-height: 92px;
+  text-align: center;
+  letter-spacing: -5.85133px;
+  background-image: linear-gradient(45deg, #988BC7, #FF79C6);
+  background-clip: text;
+  padding: 0 24px;
+
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+p {
+  font-size: 24px;
+  line-height: 36px;
+  margin: 24px;
+  max-width: 700px;
+  text-align: center;
+}
+
+footer {
+  width: 100%;
+  display: flex;
+  padding: 0 24px;
+  align-items: center;
+  justify-content: center;
+}
+
+footer a {
+  display: inline-block;
+  height: 50px;
+  padding: 0 24px;
+
+  display: flex;
+  align-items: center;
+  color: #FFF;
+
+  border-radius: 4px;
+
+  text-decoration: none;
+
+  transition: filter 0.2s;
+}
+
+footer a span {
+  flex: 1;
+  padding-left: 16px;
+  text-align: left;
+}
+
+footer a.download {
+  background: #8257e6;
+}
+
+footer a.github {
+  border: 1px solid #FFF;
+  margin-left: 16px;
+}
+
+footer a:hover {
+  filter: brightness(0.8);
+}
+
+
+@media (max-width: 700px) {
+  h1 {
+    font-size: 54px;
+    line-height: 54px;
+    letter-spacing: -3px;
+  }
+
+  p {
+    font-size: 20px;
+    line-height: 32px;
+  }
+
+  footer a {
+    padding: 0 16px;
+  }
+
+  footer a.github {
+    width: 58px;
+  }
+
+  footer a.github span {
+    display: none;
+  }
+}
