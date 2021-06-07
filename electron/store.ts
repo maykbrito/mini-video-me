@@ -74,6 +74,9 @@ const userPreferencesSchema: Schema<unknown> = {
   zoom: {
     type: JSONSchemaType.Number,
   },
+  borderColorCss: {
+    type: JSONSchemaType.String,
+  },
 }
 
 export const userPreferences = new Store({
@@ -106,6 +109,7 @@ export const userPreferences = new Store({
     rounded: true,
     flipHorizontal: false,
     zoom: 1.1,
+    borderColorCss: 'linear-gradient(to right, #988BC7, #FF79C6)',
   },
 })
 

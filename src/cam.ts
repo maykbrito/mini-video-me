@@ -11,10 +11,12 @@ export class CameraController {
   private isFlipped: boolean
   private isRounded: boolean
   private position: Record<'x' | 'y' | 'z', number>
+  private root: HTMLElement
 
   constructor() {
     this.videoWrapper = document.getElementById('wrapper') as HTMLDivElement
     this.videoElement = document.getElementById('video') as HTMLVideoElement
+    this.root = document.querySelector(':root') as HTMLElement
 
     this.isFlipped = config.flipHorizontal
     this.isRounded = config.rounded
@@ -84,5 +86,9 @@ export class CameraController {
     this.videoElement.style.transform = transform.join(' ')
     this.videoElement.className = classList.join(' ')
     this.videoWrapper.className = this.isRounded ? 'rounded' : ''
+
+    if (config.borderColorCss) {
+      this.root.style.setProperty('--border-color', config.borderColorCss)
+    }
   }
 }
