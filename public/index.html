@@ -7,6 +7,10 @@
 
   <title>Mini Video Me</title>
   <style>
+    :root {
+      --border-color: linear-gradient(to right, #988BC7, #FF79C6);
+    }
+
     body, #video-grid {
       -webkit-app-region: drag;
     }
@@ -27,8 +31,8 @@
       pointer-events: none;
       background: #121214;
     }
-    
-    .flip { 
+
+    .flip {
       transform: rotateY(180deg);
     }
 
@@ -57,7 +61,7 @@
       z-index: -1;
       margin: -5px;
       border-radius: inherit;
-      background: linear-gradient(to right, #988BC7, #FF79C6);
+      background: var(--border-color);
     }
 
     .video-wrapper {
@@ -72,7 +76,7 @@
     #wrapper.rounded {
       border-radius: 50%;
       /* fix border-radius on Mac Mojave */
-      height: calc(100vw - 1px); 
+      height: calc(100vw - 1px);
     }
 
     #wrapper.rounded .video-wrapper {
@@ -82,7 +86,7 @@
 
   <script>
     const global = globalThis;
-  </script> 
+  </script>
 </head>
 <body>
   <div id="wrapper">
