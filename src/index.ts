@@ -30,7 +30,7 @@ navigator.mediaDevices.enumerateDevices().then(devices => {
   MiniVideoMe.sendVideoInputDevices(availableDevices)
 })
 
-const controls: Record<string, () => void> = {
+const controls = {
   ArrowLeft: () => cameraController.adjustOffset('left'),
   ArrowRight: () => cameraController.adjustOffset('right'),
   ArrowUp: () => cameraController.adjustOffset('up'),
@@ -41,8 +41,12 @@ const controls: Record<string, () => void> = {
   o: () => cameraController.round(),
 }
 
+function isValidControlKey(key: string): key is keyof typeof controls {
+  return key in controls
+}
+
 window.addEventListener('keydown', event => {
-  if (controls[event.key]) {
+  if (isValidControlKey(event.key)) {
     controls[event.key]()
   }
 })
