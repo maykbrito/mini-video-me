@@ -96,7 +96,8 @@ export class CameraController {
     }
 
     if (config.clipPath) {
-      this.wrapperElement.style.setProperty('clip-path', config.clipPath)
+      this.wrapperElement.classList.add('has-clip-path')
+      this.root.style.setProperty('--clip-path', config.clipPath)
     }
   }
 

@@ -9,6 +9,7 @@
   <style>
     :root {
       --border-color: linear-gradient(to right, #988BC7, #FF79C6);
+      --clip-path: inherit;
     }
 
     body, #video-grid {
@@ -88,6 +89,14 @@
 
     #wrapper.rounded video {
       border-radius: 9999px;
+    }
+
+    #wrapper.has-clip-path:before {
+      clip-path: var(--clip-path);
+    }
+
+    #wrapper.has-clip-path .video-wrapper {
+      clip-path: var(--clip-path);
     }
   </style>
 
