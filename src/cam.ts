@@ -81,8 +81,8 @@ export class CameraController {
   }
 
   private applyBorder() {
-    if (config.borderColorCss) {
-      this.root.style.setProperty('--border-color', config.borderColorCss)
+    if (config.borderColor) {
+      this.root.style.setProperty('--border-color', config.borderColor)
     }
 
     if (config.showBorder) {
