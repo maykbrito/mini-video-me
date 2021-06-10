@@ -91,8 +91,12 @@ export class CameraController {
   }
 
   private applyShape() {
-    if (this.isRounded) {
+    if (!config.clipPath && this.isRounded) {
       this.wrapperElement.classList.add('rounded')
+    }
+
+    if (config.clipPath) {
+      this.wrapperElement.style.setProperty('clip-path', config.clipPath)
     }
   }
 

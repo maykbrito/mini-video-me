@@ -11,6 +11,7 @@ const config = {
   vertical: Number(userPreferences.anchor.y ?? 0),
   borderColorCss: userPreferences.borderColorCss,
   showBorder: userPreferences.showBorder,
+  clipPath: userPreferences.clipPath,
 }
 
 export { config }
