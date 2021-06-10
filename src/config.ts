@@ -10,6 +10,7 @@ const config = {
   horizontal: Number(userPreferences.anchor.x ?? 0),
   vertical: Number(userPreferences.anchor.y ?? 0),
   borderColorCss: userPreferences.borderColorCss,
+  showBorder: userPreferences.showBorder,
 }
 
 export { config }

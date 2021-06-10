@@ -27,7 +27,6 @@
 
     video {
       height: 100vh;
-      border-radius: 9999px;
       pointer-events: none;
       background: #121214;
     }
@@ -50,8 +49,6 @@
       color: #FFF;
       background: transparent;
       background-clip: padding-box;
-      border: solid 5px transparent;
-      border-radius: 16px;
     }
 
     #wrapper:before {
@@ -61,7 +58,6 @@
       z-index: -1;
       margin: -5px;
       border-radius: inherit;
-      background: var(--border-color);
     }
 
     .video-wrapper {
@@ -69,8 +65,15 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      border-radius: 16px;
       background: transparent;
+    }
+
+    #wrapper.has-border {
+      border: solid 5px transparent;
+    }
+
+    #wrapper.has-border:before {
+      background: var(--border-color);
     }
 
     #wrapper.rounded {
@@ -80,6 +83,10 @@
     }
 
     #wrapper.rounded .video-wrapper {
+      border-radius: 9999px;
+    }
+
+    #wrapper.rounded video {
       border-radius: 9999px;
     }
   </style>
