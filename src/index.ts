@@ -1,6 +1,8 @@
 import { config } from './config'
 import { CameraController } from './cam'
 
+type ControlsKeys = 'ArrowLeft' | 'ArrowRight' | 'ArrowUp' | 'ArrowDown' | '=' | '-' | '/' | 'o'
+
 const { MiniVideoMe } = window
 
 const cameraController = new CameraController()
@@ -30,7 +32,8 @@ navigator.mediaDevices.enumerateDevices().then(devices => {
   MiniVideoMe.sendVideoInputDevices(availableDevices)
 })
 
-const controls: Record<string, () => void> = {
+
+const controls: Record<ControlsKeys, () => void> = {
   ArrowLeft: () => cameraController.adjustOffset('left'),
   ArrowRight: () => cameraController.adjustOffset('right'),
   ArrowUp: () => cameraController.adjustOffset('up'),
@@ -41,8 +44,10 @@ const controls: Record<string, () => void> = {
   o: () => cameraController.round(),
 }
 
+const isValidControlKey = (key: string): key is ControlsKeys => key in controls
+
 window.addEventListener('keydown', event => {
-  if (controls[event.key]) {
+  if (isValidControlKey(event.key)) {
     controls[event.key]()
   }
 })
