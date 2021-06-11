@@ -100,7 +100,7 @@ After running for the first time you can access the app settings through the tra
   </tbody>
 </table>
 
-> Inside MacOS you can use Command instead of Ctrl.
+> On macOS you can use Command instead of Ctrl.
 
 ## Author
 
