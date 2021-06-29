@@ -74,6 +74,10 @@ export class ScreenController {
   }
 
   setWindowSize(size: ScreenSize) {
+    if (this.currentScreenSize === size) {
+      return
+    }
+
     this.currentScreenSize = size
     this.memoLastWindowPosition()
 
