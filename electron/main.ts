@@ -26,9 +26,9 @@ if (isLinux) {
   app.disableHardwareAcceleration()
 }
 
-if (isMac) {
-  app.dock.hide()
-}
+// if (isMac) {
+//   app.dock.hide()
+// }
 
 let win: BrowserWindow
 let isLinuxWindowReadyToShow: boolean
@@ -231,6 +231,13 @@ async function createTrayContextMenu() {
   mainTray.setContextMenu(contextMenu)
 }
 
+/* Hide Icon dock */
+async function hideDockMacIcon() {
+  if (isMac) {
+    app.dock.hide()
+  }
+}
+
 /**
  * Create main electron window
  */
@@ -289,6 +296,7 @@ app
   .then(createWindow)
   .then(createTrayMenu)
   .then(registerShortcuts)
+  .then(hideDockMacIcon)
   .catch(e => console.error(e))
 
 app.on('window-all-closed', () => {
