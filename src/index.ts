@@ -35,10 +35,11 @@ const controls = {
   ArrowRight: () => cameraController.adjustOffset('right'),
   ArrowUp: () => cameraController.adjustOffset('up'),
   ArrowDown: () => cameraController.adjustOffset('down'),
+  o: () => cameraController.round(),
+  r: () => cameraController.reset(),
   '=': () => cameraController.zoom('in'),
   '-': () => cameraController.zoom('out'),
   '/': () => cameraController.flipHorizontal(),
-  o: () => cameraController.round(),
 }
 
 function isValidControlKey(key: string): key is keyof typeof controls {
