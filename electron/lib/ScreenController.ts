@@ -4,7 +4,7 @@ type ScreenSize = 'initial' | 'large'
 
 type ScreenEdge = 'top-left' | 'top-right' | 'bottom-left' | 'bottom-right'
 
-export type ScreenMovement = 'left' | 'right' | 'top' | 'bottom'
+type ScreenMovement = 'left' | 'right' | 'top' | 'bottom'
 
 type ScreenEdgeMovements = Record<
   ScreenEdge,
