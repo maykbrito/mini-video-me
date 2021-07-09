@@ -70,6 +70,10 @@ After running for the first time you can access the app settings through the tra
       <td>Toggle rounded camera (window must be focused)</td>
     </tr>
     <tr>
+      <td>r</td>
+      <td>Reset zoom (window must be focused)</td>
+    </tr>
+    <tr>
       <td>Arrow Up / Down / Left / Right</td>
       <td>Adjust video offset (window must be focused)</td>
     </tr>
@@ -106,9 +110,9 @@ After running for the first time you can access the app settings through the tra
 
 👤 **Mayk Brito**
 
-* Twitter: [@maykbrito](https://twitter.com/maykbrito)
-* Github: [@maykbrito](https://github.com/maykbrito)
-* LinkedIn: [@maykbrito](https://linkedin.com/in/maykbrito)
+- Twitter: [@maykbrito](https://twitter.com/maykbrito)
+- Github: [@maykbrito](https://github.com/maykbrito)
+- LinkedIn: [@maykbrito](https://linkedin.com/in/maykbrito)
 
 ## Show your support
 
