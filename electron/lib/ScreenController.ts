@@ -48,10 +48,6 @@ export class ScreenController {
     this.setCurrentWindowXY()
   }
 
-  setScreenSizes(screenSizes: Record<ScreenSize, number>) {
-    this.screenSizes = screenSizes
-  }
-
   setWindowPositionByScreenSize() {
     this.windowPositionByScreenSize[this.currentScreenSize] = {
       x: this.currentX,
