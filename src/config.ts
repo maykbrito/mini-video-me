@@ -1,6 +1,7 @@
 const userPreferences = window.MiniVideoMe.config
 
 const config = {
+  screenSize: userPreferences.screenSize,
   width: Number(userPreferences.camera.width),
   height: Number(userPreferences.camera.height),
   frameRate: Number(userPreferences.camera.frameRate),

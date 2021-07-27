@@ -84,6 +84,10 @@ export const userPreferences = new Store({
   watch: true,
   clearInvalidConfig: true,
   defaults: {
+    screenSize: {
+      initial: 300,
+      large: 600,
+    },
     camera: {
       width: 1920,
       height: 1080,
