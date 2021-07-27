@@ -83,8 +83,6 @@ export class ScreenController {
       return
     }
 
-    console.log(`Setting window size to ${size}`)
-
     this.currentScreenSize = size
     this.memoLastWindowPosition()
 
