@@ -83,9 +83,6 @@ const userPreferencesSchema: Schema<unknown> = {
   showBorder: {
     type: JSONSchemaType.Boolean,
   },
-  filter: {
-    type: JSONSchemaType.String,
-  },
 }
 
 export const userPreferences = new Store({
@@ -121,7 +118,6 @@ export const userPreferences = new Store({
     zoom: 1.1,
     borderColorCss: 'linear-gradient(to right, #988BC7, #FF79C6)',
     showBorder: true,
-    filter: '',
   },
 })
 

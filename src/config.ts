@@ -12,7 +12,6 @@ const config = {
   borderColorCss: userPreferences.borderColorCss,
   showBorder: userPreferences.showBorder,
   clipPath: userPreferences.clipPath,
-  filter: userPreferences.filter,
 }
 
 export { config }

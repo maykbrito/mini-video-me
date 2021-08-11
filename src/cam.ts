@@ -117,16 +117,9 @@ export class CameraController {
     }
   }
 
-  private applyFilter() {
-    if (config.filter) {
-      this.videoElement.style.setProperty('filter', config.filter)
-    }
-  }
-
   private render() {
     this.applyPositioning()
     this.applyBorder()
     this.applyShape()
-    this.applyFilter()
   }
 }
