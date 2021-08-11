@@ -10,6 +10,7 @@ export class CameraController {
   private wrapperElement: HTMLDivElement
   private isFlipped: boolean
   private isRounded: boolean
+  private isClipped: boolean
   private position: Record<'x' | 'y' | 'z', number>
   private root: HTMLElement
 
@@ -20,6 +21,7 @@ export class CameraController {
 
     this.isFlipped = config.flipHorizontal
     this.isRounded = config.rounded
+    this.isClipped = !!config.clipPath
 
     this.position = {
       x: config.horizontal,
@@ -75,6 +77,12 @@ export class CameraController {
     this.render()
   }
 
+  public clip() {
+    this.isClipped = !this.isClipped
+
+    this.render()
+  }
+
   private applyPositioning() {
     this.videoElement.style.transform = `translate(${this.position.x}%, ${this.position.y}%) scale(${this.position.z})`
 
@@ -95,15 +103,17 @@ export class CameraController {
   }
 
   private applyShape() {
-    if (!config.clipPath && this.isRounded) {
+    if (this.isRounded) {
       this.wrapperElement.classList.add('rounded')
     } else {
       this.wrapperElement.classList.remove('rounded')
     }
 
-    if (config.clipPath) {
+    if (this.isClipped && config.clipPath) {
       this.wrapperElement.classList.add('has-clip-path')
       this.root.style.setProperty('--clip-path', config.clipPath)
+    } else {
+      this.wrapperElement.classList.remove('has-clip-path')
     }
   }
 

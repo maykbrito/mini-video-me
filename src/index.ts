@@ -36,6 +36,7 @@ const controls = {
   ArrowUp: () => cameraController.adjustOffset('up'),
   ArrowDown: () => cameraController.adjustOffset('down'),
   o: () => cameraController.round(),
+  p: () => cameraController.clip(),
   r: () => cameraController.reset(),
   '=': () => cameraController.zoom('in'),
   '-': () => cameraController.zoom('out'),
