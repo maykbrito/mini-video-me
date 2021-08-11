@@ -51,7 +51,6 @@ export class CameraController {
         this.position.x += 1
         break
     }
-
     this.render()
   }
 
@@ -62,6 +61,11 @@ export class CameraController {
       this.position.z -= 0.1
     }
 
+    this.render()
+  }
+
+  public reset() {
+    this.position.z = 1
     this.render()
   }
 
