@@ -77,15 +77,10 @@
       background: var(--border-color);
     }
 
-    #wrapper.rounded {
-      border-radius: 50%;
-      /* fix border-radius on Mac Mojave */
-      height: calc(100vw - 1px);
-    }
-
+    #wrapper.rounded,
     #wrapper.rounded .video-wrapper,
     #wrapper.rounded video {
-      border-radius: 9999px;
+      clip-path: circle(50% at 50% 50%);
     }
 
     #wrapper.has-clip-path:before,
