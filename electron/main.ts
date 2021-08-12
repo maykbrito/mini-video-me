@@ -26,6 +26,10 @@ if (isLinux) {
   app.disableHardwareAcceleration()
 }
 
+if (isMac) {
+  app.dock.hide()
+}
+
 let win: BrowserWindow
 let isLinuxWindowReadyToShow: boolean
 let mainTray: Tray
@@ -240,6 +244,7 @@ async function createWindow() {
     maxWidth: 300,
     maxHeight: 300,
     frame: false,
+    skipTaskbar: true,
     titleBarStyle: 'customButtonsOnHover',
     transparent: true,
     alwaysOnTop: true,
