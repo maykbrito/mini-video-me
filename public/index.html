@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -12,7 +13,8 @@
       --clip-path: inherit;
     }
 
-    body, #video-grid {
+    body,
+    #video-grid {
       -webkit-app-region: drag;
     }
 
@@ -30,10 +32,6 @@
       height: 100vh;
       pointer-events: none;
       background: #121214;
-    }
-
-    .flip {
-      transform: rotateY(180deg);
     }
 
     #wrapper {
@@ -55,7 +53,10 @@
     #wrapper:before {
       content: '';
       position: absolute;
-      top: 0; right: 0; bottom: 0; left: 0;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
       z-index: -1;
       margin: -5px;
       border-radius: inherit;
@@ -93,6 +94,7 @@
     const global = globalThis;
   </script>
 </head>
+
 <body>
   <div id="wrapper">
     <div class="video-wrapper">
@@ -100,4 +102,5 @@
     </div>
   </div>
 </body>
+
 </html>

@@ -88,7 +88,6 @@ export class CameraController {
 
     if (this.isFlipped) {
       this.videoElement.style.transform += 'rotateY(180deg)'
-      this.videoElement.classList.add('flip')
     }
   }
 
