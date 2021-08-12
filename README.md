@@ -70,6 +70,10 @@ After running for the first time you can access the app settings through the tra
       <td>Toggle rounded camera (window must be focused)</td>
     </tr>
     <tr>
+      <td>p</td>
+      <td>Toggle <a href="#using-custom-shapes">custom shapes</a> (window must be focused)</td>
+    </tr>
+    <tr>
       <td>r</td>
       <td>Reset zoom (window must be focused)</td>
     </tr>
@@ -104,7 +108,14 @@ After running for the first time you can access the app settings through the tra
   </tbody>
 </table>
 
+
 > On macOS you can use Command instead of Ctrl.
+
+## Using custom shapes
+
+You can use custom shapes using the [`clip-path`](https://developer.mozilla.org/en-US/docs/Web/CSS/clip-path)
+CSS property. You can use a tool like [Clippy](https://bennettfeely.com/clippy/) to play around with different shapes
+you can build with `clip-path`.
 
 ## Author
 

@@ -68,6 +68,9 @@ const userPreferencesSchema: Schema<unknown> = {
   rounded: {
     type: JSONSchemaType.Boolean,
   },
+  clipPath: {
+    type: JSONSchemaType.String,
+  },
   flipHorizontal: {
     type: JSONSchemaType.Boolean,
   },
@@ -76,6 +79,9 @@ const userPreferencesSchema: Schema<unknown> = {
   },
   borderColorCss: {
     type: JSONSchemaType.String,
+  },
+  showBorder: {
+    type: JSONSchemaType.Boolean,
   },
 }
 
@@ -107,9 +113,11 @@ export const userPreferences = new Store({
       hideCamera: 'Shift+Alt+CommandOrControl+3',
     },
     rounded: true,
+    clipPath: '',
     flipHorizontal: false,
     zoom: 1.1,
     borderColorCss: 'linear-gradient(to right, #988BC7, #FF79C6)',
+    showBorder: true,
   },
 })
 

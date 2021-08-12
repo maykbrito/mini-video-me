@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,9 +10,11 @@
   <style>
     :root {
       --border-color: linear-gradient(to right, #988BC7, #FF79C6);
+      --clip-path: inherit;
     }
 
-    body, #video-grid {
+    body,
+    #video-grid {
       -webkit-app-region: drag;
     }
 
@@ -27,13 +30,8 @@
 
     video {
       height: 100vh;
-      border-radius: 9999px;
       pointer-events: none;
       background: #121214;
-    }
-
-    .flip {
-      transform: rotateY(180deg);
     }
 
     #wrapper {
@@ -50,18 +48,18 @@
       color: #FFF;
       background: transparent;
       background-clip: padding-box;
-      border: solid 5px transparent;
-      border-radius: 16px;
     }
 
     #wrapper:before {
       content: '';
       position: absolute;
-      top: 0; right: 0; bottom: 0; left: 0;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
       z-index: -1;
       margin: -5px;
       border-radius: inherit;
-      background: var(--border-color);
     }
 
     .video-wrapper {
@@ -69,18 +67,26 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      border-radius: 16px;
       background: transparent;
     }
 
-    #wrapper.rounded {
-      border-radius: 50%;
-      /* fix border-radius on Mac Mojave */
-      height: calc(100vw - 1px);
+    #wrapper.has-border {
+      border: solid 5px transparent;
     }
 
-    #wrapper.rounded .video-wrapper {
-      border-radius: 9999px;
+    #wrapper.has-border:before {
+      background: var(--border-color);
+    }
+
+    #wrapper.rounded,
+    #wrapper.rounded .video-wrapper,
+    #wrapper.rounded video {
+      clip-path: circle(50% at 50% 50%);
+    }
+
+    #wrapper.has-clip-path:before,
+    #wrapper.has-clip-path .video-wrapper {
+      clip-path: var(--clip-path);
     }
   </style>
 
@@ -88,6 +94,7 @@
     const global = globalThis;
   </script>
 </head>
+
 <body>
   <div id="wrapper">
     <div class="video-wrapper">
@@ -95,4 +102,5 @@
     </div>
   </div>
 </body>
+
 </html>
