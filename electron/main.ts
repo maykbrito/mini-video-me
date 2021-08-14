@@ -41,7 +41,7 @@ declare const MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY: string
  * Register global shortcuts
  */
 function registerShortcuts() {
-  screenController = new ScreenController(win)
+  screenController = new ScreenController(win, userPreferences.store.screenSize)
 
   screenController.moveWindowToScreenEdge()
 
@@ -235,10 +235,10 @@ async function createWindow() {
     icon: nativeImage.createFromPath(
       path.join(assetsPath, 'assets', 'icon.png')
     ),
-    width: 300,
-    height: 300,
-    maxWidth: 300,
-    maxHeight: 300,
+    width: userPreferences.store.screenSize.initial,
+    height: userPreferences.store.screenSize.initial,
+    maxWidth: userPreferences.store.screenSize.initial,
+    maxHeight: userPreferences.store.screenSize.initial,
     frame: false,
     titleBarStyle: 'customButtonsOnHover',
     transparent: true,

@@ -28,6 +28,7 @@ export class ScreenController {
 
   constructor(
     browserWindow: BrowserWindow,
+    screenSizes: Record<ScreenSize, number>,
     initialScreenSize: ScreenSize = 'initial',
     initialScreenEdge: ScreenEdge = 'bottom-right'
   ) {
@@ -35,7 +36,7 @@ export class ScreenController {
     this.currentScreenEdge = initialScreenEdge
     this.currentScreenSize = initialScreenSize
 
-    this.screenSizes = { initial: 300, large: 600 }
+    this.screenSizes = screenSizes
 
     const { x, y } = this.browserWindow.getBounds()
 
