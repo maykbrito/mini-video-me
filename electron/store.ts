@@ -92,11 +92,11 @@ const userPreferencesSchema: Schema<unknown> = {
       },
     },
   },
-  rounded: {
-    type: JSONSchemaType.Boolean,
-  },
-  clipPath: {
-    type: JSONSchemaType.String,
+  shapes: {
+    type: JSONSchemaType.Array,
+    items: {
+      type: JSONSchemaType.String,
+    },
   },
   flipHorizontal: {
     type: JSONSchemaType.Boolean,
@@ -104,11 +104,11 @@ const userPreferencesSchema: Schema<unknown> = {
   zoom: {
     type: JSONSchemaType.Number,
   },
-  borderColorCss: {
+  borderColor: {
     type: JSONSchemaType.String,
   },
-  showBorder: {
-    type: JSONSchemaType.Boolean,
+  borderWidth: {
+    type: JSONSchemaType.String,
   },
 }
 
@@ -139,6 +139,10 @@ export const userPreferences = new Store({
       },
       hideCamera: 'Shift+Alt+CommandOrControl+3',
     },
+    shapes: [
+      'circle(50% at 50% 50%)',
+      'polygon(0 0, 100% 0, 100% 100%, 0% 100%)',
+    ],
     screen: {
       initial: {
         width: 300,
@@ -149,12 +153,10 @@ export const userPreferences = new Store({
         heigth: 600,
       },
     },
-    rounded: true,
-    clipPath: '',
     flipHorizontal: false,
     zoom: 1.1,
-    borderColorCss: 'linear-gradient(to right, #988BC7, #FF79C6)',
-    showBorder: true,
+    borderColor: 'linear-gradient(to right, #988BC7, #FF79C6)',
+    borderWidth: '5px',
   },
 })
 
