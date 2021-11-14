@@ -90,7 +90,6 @@ export class ScreenController {
   }
 
   getScreenSizeInPixels() {
-    console.log(`this.screenSizes`, this.screenSizes)
     const { width, height } = this.screenSizes[this.currentScreenSize]
 
     return {
@@ -109,8 +108,6 @@ export class ScreenController {
 
     const { width, height } = this.getScreenSizeInPixels()
     const { x, y } = this.windowPositionByScreenSize[size]
-
-    console.log('setWindowSize', width, height)
 
     this.browserWindow.setMaximumSize(width, height)
     this.browserWindow.setBounds({ width, height, x, y }, true)
