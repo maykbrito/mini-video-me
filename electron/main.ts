@@ -231,14 +231,20 @@ async function createTrayContextMenu() {
  * Create main electron window
  */
 async function createWindow() {
+  const {
+    store: {
+      screen: { initial },
+    },
+  } = userPreferences
+
   win = new BrowserWindow({
     icon: nativeImage.createFromPath(
       path.join(assetsPath, 'assets', 'icon.png')
     ),
-    width: 300,
-    height: 300,
-    maxWidth: 300,
-    maxHeight: 300,
+    width: initial.width,
+    height: initial.height,
+    maxWidth: initial.width,
+    maxHeight: initial.height,
     frame: false,
     titleBarStyle: 'customButtonsOnHover',
     transparent: true,
