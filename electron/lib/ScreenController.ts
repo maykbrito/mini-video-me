@@ -1,4 +1,5 @@
 import { BrowserWindow, screen } from 'electron'
+import { userPreferences } from '../store'
 
 type ScreenSize = 'initial' | 'large'
 
@@ -35,7 +36,13 @@ export class ScreenController {
     this.currentScreenEdge = initialScreenEdge
     this.currentScreenSize = initialScreenSize
 
-    this.screenSizes = { initial: 300, large: 600 }
+    const {
+      store: { screen },
+    } = userPreferences
+    this.screenSizes = {
+      initial: screen.initial.width,
+      large: screen.large.width,
+    }
 
     const { x, y } = this.browserWindow.getBounds()
 
