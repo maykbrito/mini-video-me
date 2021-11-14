@@ -70,6 +70,32 @@ const userPreferencesSchema: Schema<unknown> = {
     items: {
       type: JSONSchemaType.String,
     },
+  screen: {
+    type: JSONSchemaType.Object,
+    properties: {
+      initial: {
+        type: JSONSchemaType.Object,
+        properties: {
+          width: {
+            type: JSONSchemaType.Number,
+          },
+          height: {
+            type: JSONSchemaType.Number,
+          },
+        },
+      },
+      large: {
+        type: JSONSchemaType.Object,
+        properties: {
+          width: {
+            type: JSONSchemaType.Number,
+          },
+          height: {
+            type: JSONSchemaType.Number,
+          },
+        },
+      },
+    },
   },
   flipHorizontal: {
     type: JSONSchemaType.Boolean,
@@ -116,6 +142,16 @@ export const userPreferences = new Store({
       'circle(50% at 50% 50%)',
       'polygon(0 0, 100% 0, 100% 100%, 0% 100%)',
     ],
+    screen: {
+      initial: {
+        width: 300,
+        height: 300,
+      },
+      large: {
+        width: 600,
+        heigth: 600,
+      },
+    },
     flipHorizontal: false,
     zoom: 1.1,
     borderColor: 'linear-gradient(to right, #988BC7, #FF79C6)',
