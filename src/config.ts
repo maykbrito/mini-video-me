@@ -5,13 +5,12 @@ const config = {
   height: Number(userPreferences.camera.height),
   frameRate: Number(userPreferences.camera.frameRate),
   flipHorizontal: Boolean(userPreferences.flipHorizontal),
-  rounded: Boolean(userPreferences.rounded),
   scale: Number(userPreferences.zoom ?? 1),
   horizontal: Number(userPreferences.anchor.x ?? 0),
   vertical: Number(userPreferences.anchor.y ?? 0),
-  borderColorCss: userPreferences.borderColorCss,
-  showBorder: userPreferences.showBorder,
-  clipPath: userPreferences.clipPath,
+  borderColor: userPreferences.borderColor,
+  borderWidth: userPreferences.borderWidth,
+  shapes: userPreferences.shapes,
 }
 
 export { config }

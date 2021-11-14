@@ -9,8 +9,7 @@ export class CameraController {
 
   private wrapperElement: HTMLDivElement
   private isFlipped: boolean
-  private isRounded: boolean
-  private isClipped: boolean
+  private currentShapePosition: number
   private position: Record<'x' | 'y' | 'z', number>
   private root: HTMLElement
 
@@ -20,8 +19,7 @@ export class CameraController {
     this.root = document.querySelector(':root') as HTMLElement
 
     this.isFlipped = config.flipHorizontal
-    this.isRounded = config.rounded
-    this.isClipped = !!config.clipPath
+    this.currentShapePosition = -1
 
     this.position = {
       x: config.horizontal,
@@ -35,7 +33,7 @@ export class CameraController {
   public flipHorizontal() {
     this.isFlipped = !this.isFlipped
 
-    this.render()
+    this.applyPositioning()
   }
 
   public adjustOffset(position: MovePosition) {
@@ -53,7 +51,7 @@ export class CameraController {
         this.position.x += 1
         break
     }
-    this.render()
+    this.applyPositioning()
   }
 
   public zoom(type: ZoomType) {
@@ -63,24 +61,16 @@ export class CameraController {
       this.position.z -= 0.1
     }
 
-    this.render()
+    this.applyPositioning()
   }
 
   public reset() {
     this.position.z = 1
-    this.render()
+    this.applyPositioning()
   }
 
-  public round() {
-    this.isRounded = !this.isRounded
-
-    this.render()
-  }
-
-  public clip() {
-    this.isClipped = !this.isClipped
-
-    this.render()
+  public toggleShapes() {
+    this.applyShape()
   }
 
   private applyPositioning() {
@@ -92,32 +82,35 @@ export class CameraController {
   }
 
   private applyBorder() {
-    if (config.borderColorCss) {
-      this.root.style.setProperty('--border-color', config.borderColorCss)
-    }
+    this.wrapperElement.classList.add('has-border')
 
-    if (config.showBorder) {
-      this.wrapperElement.classList.add('has-border')
-    }
+    config.borderColor &&
+      this.root.style.setProperty('--border-color', config.borderColor)
+
+    config.borderWidth &&
+      this.root.style.setProperty('--border-width', config.borderWidth)
   }
 
   private applyShape() {
-    if (this.isRounded) {
-      this.wrapperElement.classList.add('rounded')
-    } else {
-      this.wrapperElement.classList.remove('rounded')
+    this.wrapperElement.classList.add('has-clip-path')
+
+    const shape = this.getShape()
+    this.root.style.setProperty('--clip-path', shape)
+  }
+
+  private getShape() {
+    this.currentShapePosition++
+
+    if (config.shapes.length <= this.currentShapePosition) {
+      this.currentShapePosition = 0
     }
 
-    if (this.isClipped && config.clipPath) {
-      this.wrapperElement.classList.add('has-clip-path')
-      this.root.style.setProperty('--clip-path', config.clipPath)
-    } else {
-      this.wrapperElement.classList.remove('has-clip-path')
-    }
+    return config.shapes[this.currentShapePosition]
   }
 
   private render() {
     this.applyPositioning()
+    this.flipHorizontal()
     this.applyBorder()
     this.applyShape()
   }
