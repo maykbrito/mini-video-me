@@ -3,6 +3,18 @@ import { userPreferences } from '../store'
 
 type ScreenSize = 'initial' | 'large'
 
+type ScreenProportions = {
+  initial: {
+    width: number
+    height: number
+  }
+
+  large: {
+    width: number
+    height: number
+  }
+}
+
 type ScreenEdge = 'top-left' | 'top-right' | 'bottom-left' | 'bottom-right'
 
 type ScreenMovement = 'left' | 'right' | 'top' | 'bottom'
@@ -16,7 +28,7 @@ export class ScreenController {
   private browserWindow: BrowserWindow
   private currentScreenSize: ScreenSize
   private currentScreenEdge: ScreenEdge
-  private screenSizes: Record<ScreenSize, number>
+  private screenSizes: ScreenProportions
   private windowPositionByScreenSize: Record<
     ScreenSize,
     { x: number; y: number }
@@ -40,8 +52,14 @@ export class ScreenController {
       store: { screen },
     } = userPreferences
     this.screenSizes = {
-      initial: screen.initial.width,
-      large: screen.large.width,
+      initial: {
+        width: screen.initial.width,
+        height: screen.initial.height,
+      },
+      large: {
+        width: screen.large.width,
+        height: screen.large.height,
+      },
     }
 
     const { x, y } = this.browserWindow.getBounds()
@@ -72,11 +90,12 @@ export class ScreenController {
   }
 
   getScreenSizeInPixels() {
-    const windowSize = this.screenSizes[this.currentScreenSize]
+    console.log(`this.screenSizes`, this.screenSizes)
+    const { width, height } = this.screenSizes[this.currentScreenSize]
 
     return {
-      width: windowSize,
-      height: windowSize,
+      width,
+      height,
     }
   }
 
@@ -90,6 +109,8 @@ export class ScreenController {
 
     const { width, height } = this.getScreenSizeInPixels()
     const { x, y } = this.windowPositionByScreenSize[size]
+
+    console.log('setWindowSize', width, height)
 
     this.browserWindow.setMaximumSize(width, height)
     this.browserWindow.setBounds({ width, height, x, y }, true)
