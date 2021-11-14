@@ -139,6 +139,10 @@ export const userPreferences = new Store({
       },
       hideCamera: 'Shift+Alt+CommandOrControl+3',
     },
+    shapes: [
+      'circle(50% at 50% 50%)',
+      'polygon(0 0, 100% 0, 100% 100%, 0% 100%)',
+    ],
     screen: {
       initial: {
         width: 300,
@@ -149,10 +153,6 @@ export const userPreferences = new Store({
         heigth: 600,
       },
     },
-    shapes: [
-      'circle(50% at 50% 50%)',
-      'polygon(0 0, 100% 0, 100% 100%, 0% 100%)',
-    ],
     flipHorizontal: false,
     zoom: 1.1,
     borderColor: 'linear-gradient(to right, #988BC7, #FF79C6)',
