@@ -12,6 +12,10 @@ const config = {
   borderColorCss: userPreferences.borderColorCss,
   showBorder: userPreferences.showBorder,
   clipPath: userPreferences.clipPath,
+  screenInitialWidth: userPreferences.screen.initial.width,
+  screenInitialHeight: userPreferences.screen.initial.height,
+  screenLargeWidth: userPreferences.screen.large.width,
+  screenLargeHeight: userPreferences.screen.large.height,
 }
 
 export { config }

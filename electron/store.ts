@@ -65,6 +65,33 @@ const userPreferencesSchema: Schema<unknown> = {
       },
     },
   },
+  screen: {
+    type: JSONSchemaType.Object,
+    properties: {
+      initial: {
+        type: JSONSchemaType.Object,
+        properties: {
+          width: {
+            type: JSONSchemaType.Number,
+          },
+          height: {
+            type: JSONSchemaType.Number,
+          },
+        },
+      },
+      large: {
+        type: JSONSchemaType.Object,
+        properties: {
+          width: {
+            type: JSONSchemaType.Number,
+          },
+          height: {
+            type: JSONSchemaType.Number,
+          },
+        },
+      },
+    },
+  },
   rounded: {
     type: JSONSchemaType.Boolean,
   },
@@ -111,6 +138,16 @@ export const userPreferences = new Store({
         large: 'Shift+Alt+CommandOrControl+2',
       },
       hideCamera: 'Shift+Alt+CommandOrControl+3',
+    },
+    screen: {
+      initial: {
+        width: 300,
+        height: 300,
+      },
+      large: {
+        width: 600,
+        heigth: 600,
+      },
     },
     rounded: true,
     clipPath: '',
