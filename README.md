@@ -25,15 +25,42 @@ Sample preview running the app:
 
 ![Preview](.github/preview.png)
 
-## Installation
+<p align="center" id="menu">
+  <a href="#installation">Instalation</a>&nbsp;•&nbsp;
+  <a href="#usage">Usage & Settings</a>&nbsp;•&nbsp;
+  <a href="#contributing">Contributing</a>&nbsp;•&nbsp;
+  <a href="#author">Contact</a>
+</p>
+
+<br>
+<br>
+
+# Installation
 
 Download the latest version from [releases page](https://github.com/maykbrito/mini-video-me/releases) and run it.
 
-## Usage & settings
+<br>
+<br>
 
-After running for the first time you can access the app settings through the tray menu and click on "Settings" to change default shortcuts, camera size, zoom, shapes, etc.
+<h1 id="usage">Usage & Settings</h1>
 
-### Default shortcuts
+After running for the first time you can access the app settings through the tray menu and click on "Settings" to change default shortcuts, camera size, zoom, shapes, borders, filters etc.
+
+<br>
+
+---
+
+<p align="center" id="custom-settings">
+<a href="#default-shortcuts">Shortcuts</a>&nbsp;•&nbsp;
+  <a href="#adjust-the-border">Border</a>&nbsp;•&nbsp;
+  <a href="#using-custom-shapes">Shapes</a>&nbsp;•&nbsp;
+  <a href="#change-size">Size</a>&nbsp;•&nbsp;
+  <a href="#using-custom-filters">Filters</a>
+</p>
+
+---
+
+## Default shortcuts
 
 <table>
   <thead>
@@ -54,6 +81,10 @@ After running for the first time you can access the app settings through the tra
     <tr>
       <td>o</td>
       <td>Toggle <a href="#using-custom-shapes">custom shapes</a> (window must be focused)</td>
+    </tr>
+    <tr>
+      <td>f</td>
+      <td>Toggle <a href="#using-custom-filters">custom filters</a> (window must be focused)</td>
     </tr>
     <tr>
       <td>r</td>
@@ -92,6 +123,11 @@ After running for the first time you can access the app settings through the tra
 
 > On macOS you can use Command instead of Ctrl.
 
+<br>
+<a href="#custom-settings">^ back to settings menu</a>
+<br>
+<br>
+
 ## Adjust the border
 
 You can **remove border**
@@ -99,6 +135,11 @@ You can **remove border**
 Open the camera settings in `tray menu > Settings` and change `"borderWith"` property to `"0"`.
 
 Or you can make it thick by changing the value above to `"10px"` for example.
+
+<br>
+<a href="#custom-settings">^ back to settings menu</a>
+<br>
+<br>
 
 ## Using custom shapes
 
@@ -115,7 +156,44 @@ Open the camera settings in `tray menu > Settings` and in the `"shapes"` propert
   <img src="https://i.imgur.com/EfTwfr6.png">
 </details>
 
-## Contributing
+<br>
+<a href="#custom-settings">^ back to settings menu</a>
+<br>
+<br>
+
+## Change size
+
+Open the camera settings in `tray menu > Settings` and change `"screen.initial"` and/or `"screen.large"`'s width and height properties as you wish
+
+<details>
+  <summary>See this image example</summary>
+  <img src="https://i.imgur.com/D53cdtr.png">
+</details>
+
+<br>
+<a href="#custom-settings">^ back to settings menu</a>
+<br>
+<br>
+
+## Using custom filters
+
+We can apply custom `css filters` as constrast, brightness, grayscale. See all filters here.
+
+We can also use named filter as `blend-` followed by these colors: `blue, red, yellow, orange, green, purple, pink, red-blue, blue-yellow` and, to give more options, you can append `-dark` or `-light`.
+
+So we can have something like these: `blend-blue-dark`, `blend-purple-light`, `blend-orange` ...
+
+<details>
+  <summary>See this gif example</summary>
+  <img src="https://i.imgur.com/DNQAxLH.gif">
+</details>
+
+<br>
+<a href="#custom-settings">^ back to settings menu</a>
+<br>
+<br>
+
+# Contributing
 
 Clone de repository, open its folder and install dependencies with:
 
@@ -129,13 +207,23 @@ Run it using:
 yarn start
 ```
 
-## Author
+<br>
+<a href="#menu">^ back to menu</a>
+<br>
+<br>
+
+# Author
 
 👤 **Mayk Brito**
 
 - Twitter: [@maykbrito](https://twitter.com/maykbrito)
 - Github: [@maykbrito](https://github.com/maykbrito)
 - LinkedIn: [@maykbrito](https://linkedin.com/in/maykbrito)
+
+<br>
+<a href="#menu">^ back to menu</a>
+<br>
+<br>
 
 ## Show your support
 
