@@ -177,11 +177,11 @@ Open the camera settings in `tray menu > Settings` and change `"screen.initial"`
 
 ## Using custom filters
 
-We can apply custom `css filters` as constrast, brightness, grayscale. See all filters here.
+We can apply custom `CSS filters` as contrast, brightness, grayscale. See all filters [here](http://lukyvj.github.io/colofilter.css/).
 
-We can also use named filter as `blend-` followed by these colors: `blue, red, yellow, orange, green, purple, pink, red-blue, blue-yellow` and, to give more options, you can append `-dark` or `-light`.
+We can also use named filter as `blend-` followed by these colors: `blue, red, yellow, orange, green, purple, pink, red-blue, blue-yellow` and, to give more options, you can append `-dark` or `-light` at the end of the name.
 
-So we can have something like these: `blend-blue-dark`, `blend-purple-light`, `blend-orange` ...
+So we can have something like these: `blend-blue-dark`, `blend-purple-light`, `blend-orange`, and so on ....
 
 <details>
   <summary>See this gif example</summary>
