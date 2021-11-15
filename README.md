@@ -25,15 +25,15 @@ Sample preview running the app:
 
 ![Preview](.github/preview.png)
 
-## Installation
+# Installation
 
 Download the latest version from [releases page](https://github.com/maykbrito/mini-video-me/releases) and run it.
 
-## Usage & settings
+# Usage & settings
 
 After running for the first time you can access the app settings through the tray menu and click on "Settings" to change default shortcuts, camera size, zoom, shapes, etc.
 
-### Default shortcuts
+## Default shortcuts
 
 <table>
   <thead>
@@ -115,7 +115,16 @@ Open the camera settings in `tray menu > Settings` and in the `"shapes"` propert
   <img src="https://i.imgur.com/EfTwfr6.png">
 </details>
 
-## Contributing
+## Change size
+
+Open the camera settings in `tray menu > Settings` and change `"screen.initial"` and/or `"screen.large"`'s width and height properties as you wish
+
+<details>
+  <summary>See this image example</summary>
+  <img src="https://i.imgur.com/D53cdtr.png">
+</details>
+
+# Contributing
 
 Clone de repository, open its folder and install dependencies with:
 
@@ -129,7 +138,7 @@ Run it using:
 yarn start
 ```
 
-## Author
+# Author
 
 👤 **Mayk Brito**
 

@@ -150,7 +150,7 @@ export const userPreferences = new Store({
       },
       large: {
         width: 600,
-        heigth: 600,
+        height: 600,
       },
     },
     flipHorizontal: false,
