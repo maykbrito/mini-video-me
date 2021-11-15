@@ -6,84 +6,6 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
 
     <title>Mini Video Me</title>
-    <style>
-      :root {
-        --border-color: linear-gradient(to right, #988bc7, #ff79c6);
-        --clip-path: circle(50% at 50% 50%);
-        --border-width: 5px;
-      }
-
-      body,
-      #video-grid {
-        -webkit-app-region: drag;
-      }
-
-      button {
-        -webkit-app-region: nodrag;
-      }
-
-      body {
-        margin: 0;
-        padding: 0;
-        overflow: hidden;
-      }
-
-      video {
-        height: 100vh;
-        pointer-events: none;
-        background: #121214;
-      }
-
-      #wrapper {
-        width: 100vw;
-        height: 100vh;
-        display: flex;
-        justify-content: center;
-
-        margin: auto;
-
-        position: relative;
-        box-sizing: border-box;
-
-        color: #fff;
-        background: transparent;
-        background-clip: padding-box;
-      }
-
-      #wrapper:before {
-        content: '';
-        position: absolute;
-        top: 0;
-        right: 0;
-        bottom: 0;
-        left: 0;
-        z-index: -1;
-        margin: calc(-1 * var(--border-width));
-        /* border-radius: inherit; */
-      }
-
-      .video-wrapper {
-        overflow: hidden;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        background: transparent;
-      }
-
-      #wrapper.has-border {
-        border: solid transparent;
-        border-width: var(--border-width);
-      }
-
-      #wrapper.has-border:before {
-        background: var(--border-color);
-      }
-
-      #wrapper.has-clip-path:before,
-      #wrapper.has-clip-path .video-wrapper {
-        clip-path: var(--clip-path);
-      }
-    </style>
 
     <script>
       const global = globalThis
@@ -92,7 +14,7 @@
 
   <body>
     <div id="wrapper">
-      <div class="video-wrapper">
+      <div id="video-wrapper">
         <video id="video" autoplay muted></video>
       </div>
     </div>
