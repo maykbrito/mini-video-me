@@ -11,6 +11,7 @@ const config = {
   borderColor: userPreferences.borderColor,
   borderWidth: userPreferences.borderWidth,
   shapes: userPreferences.shapes,
+  filters: userPreferences.filters,
   screenInitialWidth: userPreferences.screen.initial.width,
   screenInitialHeight: userPreferences.screen.initial.height,
   screenLargeWidth: userPreferences.screen.large.width,

@@ -98,6 +98,12 @@ const userPreferencesSchema: Schema<unknown> = {
       type: JSONSchemaType.String,
     },
   },
+  filters: {
+    type: JSONSchemaType.Array,
+    items: {
+      type: JSONSchemaType.String,
+    },
+  },
   flipHorizontal: {
     type: JSONSchemaType.Boolean,
   },
@@ -153,6 +159,14 @@ export const userPreferences = new Store({
         heigth: 600,
       },
     },
+    filters: [
+      'initial',
+      'contrast(0.9) brightness(1.1)',
+      'grayscale(1)',
+      'blend-red-blue',
+      'blend-blue',
+      'blend-yellow',
+    ],
     flipHorizontal: false,
     zoom: 1.1,
     borderColor: 'linear-gradient(to right, #988BC7, #FF79C6)',
