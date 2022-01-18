@@ -1,7 +1,16 @@
 const userPreferences = window.MiniVideoMe.config
 
+export interface PresetOptions {
+  name: string
+  isDefault: boolean
+  config: {
+    [key: string]: any
+  }
+}
 
-const presetDefault = userPreferences.presets.find( preset => preset.isDefault)
+const presetDefault = userPreferences.presets.find(
+  (preset: PresetOptions) => preset.isDefault
+)
 
 const config = {
   width: Number(userPreferences.camera.width),
