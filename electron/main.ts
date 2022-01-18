@@ -13,6 +13,7 @@ import path from 'path'
 import { ScreenController } from './lib/ScreenController'
 import { VideoDevice } from './bridge'
 import { userPreferences } from './store'
+import { createPreferencesWindow } from './preferences'
 
 const isLinux = process.platform === 'linux'
 const isMac = process.platform === 'darwin'
@@ -129,9 +130,9 @@ async function createTrayContextMenu() {
       enabled: false,
     },
     {
-      label: 'Settings',
+      label: 'Preferences',
       click() {
-        return userPreferences.openInEditor()
+        createPreferencesWindow()
       },
     },
     {
