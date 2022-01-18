@@ -233,7 +233,7 @@ async function createTrayContextMenu() {
           click(menuItem: any) {
             const updatedPresets = userPreferences.store.presets.map(
               (p: PresetOptions) => {
-                p.isDefault = menuItem.label === p.name ? true : false
+                p.isDefault = menuItem.label === p.name
                 return p
               }
             )

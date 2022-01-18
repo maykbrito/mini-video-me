@@ -184,9 +184,7 @@ export const userPreferences = new Store({
               height: 600,
             },
           },
-          shapes: [
-            'circle(50% at 50% 50%)'
-          ],
+          shapes: ['circle(50% at 50% 50%)'],
         },
       },
     ],
