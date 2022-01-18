@@ -1,4 +1,4 @@
-import { createStitches } from '@stitches/react'
+import { createStitches, ScaleValue } from '@stitches/react'
 import {
   grayDark,
   blueDark,
@@ -96,6 +96,15 @@ export const { css, styled, globalCss } = createStitches({
 
     media: {
       mobile: '(max-width: 768px)',
+    },
+  },
+
+  utils: {
+    marginY: (value: ScaleValue<'space'>) => {
+      return {
+        marginTop: value,
+        marginBottom: value,
+      }
     },
   },
 })
