@@ -13,6 +13,7 @@ import path from 'path'
 import { ScreenController } from './lib/ScreenController'
 import { VideoDevice } from './bridge'
 import { userPreferences } from './store'
+import { PresetOptions } from '../src/config'
 
 const isLinux = process.platform === 'linux'
 const isMac = process.platform === 'darwin'
@@ -212,6 +213,38 @@ async function createTrayContextMenu() {
             }
           })
         : [],
+    },
+    {
+      type: 'submenu',
+      label: 'Presets',
+      submenu: userPreferences.store.presets.map((preset: PresetOptions) => {
+        return {
+          label: (() => {
+            const isDefault = userPreferences.store.presets.find(
+              (p: PresetOptions) => p.isDefault
+            )
+
+            if (isDefault.name === preset.name) {
+              return `• ${preset.name}`
+            }
+
+            return preset.name
+          })(),
+          click(menuItem: any) {
+            const updatedPresets = userPreferences.store.presets.map(
+              (p: PresetOptions) => {
+                p.isDefault = menuItem.label === p.name
+                return p
+              }
+            )
+
+            userPreferences.set('presets', updatedPresets)
+
+            app.relaunch()
+            app.exit()
+          },
+        }
+      }),
     },
     {
       type: 'separator',

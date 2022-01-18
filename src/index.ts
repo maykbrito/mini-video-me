@@ -1,5 +1,7 @@
 import { config } from './config'
 import { CameraController } from './cam'
+import './styles/main'
+import './styles/colors-blend'
 
 const { MiniVideoMe } = window
 
@@ -36,6 +38,7 @@ const controls = {
   ArrowUp: () => cameraController.adjustOffset('up'),
   ArrowDown: () => cameraController.adjustOffset('down'),
   o: () => cameraController.toggleShapes(),
+  f: () => cameraController.toggleFilters(),
   r: () => cameraController.reset(),
   '=': () => cameraController.zoom('in'),
   '-': () => cameraController.zoom('out'),

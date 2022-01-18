@@ -65,50 +65,75 @@ const userPreferencesSchema: Schema<unknown> = {
       },
     },
   },
-  screen: {
-    type: JSONSchemaType.Object,
-    properties: {
-      initial: {
-        type: JSONSchemaType.Object,
-        properties: {
-          width: {
-            type: JSONSchemaType.Number,
-          },
-          height: {
-            type: JSONSchemaType.Number,
-          },
-        },
-      },
-      large: {
-        type: JSONSchemaType.Object,
-        properties: {
-          width: {
-            type: JSONSchemaType.Number,
-          },
-          height: {
-            type: JSONSchemaType.Number,
-          },
-        },
-      },
-    },
-  },
-  shapes: {
+  presets: {
     type: JSONSchemaType.Array,
     items: {
-      type: JSONSchemaType.String,
+      type: JSONSchemaType.Object,
+      properties: {
+        name: {
+          type: JSONSchemaType.String,
+        },
+        isDefault: {
+          type: JSONSchemaType.Boolean,
+        },
+        config: {
+          type: JSONSchemaType.Object,
+          properties: {
+            zoom: {
+              type: JSONSchemaType.Number,
+            },
+            flipHorizontal: {
+              type: JSONSchemaType.Boolean,
+            },
+            borderWidth: {
+              type: JSONSchemaType.String,
+            },
+            borderColor: {
+              type: JSONSchemaType.String,
+            },
+            filters: {
+              type: JSONSchemaType.Array,
+              items: {
+                type: JSONSchemaType.String,
+              },
+            },
+            screen: {
+              type: JSONSchemaType.Object,
+              properties: {
+                initial: {
+                  type: JSONSchemaType.Object,
+                  properties: {
+                    width: {
+                      type: JSONSchemaType.Number,
+                    },
+                    height: {
+                      type: JSONSchemaType.Number,
+                    },
+                  },
+                },
+                large: {
+                  type: JSONSchemaType.Object,
+                  properties: {
+                    width: {
+                      type: JSONSchemaType.Number,
+                    },
+                    height: {
+                      type: JSONSchemaType.Number,
+                    },
+                  },
+                },
+              },
+            },
+            shapes: {
+              type: JSONSchemaType.Array,
+              items: {
+                type: JSONSchemaType.String,
+              },
+            },
+          },
+        },
+      },
     },
-  },
-  flipHorizontal: {
-    type: JSONSchemaType.Boolean,
-  },
-  zoom: {
-    type: JSONSchemaType.Number,
-  },
-  borderColor: {
-    type: JSONSchemaType.String,
-  },
-  borderWidth: {
-    type: JSONSchemaType.String,
   },
 }
 
@@ -139,24 +164,30 @@ export const userPreferences = new Store({
       },
       hideCamera: 'Shift+Alt+CommandOrControl+3',
     },
-    shapes: [
-      'circle(50% at 50% 50%)',
-      'polygon(0 0, 100% 0, 100% 100%, 0% 100%)',
+    presets: [
+      {
+        name: 'base',
+        isDefault: true,
+        config: {
+          zoom: 1,
+          flipHorizontal: false,
+          borderWidth: '5px',
+          borderColor: 'linear-gradient(to right, #988BC7, #FF79C6)',
+          filters: ['initial', 'grayscale(1)'],
+          screen: {
+            initial: {
+              width: 300,
+              height: 300,
+            },
+            large: {
+              width: 600,
+              height: 600,
+            },
+          },
+          shapes: ['circle(50% at 50% 50%)'],
+        },
+      },
     ],
-    screen: {
-      initial: {
-        width: 300,
-        height: 300,
-      },
-      large: {
-        width: 600,
-        height: 600,
-      },
-    },
-    flipHorizontal: false,
-    zoom: 1.1,
-    borderColor: 'linear-gradient(to right, #988BC7, #FF79C6)',
-    borderWidth: '5px',
   },
 })
 
