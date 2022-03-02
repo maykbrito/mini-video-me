@@ -60,6 +60,10 @@ After running for the first time you can access the app settings through the tra
       <td>Reset zoom (window must be focused)</td>
     </tr>
     <tr>
+      <td>Backspace</td>
+      <td>Switch cam</td>
+    </tr>
+    <tr>
       <td>Arrow Up / Down / Left / Right</td>
       <td>Adjust video offset (window must be focused)</td>
     </tr>
