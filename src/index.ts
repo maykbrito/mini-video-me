@@ -35,6 +35,7 @@ const controls = {
   ArrowRight: () => cameraController.adjustOffset('right'),
   ArrowUp: () => cameraController.adjustOffset('up'),
   ArrowDown: () => cameraController.adjustOffset('down'),
+  Backspace: () => cameraController.toggleCam(),
   o: () => cameraController.toggleShapes(),
   r: () => cameraController.reset(),
   '=': () => cameraController.zoom('in'),

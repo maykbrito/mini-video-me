@@ -8,6 +8,7 @@ export class CameraController {
   public videoElement: HTMLVideoElement
 
   private wrapperElement: HTMLDivElement
+  private camIndex: number
   private isFlipped: boolean
   private currentShapePosition: number
   private position: Record<'x' | 'y' | 'z', number>
@@ -20,6 +21,8 @@ export class CameraController {
 
     this.isFlipped = config.flipHorizontal
     this.currentShapePosition = -1
+
+    this.camIndex = 0
 
     this.position = {
       x: config.horizontal,
@@ -62,6 +65,29 @@ export class CameraController {
     }
 
     this.applyPositioning()
+  }
+
+  public toggleCam() {
+    navigator.mediaDevices.enumerateDevices().then(devices => {
+      const videoDevices = devices.filter(device => {
+        return device.kind === 'videoinput'
+      })
+
+      const maxCamIndex = videoDevices.length - 1
+      this.camIndex = this.camIndex === maxCamIndex ? 0 : this.camIndex + 1
+
+      navigator.mediaDevices
+        .getUserMedia({
+          video:
+            {
+              ...config,
+              deviceId: videoDevices[this.camIndex].deviceId,
+            } || true,
+        })
+        .then(stream => {
+          this.videoElement.srcObject = stream
+        })
+    })
   }
 
   public reset() {
