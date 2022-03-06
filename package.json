@@ -3,11 +3,19 @@
   "version": "3.3.1",
   "description": "A small webcam player focused on providing an easy way to add and control your webcam during recordings.",
   "main": "./.webpack/main/index.js",
+  "author": {
+    "name": "Mayk Brito",
+    "email": "maykbrito@gmail.com"
+  },
+  "license": "MIT",
   "scripts": {
     "start": "electron-forge start",
     "package": "electron-forge package",
     "make": "electron-forge make",
-    "release": "electron-forge publish",
+    "dist": "electron-builder",
+    "release": "electron-builder --publish always",
+    "postinstall": "npm-run-all package install:deps",
+    "install:deps": "electron-builder install-app-deps",
     "lint": "eslint . --ext js,ts"
   },
   "keywords": [
@@ -16,8 +24,6 @@
     "mini video me",
     "video"
   ],
-  "author": "Mayk Brito <maykbrito@gmail.com>",
-  "license": "MIT",
   "devDependencies": {
     "@babel/core": "^7.14.3",
     "@babel/plugin-transform-runtime": "^7.14.3",
@@ -35,7 +41,9 @@
     "@typescript-eslint/eslint-plugin": "^4.25.0",
     "@typescript-eslint/parser": "^4.25.0",
     "babel-loader": "^8.2.2",
+    "copy-webpack-plugin": "^10.2.4",
     "electron": "^12.0.2",
+    "electron-builder": "^22.14.13",
     "eslint": "^7.27.0",
     "eslint-config-prettier": "^8.3.0",
     "eslint-config-standard": "^16.0.3",
