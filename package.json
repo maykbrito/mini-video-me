@@ -12,6 +12,7 @@
     "start": "electron-forge start",
     "package": "electron-forge package",
     "make": "electron-forge make",
+    "make:release": "node ./bin/modules/release/index.js",
     "dist": "electron-builder",
     "release": "electron-builder --publish always",
     "postinstall": "npm-run-all package install:deps",
