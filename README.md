@@ -7,10 +7,10 @@
 
 <h3 align="center">
   <a href="https://github.com/maykbrito/mini-video-me/actions/workflows/build.yml" target="_blank">
-    <img alt="Build" src="https://github.com/maykbrito/mini-video-me/actions/workflows/build.yml/badge.svg" />
+    <img alt="Build" src="https://img.shields.io/badge/Build-purple.svg" />
   </a>
   <a href="#" target="_blank">
-    <img alt="License: MIT" src="https://img.shields.io/badge/License-MIT-yellow.svg" />
+    <img alt="License: MIT" src="https://img.shields.io/badge/License-MIT-purple.svg" />
   </a>
   <a href="https://twitter.com/maykbrito" target="_blank">
     <img alt="Twitter: maykbrito" src="https://img.shields.io/twitter/follow/maykbrito.svg?style=social" />
