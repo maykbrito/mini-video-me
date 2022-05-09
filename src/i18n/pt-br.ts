@@ -1,0 +1,32 @@
+export const brazilianPortugueseLanguage = {
+  id: 'pt_br',
+  displayName: 'Português (Brasil)',
+
+  dictionary: {
+    default: 'Padrão',
+    language: 'Idiomas',
+    topLeft: 'Superior Esquerda',
+    topRight: 'Superior Direita',
+    bottomLeft: 'Inferior Esquerda',
+    bottomRight: 'Inferior Direita',
+    small: 'Pequena',
+    large: 'Grande',
+    settings: 'Preferências',
+    resetSettings: 'Resetar Preferências',
+    resetSettingsConfirmation:
+      'Você tem certeza que deseja resetar as preferências?',
+    themes: 'Temas',
+    windowSize: 'Tamanhos da Janela',
+    screenEdge: 'Extremidades da Tela',
+    display: 'Tela',
+    displays: 'Telas',
+    videoInputSource: 'Fontes de Vídeo',
+    close: 'Fechar',
+    loading: 'Carregando a câmera',
+    connected: 'Conectando a câmera',
+    disconnected: 'Câmera desconectada',
+    notFound: 'Câmera não encontrada',
+    yes: 'Sim',
+    no: 'Não',
+  },
+}

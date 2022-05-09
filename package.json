@@ -1,135 +1,110 @@
 {
+  "displayName": "Mini Video Me",
   "name": "mini-video-me",
-  "version": "3.3.2",
   "description": "A small webcam player focused on providing an easy way to add and control your webcam during recordings.",
-  "main": "./.webpack/main/index.js",
+  "version": "4.0.0",
+  "main": "./node_modules/.dev-temp-build/main.js",
+  "devTempBuildFolder": "./node_modules/.dev-temp-build",
+  "devServer": "http://localhost:4927",
   "author": {
     "name": "Mayk Brito",
     "email": "maykbrito@gmail.com"
   },
   "license": "MIT",
-  "scripts": {
-    "start": "electron-forge start",
-    "package": "electron-forge package",
-    "make": "electron-forge make",
-    "make:release": "node ./bin/modules/release/index.js",
-    "dist": "electron-builder",
-    "release": "electron-builder --publish always",
-    "postinstall": "npm-run-all package install:deps",
-    "install:deps": "electron-builder install-app-deps",
-    "lint": "eslint . --ext js,ts"
-  },
   "keywords": [
     "webcam",
     "app",
     "mini video me",
     "video"
   ],
-  "devDependencies": {
-    "@babel/core": "^7.14.3",
-    "@babel/plugin-transform-runtime": "^7.14.3",
-    "@babel/preset-env": "^7.14.2",
-    "@babel/preset-typescript": "^7.13.0",
-    "@electron-forge/cli": "^6.0.0-beta.57",
-    "@electron-forge/maker-deb": "^6.0.0-beta.57",
-    "@electron-forge/maker-rpm": "^6.0.0-beta.57",
-    "@electron-forge/maker-squirrel": "^6.0.0-beta.57",
-    "@electron-forge/maker-zip": "^6.0.0-beta.57",
-    "@electron-forge/plugin-webpack": "^6.0.0-beta.57",
-    "@electron-forge/publisher-github": "^6.0.0-beta.57",
-    "@marshallofsound/webpack-asset-relocator-loader": "^0.5.0",
-    "@types/electron": "^1.6.10",
-    "@typescript-eslint/eslint-plugin": "^4.25.0",
-    "@typescript-eslint/parser": "^4.25.0",
-    "babel-loader": "^8.2.2",
-    "copy-webpack-plugin": "^10.2.4",
-    "electron": "^12.0.2",
-    "electron-builder": "^22.14.13",
-    "eslint": "^7.27.0",
-    "eslint-config-prettier": "^8.3.0",
-    "eslint-config-standard": "^16.0.3",
-    "eslint-plugin-import": "^2.23.3",
-    "eslint-plugin-node": "^11.1.0",
-    "eslint-plugin-prettier": "^3.4.0",
-    "eslint-plugin-promise": "^5.1.0",
-    "node-loader": "^2.0.0",
-    "npm-run-all": "^4.1.5",
-    "prettier": "^2.3.0",
-    "typescript": "^4.2.4",
-    "wait-on": "^5.3.0"
+  "scripts": {
+    "start": "electron .",
+    "build": "cross-env NODE_ENV=production yarn r clean webpack:main webpack:renderer",
+    "postbuild": "node ./bin/modules/postbuild/index.js",
+    "predev": "cross-var \"rimraf $npm_package_devTempBuildFolder\"",
+    "dev": "concurrently \"cross-env BROWSER=none yarn dev:renderer\" \"yarn r server:wait nodemon:start\"",
+    "dev:main": "cross-env NODE_ENV=development yarn r webpack:main start",
+    "dev:renderer": "cross-env NODE_ENV=development yarn r webpack:renderer webpack:serve",
+    "postinstall": "yarn r build install:deps",
+    "install:deps": "electron-builder install-app-deps",
+    "make:release": "node ./bin/modules/release/index.js",
+    "webpack:main": "webpack --config ./webpack/main.config.js",
+    "webpack:renderer": "webpack --config ./webpack/renderer.config.js",
+    "webpack:serve": "webpack serve --config ./webpack/renderer.config.js",
+    "server:wait": "cross-var \"wait-on $npm_package_devServer\"",
+    "nodemon:start": "nodemon --watch src/main --watch src/extensions/**/*.ts --watch src/renderer/bridge --watch src/shared --ignore src/resources --ext \"*\" --exec yarn dev:main",
+    "predist": "yarn build",
+    "dist": "electron-builder",
+    "release": "electron-builder --publish always",
+    "clean": "rimraf dist",
+    "prepare": "husky install",
+    "r": "yarn run-s",
+    "lint": "eslint . --ext js,ts"
   },
   "dependencies": {
     "ajv": "^8.5.0",
-    "chokidar": "^3.5.1",
-    "electron-squirrel-startup": "^1.0.0",
-    "electron-store": "^8.0.0",
-    "json-schema-typed": "^7.0.3"
+    "chokidar": "^3.5.3",
+    "electron-store": "^8.0.1",
+    "json-schema-typed": "^7.0.3",
+    "lodash.merge": "^4.6.2",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "react-router-dom": "^6.2.1"
   },
-  "config": {
-    "forge": {
-      "packagerConfig": {
-        "name": "Mini Video Me",
-        "executableName": "mini-video-me",
-        "icon": "assets/icon",
-        "extraResource": [
-          "assets"
-        ]
-      },
-      "plugins": [
-        [
-          "@electron-forge/plugin-webpack",
-          {
-            "mainConfig": "./webpack/main.webpack.js",
-            "renderer": {
-              "config": "./webpack/renderer.webpack.js",
-              "entryPoints": [
-                {
-                  "html": "./public/index.html",
-                  "js": "./src/index.ts",
-                  "name": "main_window",
-                  "preload": {
-                    "js": "./electron/bridge.ts"
-                  }
-                }
-              ]
-            }
-          }
-        ]
-      ],
-      "makers": [
-        {
-          "name": "@electron-forge/maker-squirrel",
-          "config": {
-            "name": "Mini Video Me"
-          }
-        },
-        {
-          "name": "@electron-forge/maker-zip",
-          "platforms": [
-            "darwin"
-          ]
-        },
-        {
-          "name": "@electron-forge/maker-deb",
-          "config": {}
-        },
-        {
-          "name": "@electron-forge/maker-rpm",
-          "config": {}
-        }
-      ],
-      "publishers": [
-        {
-          "name": "@electron-forge/publisher-github",
-          "config": {
-            "repository": {
-              "owner": "maykbrito",
-              "name": "mini-video-me"
-            },
-            "draft": true
-          }
-        }
-      ]
-    }
-  }
+  "devDependencies": {
+    "@commitlint/cli": "^16.2.1",
+    "@commitlint/config-conventional": "^16.2.1",
+    "@svgr/webpack": "^6.2.1",
+    "@swc/cli": "^0.1.55",
+    "@swc/core": "^1.2.136",
+    "@types/lodash.merge": "^4.6.7",
+    "@types/node": "^17.0.15",
+    "@types/react": "^17.0.39",
+    "@types/react-dom": "^17.0.11",
+    "@types/webpack-env": "^1.16.3",
+    "@typescript-eslint/eslint-plugin": "^5.10.2",
+    "@typescript-eslint/parser": "^5.10.2",
+    "concurrently": "^7.0.0",
+    "copy-webpack-plugin": "^10.2.4",
+    "cross-env": "^7.0.3",
+    "cross-var": "^1.1.0",
+    "css-loader": "^6.6.0",
+    "electron": "^18.2.0",
+    "electron-builder": "^23.0.3",
+    "electron-devtools-installer": "^3.2.0",
+    "electron-react-devtools": "^0.5.3",
+    "eslint": "^8.8.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-prettier": "^4.0.0",
+    "file-loader": "^6.2.0",
+    "html-webpack-plugin": "^5.5.0",
+    "husky": "^7.0.4",
+    "lint-staged": ">=10",
+    "nodemon": "^2.0.15",
+    "npm-run-all": "^4.1.5",
+    "open": "^8.4.0",
+    "prettier": "^2.5.1",
+    "rimraf": "^3.0.2",
+    "sass-loader": "^12.4.0",
+    "semver": "^7.3.5",
+    "simple-progress-webpack-plugin": "^2.0.0",
+    "style-loader": "^3.3.1",
+    "swc-loader": "^0.1.15",
+    "tsconfig-paths-webpack-plugin": "^3.5.2",
+    "typescript": "^4.5.5",
+    "typescript-plugin-css-modules": "^3.4.0",
+    "wait-on": "^6.0.0",
+    "webpack": "^5.72.0",
+    "webpack-cli": "^4.9.2",
+    "webpack-dev-server": "^4.7.4"
+  },
+  "lint-staged": {
+    "*.{js,ts}": [
+      "eslint --quiet --fix"
+    ]
+  },
+  "eslintIgnore": [
+    "dist"
+  ]
 }
