@@ -1,21 +1,23 @@
-const { name, author, description } = require('./package.json')
+const { APP_CONFIG } = require('./app.config')
+
+const { NAME, AUTHOR, TITLE, DESCRIPTION, FOLDERS } = APP_CONFIG
 
 const CURRENT_YEAR = new Date().getFullYear()
-const AUTHOR_IN_KEBAB_CASE = author.name.replace(/\s+/g, '-')
-const APP_ID = `com.${AUTHOR_IN_KEBAB_CASE}.${name}`.toLowerCase()
+const AUTHOR_IN_KEBAB_CASE = AUTHOR.name.replace(/\s+/g, '-')
+const APP_ID = `com.${AUTHOR_IN_KEBAB_CASE}.${NAME}`.toLowerCase()
 
 module.exports = {
   appId: APP_ID,
-  productName: 'Mini Video Me',
-  copyright: `Copyright © ${CURRENT_YEAR} — ${author.name}`,
+  productName: TITLE,
+  copyright: `Copyright © ${CURRENT_YEAR} — ${AUTHOR.name}`,
 
   directories: {
-    app: './.webpack',
+    app: FOLDERS.DEV_TEMP_BUILD,
     output: 'dist',
   },
 
   mac: {
-    icon: `./assets/icon.icns`,
+    icon: `${FOLDERS.RESOURCES}/icons/icon.icns`,
     category: 'public.app-category.utilities',
   },
 
@@ -25,12 +27,12 @@ module.exports = {
 
   linux: {
     category: 'Utilities',
-    synopsis: description,
+    synopsis: DESCRIPTION,
     target: ['AppImage', 'deb', 'pacman', 'freebsd', 'rpm'],
   },
 
   win: {
-    icon: `./assets/icon.ico`,
+    icon: `${FOLDERS.RESOURCES}/icons/icon.ico`,
     target: ['nsis', 'portable', 'zip'],
   },
 }

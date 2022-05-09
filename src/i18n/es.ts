@@ -1,0 +1,32 @@
+export const spanishLanguage = {
+  id: 'es',
+  displayName: 'Español',
+
+  dictionary: {
+    default: 'Estándar',
+    language: 'Idiomas',
+    topLeft: 'Arriba Izquierda',
+    topRight: 'Arriba Derecha',
+    bottomLeft: 'Inferior Izquierda',
+    bottomRight: 'Inferior Derecha',
+    small: 'Pequeña',
+    large: 'Grande',
+    settings: 'Preferencias',
+    resetSettings: 'Reiniciar Preferencias',
+    resetSettingsConfirmation:
+      '¿Estás seguro de que quieres reiniciar las preferencias?',
+    themes: 'Temas',
+    windowSize: 'Tamaños de Ventanas',
+    screenEdge: 'Bordes de la Pantalla',
+    display: 'Pantalla',
+    displays: 'Pantallas',
+    videoInputSource: 'Fuentes de Vídeo',
+    close: 'Cerrar',
+    loading: 'Cargando la cámara',
+    connected: 'Conectar la cámara',
+    disconnected: 'Cámara desconectada',
+    notFound: 'Cámara no encontrada',
+    yes: 'Sí',
+    no: 'No',
+  },
+}

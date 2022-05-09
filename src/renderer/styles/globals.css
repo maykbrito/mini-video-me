@@ -1,0 +1,94 @@
+@import './resets.css';
+
+:root {
+  --text-color: #fff;
+  --border-color: linear-gradient(to right, #988bc7, #ff79c6);
+  --clip-path: circle(50% at 50% 50%);
+  --border-width: 5px;
+}
+
+button {
+  -webkit-app-region: nodrag;
+}
+
+body {
+  overflow: hidden;
+}
+
+body,
+app,
+#video-grid {
+  -webkit-app-region: drag;
+}
+
+video {
+  height: 100vh;
+  pointer-events: none;
+  background: #121214;
+}
+
+.flip {
+  transform: rotateY(180deg);
+}
+
+#wrapper {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+
+  margin: auto;
+
+  position: relative;
+  box-sizing: border-box;
+
+  color: var(--text-color);
+  background: transparent;
+  background-clip: padding-box;
+}
+
+#wrapper:before {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: -1;
+  margin: calc(-1 * var(--border-width));
+}
+
+.video-wrapper {
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+}
+
+#wrapper.has-border {
+  border: solid transparent;
+  border-width: var(--border-width);
+}
+
+#wrapper.has-border:before {
+  background: var(--border-color);
+}
+
+#wrapper.has-clip-path:before,
+#wrapper.has-clip-path .video-wrapper {
+  clip-path: var(--clip-path);
+}
+
+.message-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100vw;
+  height: 100vh;
+  background: var(--border-color);
+  color: var(--text-color);
+  clip-path: var(--clip-path);
+  position: relative;
+}
+

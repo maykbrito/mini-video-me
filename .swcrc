@@ -1,0 +1,21 @@
+{
+  "sourceMaps": true,
+  "jsc": {
+    "parser": {
+      "target": "es2021",
+      "syntax": "typescript",
+      "jsx": true,
+      "tsx": true,
+      "dynamicImport": true,
+      "allowJs": true
+    },
+    "transform": {
+      "react": {
+        "pragma": "React.createElement",
+        "pragmaFrag": "React.Fragment",
+        "throwIfNamespace": true,
+        "runtime": "automatic"
+      }
+    }
+  }
+}
