@@ -1,4 +1,4 @@
-import { useCallback } from 'react'
+import { useCallback, useEffect } from 'react'
 
 import { config } from 'renderer/store'
 import { useRoot } from './useRoot'
@@ -27,6 +27,10 @@ export function useShapes() {
       currentShapePosition = shapePosition
     }
 
+    applyShape()
+  }, [])
+
+  useEffect(() => {
     applyShape()
   }, [])
 
