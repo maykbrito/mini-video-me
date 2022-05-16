@@ -2,7 +2,7 @@
   "displayName": "Mini Video Me",
   "name": "mini-video-me",
   "description": "A small webcam player focused on providing an easy way to add and control your webcam during recordings.",
-  "version": "4.0.1",
+  "version": "4.0.2",
   "main": "./node_modules/.dev-temp-build/main.js",
   "devTempBuildFolder": "./node_modules/.dev-temp-build",
   "devServer": "http://localhost:4927",
