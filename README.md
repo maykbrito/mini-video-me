@@ -115,31 +115,31 @@ After running for the first time you can access the app settings through the **t
       <td>Yes</td>
     </tr>
     <tr>
-      <td><kbd>Command</kbd> + <kbd>Shift</kbd> + <kbd>Alt</kbd> + <kbd>Up</kbd></td>
+      <td><kbd>Command</kbd> + <kbd>Shift</kbd> + <kbd>Option</kbd> + <kbd>Up</kbd></td>
       <td><kbd>Shift</kbd> + <kbd>Alt</kbd> + <kbd>Up</kbd></td>
       <td>Move camera to upper screen edge</td>
       <td>No</td>
     </tr>
     <tr>
-      <td><kbd>Command</kbd> + <kbd>Shift</kbd> + <kbd>Alt</kbd> + <kbd>Down</kbd></td>
+      <td><kbd>Command</kbd> + <kbd>Shift</kbd> + <kbd>Option</kbd> + <kbd>Down</kbd></td>
       <td><kbd>Shift</kbd> + <kbd>Alt</kbd> + <kbd>Down</kbd></td>
       <td>Move camera to lower screen edge</td>
       <td>No</td>
     </tr>
     <tr>
-      <td><kbd>Command</kbd> + <kbd>Shift</kbd> + <kbd>Alt</kbd> + <kbd>Right</kbd></td>
+      <td><kbd>Command</kbd> + <kbd>Shift</kbd> + <kbd>Option</kbd> + <kbd>Right</kbd></td>
       <td><kbd>Shift</kbd> + <kbd>Alt</kbd> + <kbd>Right</kbd></td>
       <td>Move camera to right screen edge</td>
       <td>No</td>
     </tr>
     <tr>
-      <td><kbd>Command</kbd> + <kbd>Shift</kbd> + <kbd>Alt</kbd> + <kbd>1</kbd></td>
+      <td><kbd>Command</kbd> + <kbd>Shift</kbd> + <kbd>Option</kbd> + <kbd>1</kbd></td>
       <td><kbd>Shift</kbd> + <kbd>Alt</kbd> + <kbd>1</kbd></td>
       <td>Toggle camera size (small/large)</td>
       <td>No</td>
     </tr>
     <tr>
-      <td><kbd>Command</kbd> + <kbd>Shift</kbd> + <kbd>Alt</kbd> + <kbd>3</kbd></td>
+      <td><kbd>Command</kbd> + <kbd>Shift</kbd> + <kbd>Option</kbd> + <kbd>3</kbd></td>
       <td><kbd>Shift</kbd> + <kbd>Alt</kbd> + <kbd>2</kbd></td>
       <td>Toggle camera visibility (show/hide)</td>
       <td>No</td>
