@@ -177,7 +177,7 @@ Open the camera settings in `tray menu` > `Settings` and change `"screen.initial
 
 # Contributing
 
-Clone de repository, open its folder and install dependencies with:
+Clone the repository, open its folder and install dependencies with:
 
 ```sh
 yarn
