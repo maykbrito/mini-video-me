@@ -13,8 +13,8 @@
   <!-- Version -->
   <a href="https://github.com/maykbrito/mini-video-me/releases">
     <img alt="releases url" src="https://img.shields.io/github/v/release/maykbrito/mini-video-me?style=for-the-badge&labelColor=1C1E26&color=FF79C6">
-  </a>  
-  
+  </a>
+
  <!-- License -->
   <a href="./LICENSE" target="_blank">
     <img alt="License: MIT" src="https://img.shields.io/badge/license%20-MIT-1C1E26?style=for-the-badge&labelColor=1C1E26&color=FF79C6">
@@ -139,7 +139,7 @@ After running for the first time you can access the app settings through the **t
       <td>No</td>
     </tr>
     <tr>
-      <td><kbd>Command</kbd> + <kbd>Shift</kbd> + <kbd>Alt</kbd> + <kbd>3</kbd></td>
+      <td><kbd>Command</kbd> + <kbd>Shift</kbd> + <kbd>Alt</kbd> + <kbd>2</kbd></td>
       <td><kbd>Shift</kbd> + <kbd>Alt</kbd> + <kbd>2</kbd></td>
       <td>Toggle camera visibility (show/hide)</td>
       <td>No</td>
