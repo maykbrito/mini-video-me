@@ -19,6 +19,10 @@ module.exports = {
   mac: {
     icon: `${FOLDERS.RESOURCES}/icons/icon.icns`,
     category: 'public.app-category.utilities',
+    target: {
+      target: 'default',
+      arch: ['x64', 'arm64'],
+    },
   },
 
   dmg: {
