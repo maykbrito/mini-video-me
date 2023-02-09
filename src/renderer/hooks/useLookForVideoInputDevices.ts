@@ -14,7 +14,12 @@ export function useLookForVideoInputDevices({
     if (deviceId || !shouldLookForDevices) return
 
     isLookingForDevices = setInterval(() => {
-      const deviceId = videoInputDevicesRef.current[0]?.deviceId
+      const target = localStorage.getItem('deviceId')
+
+      const deviceId =
+        videoInputDevicesRef.current?.find(
+          (device) => device.deviceId === target
+        )?.deviceId ?? videoInputDevicesRef.current[0]?.deviceId
 
       callback()
 
@@ -23,7 +28,7 @@ export function useLookForVideoInputDevices({
         setShouldLookForDevices(false)
       }
 
-      setDeviceId(videoInputDevicesRef.current[0]?.deviceId)
+      setDeviceId(deviceId)
     }, 1000)
 
     return () => clearInterval(isLookingForDevices)
